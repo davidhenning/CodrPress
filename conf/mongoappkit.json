@@ -1,0 +1,9 @@
+{
+    "MongoServer": "localhost",
+    "MongoPort": "27017",
+    "MongoUser": null,
+    "MongoPassword": null,
+    "MongoDatabase": "codrpress",
+    "EncryptionKey": "Aeng3Eicaequeileis0senongooqu9in",
+    "DebugMode": true
+}
