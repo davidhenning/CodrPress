@@ -1,3 +1,17 @@
 {
+    "Fields": {
+        "posts": {
+            "_id": {
+                "mongoType": "id"
+            },
 
+            "title": {
+
+            },
+
+            "body": {
+
+            }
+        }
+    }
 }
