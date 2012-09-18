@@ -1,8 +1,13 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: David
- * Date: 18.09.12
- * Time: 19:58
- * To change this template use File | Settings | File Templates.
- */
+
+use MongoAppKit\Config;
+
+$config = new Config();
+$config->setBaseDir(realpath(__DIR__));
+$config->addConfigFile($config->getConfDir() . '/mongoappkit.json');
+$config->addConfigFile($config->getConfDir() . '/codrpress.json');
+
+$app = new CodrPress\Application($config);
+$app->mount('', new CodrPress\Controller\WeblogController());
+
+return $app;
