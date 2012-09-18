@@ -4,7 +4,12 @@
             "_id": {
                 "mongoType": "id"
             },
-
+            "created": {
+                "mongoType": "date",
+                "index": {
+                    "use": true
+                }
+            },
             "title": {
 
             },
