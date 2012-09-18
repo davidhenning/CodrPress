@@ -16,4 +16,9 @@ class PostDocumentList extends DocumentList {
         $this->setDocumentBaseObject(new PostDocument($app));
     }
 
+    public function findBySlug($slug, $limit = 100, $skip = 0) {
+        $cursor = $this->_getDefaultCursor(array('slug' => $slug));
+
+        return $this->find($limit, $skip, $cursor);
+    }
 }
