@@ -2,6 +2,8 @@
 
 namespace CodrPress;
 
+use Silex\Provider\UrlGeneratorServiceProvider;
+
 use MongoAppKit\Application as MongoAppKitApplication,
     MongoAppKit\Config;
 
@@ -11,6 +13,8 @@ class Application extends MongoAppKitApplication {
         parent::__construct($config);
 
         $this['debug'] = $config->getProperty('DebugMode');
+
+        $this->register(new UrlGeneratorServiceProvider());
     }
 
 }
