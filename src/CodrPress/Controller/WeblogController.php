@@ -6,13 +6,19 @@ use Silex\Application,
     Silex\ControllerProviderInterface,
     Silex\ControllerCollection;
 
+use CodrPress\Model\PostDocumentList;
+
 class WeblogController implements ControllerProviderInterface {
 
     public function connect(Application $app) {
         $router = $app['controllers_factory'];
 
         $router->get('/', function() use($app) {
-            return $app['twig']->render('posts.twig');
+            $posts = new PostDocumentList($app);
+
+            return $app['twig']->render('posts.twig', array(
+                'posts' => $posts->findAll()
+            ));
         })->bind('home');
 
         $router->get('/{year}/{month}/{day}/{slug}/', function($year, $month, $day, $slug) use($app) {
