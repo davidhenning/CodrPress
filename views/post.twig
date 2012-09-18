@@ -1,5 +1,5 @@
 {% extends 'layout.twig' %}
-{% block title %}Home {{  parent() }}{% endblock %}
+{% block title %}View {{  parent() }}{% endblock %}
 
 {% block body %}
 
@@ -7,6 +7,10 @@
 
     <div class="articles">
         {% include 'articles.twig' %}
+    </div>
+
+    <div class="comments">
+        <h3>Comments</h3>
     </div>
 
 {% endblock %}
