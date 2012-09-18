@@ -6,7 +6,14 @@
     <h1>CodrPress</h1>
 
     <div class="articles">
-
+        {% for post in posts %}
+            <article>
+                <h2>{{ post.title }}</h2>
+                <div>
+                    {{ post.body }}
+                </div>
+            </article>
+        {% endfor %}
     </div>
 
 {% endblock %}
