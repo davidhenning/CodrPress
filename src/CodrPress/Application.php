@@ -7,6 +7,8 @@ use Silex\Provider\UrlGeneratorServiceProvider;
 use MongoAppKit\Application as MongoAppKitApplication,
     MongoAppKit\Config;
 
+use SilexMarkdown\Provider\MarkdownServiceProvider;
+
 class Application extends MongoAppKitApplication {
 
     public function __construct(Config $config) {
@@ -15,6 +17,7 @@ class Application extends MongoAppKitApplication {
         $this['debug'] = $config->getProperty('DebugMode');
 
         $this->register(new UrlGeneratorServiceProvider());
+        $this->register(new MarkdownServiceProvider());
     }
 
 }

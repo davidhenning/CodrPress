@@ -3,7 +3,7 @@
         <h2><a href="{{ post.getLink() }}">{{ post.title }}</a></h2>
         <p>{{ post.created|date('d.m.Y') }}</p>
         <div>
-            {{ post.body }}
+            {{ post.body|markdown }}
         </div>
     </article>
 {% endfor %}

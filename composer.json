@@ -1,6 +1,7 @@
 {
     "require": {
-        "mongoappkit/mongoappkit": "*"
+        "mongoappkit/mongoappkit": "*",
+        "silexmarkdown/silexmarkdown": "*"
     },
     "require-dev": {
         "symfony/browser-kit": "2.1.*",
