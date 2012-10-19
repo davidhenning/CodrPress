@@ -22,6 +22,14 @@ class PostDocument extends Document {
             'slug' => $this->getProperty('slug')
         );
 
-        return $this->_oApp['url_generator']->generate('post', $params);
+        return $this->_app['url_generator']->generate('post', $params);
+    }
+
+    public function getBody() {
+        return $this->_app['markdown']->transform($this->getProperty('body'));
+    }
+
+    public function getRawBody() {
+        return $this->getProperty('body');
     }
 }

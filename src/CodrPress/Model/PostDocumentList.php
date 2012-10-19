@@ -9,7 +9,7 @@ use Silex\Application;
 
 class PostDocumentList extends DocumentList {
 
-    protected $_sCollectionName = 'posts';
+    protected $_collectionName = 'posts';
 
     public function __construct(Application $app) {
         parent::__construct($app);
