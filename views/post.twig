@@ -6,7 +6,7 @@
         {% include 'articles.twig' with {'page': true} %}
     </section>
 
-    {% if posts[0].disqus %}
+    {% if posts and posts[0].disqus %}
         <section class="comments">
             <h3>Comments</h3>
         </section>

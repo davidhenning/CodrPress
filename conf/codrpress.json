@@ -17,7 +17,15 @@
             "body": {
 
             },
-            "slug": {
+            "slugs": {
+
+            },
+            "status": {
+                "index": {
+                    "use": true
+                }
+            },
+            "disqus": {
 
             }
         }

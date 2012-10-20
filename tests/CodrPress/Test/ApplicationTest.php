@@ -1,5 +1,8 @@
 <?php
+
 use Silex\WebTestCase;
+
+use CodrPress\Model\PostDocument;
 
 class ApplicationTest extends WebTestCase {
 
@@ -10,11 +13,25 @@ class ApplicationTest extends WebTestCase {
     }
 
     public function testPages() {
+        $app = $this->app;
         $client = $this->createClient();
 
         // home
         $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isOk());
+
+        // existing post
+        $post = new PostDocument($app);
+        $post->setProperty('slugs', array('slug'));
+        $post->setProperty('title', 'test');
+        $post->setProperty('body', 'test');
+        $post->setProperty('status', 'published');
+        $post->setProperty('disqus', false);
+        $post->save();
+
+        $client->request('GET', date('/Y/m/d') . '/slug/');
+        $this->assertTrue($client->getResponse()->isOk());
+        $post->delete();
 
         // post fail
         $client->request('GET', '/20122/09/132/slug/');
