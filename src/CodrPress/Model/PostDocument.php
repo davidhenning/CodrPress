@@ -13,13 +13,19 @@ class PostDocument extends Document {
         $this->setCollectionName('posts');
     }
 
+    public function getCurrentSlug() {
+        $slugs = $this->getProperty('slugs');
+
+        return end($slugs);
+    }
+
     public function getLink() {
-        $timestamp = strtotime($this->getProperty('created'));
+        $timestamp = strtotime($this->getProperty('created_at'));
         $params = array(
             'year' => date('Y', $timestamp),
             'month' => date('m', $timestamp),
             'day' => date('d', $timestamp),
-            'slug' => $this->getProperty('slug')
+            'slug' => $this->getCurrentSlug()
         );
 
         return $this->_app['url_generator']->generate('post', $params);

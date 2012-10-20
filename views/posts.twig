@@ -2,11 +2,7 @@
 {% block title %}Home {{  parent() }}{% endblock %}
 
 {% block body %}
-
-    <h1>CodrPress</h1>
-
     <section class="articles">
-        {% include 'articles.twig' %}
+        {% include 'articles.twig' with {'page': false} %}
     </section>
-
 {% endblock %}

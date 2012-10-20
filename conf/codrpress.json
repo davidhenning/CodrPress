@@ -4,7 +4,7 @@
             "_id": {
                 "mongoType": "id"
             },
-            "created": {
+            "created_at": {
                 "mongoType": "date",
                 "index": {
                     "use": true

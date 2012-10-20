@@ -11,6 +11,10 @@ use SilexMarkdown\Provider\MarkdownServiceProvider;
 
 class Application extends MongoAppKitApplication {
 
+    /**
+     * @param \MongoAppKit\Config $config
+     */
+
     public function __construct(Config $config) {
         parent::__construct($config);
 

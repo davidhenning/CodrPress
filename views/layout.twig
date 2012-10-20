@@ -2,10 +2,36 @@
 <html>
     <head>
         <title>{% block title %} - Powered by CodrPress{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/codrpress.css">
+        <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/radiant-dark.css">
     </head>
     <body data-basepath="{{ app.request.basepath }}">
-        {% block body %}{% endblock %}
-        <script type="application/javascript" src="{{ app.request.basepath }}/web/js/jquery-1.8.1.js"></script>
+        <div class="container">
+            <header>
+                <a href="{{ app.request.basepath }}">CodrPress</a>
+            </header>
+            <div class="row">
+                <div class="span8">
+                    {% block body %}{% endblock %}
+                </div>
+                <div class="span3 offset1">
+                    Sidebar
+                </div>
+            </div>
+            <footer>
+                <a href="https://github.com/MadCatme/CodrPress">powered by CodrPress</a>
+                {% if pages %}
+                    |
+                    {% for page in pages %}
+                        <a href="{{ page.getLink() }}">{{ page.title }}</a> {% if loop.last == false %} | {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </footer>
+        </div>
+        <script type="application/javascript" src="{{ app.request.basepath }}/web/js/jquery-1.8.2.min.js"></script>
+        <script type="application/javascript" src="{{ app.request.basepath }}/web/js/bootstrap.min.js"></script>
     </body>
 </html>

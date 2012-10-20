@@ -1,0 +1,54 @@
+.radiant {
+    background: #090a1b;
+    border-radius: 5px;
+    padding: 10px;
+    color: #FFFFFF;
+}
+
+.language-html {
+    color: #3779ff;
+}
+
+.radiant .radiant_class {
+    color: #ff3954;
+}
+
+.radiant .radiant_keyword {
+    color: #04ffa4;
+}
+
+.radiant .radiant_function {
+    color: #ff3954;
+}
+
+.radiant .radiant_method {
+    color: #6fd3ff;
+}
+
+.radiant .radiant_string {
+    color: #e5da59;
+}
+
+.radiant .radiant_variable {
+    color: #3779ff;
+}
+
+.radiant .radiant_operator {
+    color: #ff3954;
+}
+
+.radiant .radiant_number, .radiant .radiant_constant {
+    color: #ad80e0;
+}
+
+.radiant .radiant_comment {
+    color: #747054;
+}
+
+.radiant .radiant_tag {
+    color: #FF0000;
+}
+
+.radiant .radiant_default {
+    color: #FFFFFF;
+}
