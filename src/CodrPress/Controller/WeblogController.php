@@ -6,28 +6,36 @@ use Silex\Application,
     Silex\ControllerProviderInterface,
     Silex\ControllerCollection;
 
+use CodrPress\Exception\PostNotFoundException;
+
 use CodrPress\Model\PostDocumentList;
 
 class WeblogController implements ControllerProviderInterface {
 
     public function connect(Application $app) {
         $router = $app['controllers_factory'];
-        $posts = new PostDocumentList($app);
-        $posts->setCustomSorting('created_at', 'desc');
-        $pages = new PostDocumentList($app);
-        $pages->setCustomSorting('created_at', 'desc');
+        $postList = new PostDocumentList($app);
+        $postList->setCustomSorting('created_at', 'desc');
+        $pageList = new PostDocumentList($app);
+        $pageList->setCustomSorting('created_at', 'desc');
 
-        $router->get('/', function() use($app, $posts, $pages) {
+        $router->get('/', function() use($app, $postList, $pageList) {
             return $app['twig']->render('posts.twig', array(
-                'posts' => $posts->findPosts(),
-                'pages' => $pages->findPages()
+                'posts' => $postList->findPosts(),
+                'pages' => $pageList->findPages()
             ));
         })->bind('home');
 
-        $router->get('/{year}/{month}/{day}/{slug}/', function($year, $month, $day, $slug) use($app, $posts, $pages) {
+        $router->get('/{year}/{month}/{day}/{slug}/', function($year, $month, $day, $slug) use($app, $postList, $pageList) {
+            $posts = $postList->findBySlug($slug);
+
+            if(count($posts) === 0) {
+                throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
+            }
+
             return $app['twig']->render('post.twig', array(
-                'posts' => $posts->findBySlug($slug),
-                'pages' => $pages->findPages()
+                'posts' => $posts,
+                'pages' => $pageList->findPages()
             ));
         })
         ->assert('year', '\d{4}')

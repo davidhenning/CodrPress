@@ -1,0 +1,7 @@
+{% extends 'layout.twig' %}
+{% block title %}Error {{  parent() }}{% endblock %}
+
+{% block body %}
+    <h1>Error {{ code }}!</h1>
+    <p>{{ message }}</p>
+{% endblock %}
