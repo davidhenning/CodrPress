@@ -16,10 +16,6 @@ class ApplicationTest extends WebTestCase {
         $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isOk());
 
-        // post
-        $client->request('GET', '/2012/09/12/slug/');
-        $this->assertTrue($client->getResponse()->isOk());
-
         // post fail
         $client->request('GET', '/20122/09/132/slug/');
         $this->assertFalse($client->getResponse()->isOk());
