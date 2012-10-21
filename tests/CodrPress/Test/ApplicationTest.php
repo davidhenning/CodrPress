@@ -28,7 +28,6 @@ class ApplicationTest extends WebTestCase {
         // home
         $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isOk());
-        echo $client->getResponse()->getStatusCode();
 
         // existing post
         $client->request('GET', date('/Y/m/d') . '/slug/');
