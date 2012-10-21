@@ -16,11 +16,7 @@ class ApplicationTest extends WebTestCase {
         $app = $this->app;
         $client = $this->createClient();
 
-        // home
-        $client->request('GET', '/');
-        $this->assertTrue($client->getResponse()->isOk());
-
-        // existing post
+        // add test post
         $post = new PostDocument($app);
         $post->setProperty('slugs', array('slug'));
         $post->setProperty('title', 'test');
@@ -29,9 +25,14 @@ class ApplicationTest extends WebTestCase {
         $post->setProperty('disqus', false);
         $post->save();
 
+        // home
+        $client->request('GET', '/');
+        $this->assertTrue($client->getResponse()->isOk());
+        echo $client->getResponse()->getStatusCode();
+
+        // existing post
         $client->request('GET', date('/Y/m/d') . '/slug/');
         $this->assertTrue($client->getResponse()->isOk());
-        $post->delete();
 
         // post fail
         $client->request('GET', '/20122/09/132/slug/');
@@ -40,5 +41,7 @@ class ApplicationTest extends WebTestCase {
         // post fail
         $client->request('GET', '/dfdf/09/13/slug/');
         $this->assertFalse($client->getResponse()->isOk());
+
+        $post->delete();
     }
 }
