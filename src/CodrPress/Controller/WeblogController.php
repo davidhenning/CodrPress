@@ -8,15 +8,15 @@ use Silex\Application,
 
 use CodrPress\Exception\PostNotFoundException;
 
-use CodrPress\Model\PostDocumentList;
+use CodrPress\Model\PostCollection;
 
 class WeblogController implements ControllerProviderInterface {
 
     public function connect(Application $app) {
         $router = $app['controllers_factory'];
-        $postList = new PostDocumentList($app);
+        $postList = new PostCollection($app);
         $postList->setCustomSorting('created_at', 'desc');
-        $pageList = new PostDocumentList($app);
+        $pageList = new PostCollection($app);
         $pageList->setCustomSorting('created_at', 'desc');
 
         $router->get('/', function() use($app, $postList, $pageList) {

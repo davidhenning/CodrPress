@@ -2,7 +2,7 @@
 
 use Silex\WebTestCase;
 
-use CodrPress\Model\PostDocument;
+use CodrPress\Model\Post;
 
 class ApplicationTest extends WebTestCase {
 
@@ -17,7 +17,7 @@ class ApplicationTest extends WebTestCase {
         $client = $this->createClient();
 
         // add test post
-        $post = new PostDocument($app);
+        $post = new Post($app);
         $post->setProperty('slugs', array('slug'));
         $post->setProperty('title', 'test');
         $post->setProperty('body', 'test');

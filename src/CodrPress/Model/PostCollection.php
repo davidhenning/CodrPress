@@ -3,17 +3,14 @@
 namespace CodrPress\Model;
 
 use MongoAppKit\Config,
-    MongoAppKit\Documents\DocumentList;
+    MongoAppKit\Documents\DocumentCollection;
 
 use Silex\Application;
 
-class PostDocumentList extends DocumentList {
-
-    protected $_collectionName = 'posts';
+class PostCollection extends DocumentCollection {
 
     public function __construct(Application $app) {
-        parent::__construct($app);
-        $this->setDocumentBaseObject(new PostDocument($app));
+        parent::__construct(new Post($app));
     }
 
     public function findPosts($limit = 10) {
