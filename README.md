@@ -1,5 +1,7 @@
 # Introducing CodrPress
 
+[![Build Status](https://secure.travis-ci.org/MadCatme/CodrPress.png)](http://travis-ci.org/MadCatme/CodrPress)
+
 CodrPress is a small and lightweight blogging system inspired by [Schnitzelpress](https://github.com/hmans/schnitzelpress).
 
 ## Differences to Schnitzelpress
