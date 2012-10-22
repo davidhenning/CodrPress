@@ -15,9 +15,9 @@ class WeblogController implements ControllerProviderInterface {
     public function connect(Application $app) {
         $router = $app['controllers_factory'];
         $postList = new PostCollection($app);
-        $postList->setCustomSorting('created_at', 'desc');
+        $postList->sortBy('created_at', 'desc');
         $pageList = new PostCollection($app);
-        $pageList->setCustomSorting('created_at', 'desc');
+        $pageList->sortBy('created_at', 'desc');
 
         $router->get('/', function() use($app, $postList, $pageList) {
             return $app['twig']->render('posts.twig', array(

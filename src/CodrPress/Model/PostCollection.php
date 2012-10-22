@@ -14,20 +14,14 @@ class PostCollection extends DocumentCollection {
     }
 
     public function findPosts($limit = 10) {
-        $cursor = $this->_getDefaultCursor(array('published_at' => array('$ne' => null), 'status' => 'published'));
-
-        return $this->find($limit, 0, $cursor);
+        return $this->find($limit, 0, array('published_at' => array('$ne' => null), 'status' => 'published'));
     }
 
     public function findPages($limit = 10) {
-        $cursor = $this->_getDefaultCursor(array('published_at' => null, 'status' => 'published'));
-
-        return $this->find($limit, 0, $cursor);
+        return $this->find($limit, 0, array('published_at' => null, 'status' => 'published'));
     }
 
     public function findBySlug($slug, $limit = 100, $skip = 0) {
-        $cursor = $this->_getDefaultCursor(array('slugs' => $slug, 'status' => 'published'));
-
-        return $this->find($limit, $skip, $cursor);
+        return $this->find($limit, $skip, array('slugs' => $slug, 'status' => 'published'));
     }
 }
