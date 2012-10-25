@@ -10,15 +10,31 @@
                     "use": true
                 }
             },
+            "updated_at": {
+                "mongoType": "date",
+                "index": {
+                    "use": true
+                }
+            },
+            "published_at": {
+                "mongoType": "date",
+                "index": {
+                    "use": true
+                }
+            },
             "title": {
 
             },
-
             "body": {
 
             },
-            "slugs": {
+            "body_html": {
 
+            },
+            "slugs": {
+                "index": {
+                    "use": true
+                }
             },
             "status": {
                 "index": {
@@ -27,6 +43,11 @@
             },
             "disqus": {
 
+            },
+            "tags": {
+                "index": {
+                    "use": true
+                }
             }
         }
     }
