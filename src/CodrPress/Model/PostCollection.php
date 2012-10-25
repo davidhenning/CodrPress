@@ -24,4 +24,8 @@ class PostCollection extends DocumentCollection {
     public function findBySlug($slug, $limit = 100, $skip = 0) {
         return $this->find($limit, $skip, array('slugs' => $slug, 'status' => 'published'));
     }
+
+    public function findByTag($tag, $limit = 100, $skip = 0) {
+        return $this->find($limit, $skip, array('tags' => $tag, 'status' => 'published'));
+    }
 }

@@ -2,6 +2,9 @@
 {% block title %}Home {{  parent() }}{% endblock %}
 
 {% block body %}
+    {% if tag is defined %}
+       Tag: {{ tag }}
+    {% endif %}
     <section class="articles">
         {% include 'articles.twig' with {'page': false} %}
     </section>

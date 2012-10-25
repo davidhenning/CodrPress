@@ -39,13 +39,29 @@ class WeblogController implements ControllerProviderInterface {
             ));
         })
         ->assert('year', '\d{4}')
-        ->assert('month', '\d{2}')
-        ->assert('day', '\d{2}')
+        ->assert('month', '\d{1,2}')
+        ->assert('day', '\d{1,2}')
         ->convert('year', function($year) { return (int)$year; })
         ->convert('month', function($month) { return (int)$month; })
         ->convert('day', function($day) { return (int)$day; })
         ->convert('slug', function($slug) use ($app) { return $app['config']->sanitize($slug); })
         ->bind('post');
+
+        $router->get('/tag/{tag}/', function($tag) use($app, $postCollection, $pageCollection) {
+            $posts = $postCollection->findByTag($tag);
+
+            if(count($posts) === 0) {
+                throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
+            }
+
+            return $app['twig']->render('posts.twig', array(
+                'tag' => $tag,
+                'posts' => $posts,
+                'pages' => $pageCollection->findPages()
+            ));
+        })
+        ->convert('tag', function($tag) use ($app) { return $app['config']->sanitize($tag); })
+        ->bind('tag');
 
         return $router;
     }

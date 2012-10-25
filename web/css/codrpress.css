@@ -1,0 +1,65 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Sans+Mono|Bitter:400,700);
+
+/* Fonts */
+
+body, textarea {
+    font-family: 'Droid Sans', sans-serif;
+    font-size: 16px;
+    line-height: 2em;
+}
+
+pre, code {
+    font-family: 'Droid Sans Mono', sans-serif;
+    font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: inherit;
+}
+
+h1 {
+    font-family: 'Bitter', serif;
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+h3, h4, h5, h6 {
+    font-size: 16px;
+}
+
+header {
+    margin: 10px 0;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+h1 + h2 {
+    margin-top: 0;
+}
+
+p {
+    margin: 1em 0;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    margin-top: 2px;
+}
+
+section article {
+    margin-bottom: 4em;
+}
+
+article .meta {
+    margin: 0;
+    padding: .4em 0;
+    list-style: none;
+    border-top: 1px solid #E1E1E8;
+    overflow: hidden;
+}
+
+    article .meta li {
+        padding: .4em 0;
+    }

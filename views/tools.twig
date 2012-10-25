@@ -1,0 +1,10 @@
+{% macro niceDate(date) %}
+    {% set timestamp = date(date) %}
+    {% if timestamp >= date('today') %}
+        heute
+    {% elseif timestamp >= date('yesterday')  %}
+        gestern
+    {% else %}
+        {{ timestamp|date('d.m.Y') }}
+    {% endif %}
+{% endmacro %}
