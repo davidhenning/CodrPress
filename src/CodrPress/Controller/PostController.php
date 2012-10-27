@@ -3,7 +3,8 @@
 namespace CodrPress\Controller;
 
 use Silex\Application,
-    Silex\ControllerProviderInterface;
+    Silex\ControllerProviderInterface,
+    Silex\ControllerCollection;
 
 use CodrPress\Model\PostCollection,
     CodrPress\Exception\PostNotFoundException;
@@ -38,6 +39,32 @@ class PostController implements ControllerProviderInterface {
         ->convert('slug', function($slug) use ($app) { return $app['config']->sanitize($slug); })
         ->bind('post');
 
+        $this->_connectRestRoutes($app, $router);
+
         return $router;
+    }
+
+    protected function _connectRestRoutes(Application $app, ControllerCollection $router) {
+        $router->get('/post/{id}/', function($id) use($app) {
+            return $app->json(array('code' => 200, 'id' => $id));
+        })->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+
+        $router->put('/post/', function() use($app) {
+            $request = $app['request'];
+            $payload = $request->request->get('payload');
+
+            return $app->json(array('code' => 200, 'payload' => $payload));
+        });
+
+        $router->post('/post/{id}/', function($id) use($app) {
+            $request = $app['request'];
+            $payload = $request->request->get('payload');
+
+            return $app->json(array('code' => 200, 'id' => $id, 'payload' => $payload));
+        })->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+
+        $router->delete('/post/{id}/', function($id) use($app) {
+            return $app->json(array('code' => 200, 'id' => $id));
+        })->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
     }
 }

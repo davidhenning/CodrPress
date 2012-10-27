@@ -4,7 +4,8 @@ namespace CodrPress;
 
 use Silex\Provider\UrlGeneratorServiceProvider;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response,
+    Symfony\Component\HttpFoundation\Request;
 
 use MongoAppKit\Application as MongoAppKitApplication,
     MongoAppKit\Config;
@@ -26,6 +27,13 @@ class Application extends MongoAppKitApplication {
         $this->register(new MarkdownServiceProvider());
 
         $app = $this;
+
+        $this->before(function(Request $request) use($config) {
+            if(strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
+                $data = json_decode($request->getContent(), true);
+                $request->request->replace(is_array($data) ? $data : array());
+            }
+        });
 
         $this->error(function(\Exception $e) use($app) {
             $code = ($e->getCode() > 0) ? $e->getCode() : 500;
