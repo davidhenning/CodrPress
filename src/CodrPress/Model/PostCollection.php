@@ -2,8 +2,7 @@
 
 namespace CodrPress\Model;
 
-use MongoAppKit\Config,
-    MongoAppKit\Documents\DocumentCollection;
+use MongoAppKit\Documents\DocumentCollection;
 
 use Silex\Application;
 
@@ -21,8 +20,20 @@ class PostCollection extends DocumentCollection {
         return $this->find($limit, 0, array('published_at' => null, 'status' => 'published'));
     }
 
-    public function findBySlug($slug, $limit = 100, $skip = 0) {
-        return $this->find($limit, $skip, array('slugs' => $slug, 'status' => 'published'));
+    public function findBySlug($year, $month, $day, $slug) {
+        $start = mktime(0, 0, 0, $month, $day, $year);
+        $end = $start + 60 * 60 * 24;
+
+        $conditions = array(
+            'created_at' => array(
+                '$gt' => new \MongoDate($start),
+                '$lt' => new \MongoDate($end)
+            ),
+            'slugs' => $slug,
+            'status' => 'published'
+        );
+
+        return $this->find(1, 0, $conditions);
     }
 
     public function findByTag($tag, $limit = 100, $skip = 0) {

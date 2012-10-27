@@ -3,8 +3,7 @@
 namespace CodrPress\Controller;
 
 use Silex\Application,
-    Silex\ControllerProviderInterface,
-    Silex\ControllerCollection;
+    Silex\ControllerProviderInterface;
 
 use CodrPress\Exception\PostNotFoundException;
 
@@ -27,7 +26,7 @@ class WeblogController implements ControllerProviderInterface {
         })->bind('home');
 
         $router->get('/{year}/{month}/{day}/{slug}/', function($year, $month, $day, $slug) use($app, $postCollection, $pageCollection) {
-            $posts = $postCollection->findBySlug($slug);
+            $posts = $postCollection->findBySlug($year, $month, $day, $slug);
 
             if(count($posts) === 0) {
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
