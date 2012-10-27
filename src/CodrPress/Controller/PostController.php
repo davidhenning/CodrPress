@@ -5,11 +5,10 @@ namespace CodrPress\Controller;
 use Silex\Application,
     Silex\ControllerProviderInterface;
 
-use CodrPress\Exception\PostNotFoundException;
+use CodrPress\Model\PostCollection,
+    CodrPress\Exception\PostNotFoundException;
 
-use CodrPress\Model\PostCollection;
-
-class WeblogController implements ControllerProviderInterface {
+class PostController implements ControllerProviderInterface {
 
     public function connect(Application $app) {
         $router = $app['controllers_factory'];
@@ -17,13 +16,6 @@ class WeblogController implements ControllerProviderInterface {
         $postCollection->sortBy('created_at', 'desc');
         $pageCollection = new PostCollection($app);
         $pageCollection->sortBy('created_at', 'desc');
-
-        $router->get('/', function() use($app, $postCollection, $pageCollection) {
-            return $app['twig']->render('posts.twig', array(
-                'posts' => $postCollection->findPosts(),
-                'pages' => $pageCollection->findPages()
-            ));
-        })->bind('home');
 
         $router->get('/{year}/{month}/{day}/{slug}/', function($year, $month, $day, $slug) use($app, $postCollection, $pageCollection) {
             $posts = $postCollection->findBySlug($year, $month, $day, $slug);
@@ -46,23 +38,6 @@ class WeblogController implements ControllerProviderInterface {
         ->convert('slug', function($slug) use ($app) { return $app['config']->sanitize($slug); })
         ->bind('post');
 
-        $router->get('/tag/{tag}/', function($tag) use($app, $postCollection, $pageCollection) {
-            $posts = $postCollection->findByTag($tag);
-
-            if(count($posts) === 0) {
-                throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
-            }
-
-            return $app['twig']->render('posts.twig', array(
-                'tag' => $tag,
-                'posts' => $posts,
-                'pages' => $pageCollection->findPages()
-            ));
-        })
-        ->convert('tag', function($tag) use ($app) { return $app['config']->sanitize($tag); })
-        ->bind('tag');
-
         return $router;
     }
-
 }
