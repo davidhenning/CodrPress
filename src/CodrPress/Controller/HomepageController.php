@@ -15,13 +15,13 @@ class HomepageController implements ControllerProviderInterface {
         $self = $this;
 
         $router->get('/', function() use($app, $self) {
-            $templateData = $self->_getTemplateData($app);
+            $templateData = $self->getTemplateData($app);
 
             return $app['twig']->render('posts.twig', $templateData);
         })->bind('home');
 
         $router->get('/{page}/', function($page) use($app, $self) {
-            $templateData = $self->_getTemplateData($app, $page);
+            $templateData = $self->getTemplateData($app, $page);
 
             return $app['twig']->render('posts.twig', $templateData);
         })
@@ -32,7 +32,7 @@ class HomepageController implements ControllerProviderInterface {
         return $router;
     }
 
-    protected function _getTemplateData(Application $app, $page = 1) {
+    public function getTemplateData(Application $app, $page = 1) {
         $postCollection = new PostCollection($app);
         $postCollection->sortBy('created_at', 'desc');
         $pageCollection = new PostCollection($app);
