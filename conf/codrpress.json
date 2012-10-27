@@ -1,4 +1,5 @@
 {
+    "PerPage": 10,
     "Fields": {
         "posts": {
             "_id": {

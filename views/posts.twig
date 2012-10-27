@@ -8,4 +8,14 @@
     <section class="articles">
         {% include 'articles.twig' with {'page': false} %}
     </section>
+    {% if pagination is defined %}
+        <ul class="pager">
+            <li class="previous {% if pagination.prevPageUrl == false %}disabled{% endif %}">
+                <a href="{{ pagination.prevPageUrl }}">&larr; Zurück</a>
+            </li>
+            <li class="next {% if pagination.nextPageUrl == false %}disabled{% endif %}">
+                <a href="{{ pagination.nextPageUrl }}">Vor &rarr;</a>
+            </li>
+        </ul>
+    {% endif %}
 {% endblock %}
