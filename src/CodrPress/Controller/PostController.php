@@ -6,7 +6,9 @@ use Silex\Application,
     Silex\ControllerProviderInterface,
     Silex\ControllerCollection;
 
-use CodrPress\Model\PostCollection,
+use CodrPress\Model\Post,
+    CodrPress\Model\PostCollection,
+    CodrPress\View\PostRestView,
     CodrPress\Exception\PostNotFoundException;
 
 class PostController implements ControllerProviderInterface {
@@ -45,26 +47,42 @@ class PostController implements ControllerProviderInterface {
     }
 
     protected function _connectRestRoutes(Application $app, ControllerCollection $router) {
-        $router->get('/post/{id}/', function($id) use($app) {
-            return $app->json(array('code' => 200, 'id' => $id));
-        })->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+        $view = new PostRestView();
 
-        $router->put('/post/', function() use($app) {
-            $request = $app['request'];
-            $payload = $request->request->get('payload');
+        $router->get('/posts/', function() use($app, $view) {
+            $output = $view->getPostsOutput($app);
 
-            return $app->json(array('code' => 200, 'payload' => $payload));
+            return $app->json($output);
         });
 
-        $router->post('/post/{id}/', function($id) use($app) {
-            $request = $app['request'];
-            $payload = $request->request->get('payload');
+        $router->get('/post/{id}/', function($id) use($app, $view) {
+            $output = $view->getPostOutput($app, $id);
 
-            return $app->json(array('code' => 200, 'id' => $id, 'payload' => $payload));
-        })->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+            return $app->json($output, $output['status']);
+        })
+        ->assert('id', '[a-z0-9]{24}')
+        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
 
-        $router->delete('/post/{id}/', function($id) use($app) {
-            return $app->json(array('code' => 200, 'id' => $id));
-        })->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+        $router->put('/post/', function() use($app, $view) {
+            $output = $view->getPostUpdateOutput($app);
+
+            return $app->json($output, $output['status']);
+        });
+
+        $router->post('/post/{id}/', function($id) use($app, $view) {
+            $output = $view->getPostUpdateOutput($app, $id);
+
+            return $app->json($output, $output['status']);
+        })
+        ->assert('id', '[a-z0-9]{24}')
+        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+
+        $router->delete('/post/{id}/', function($id) use($app, $view) {
+            $output = $view->getPostDeleteOutput($app, $id);
+
+            return $app->json($output, $output['status']);
+        })
+        ->assert('id', '[a-z0-9]{24}')
+        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
     }
 }

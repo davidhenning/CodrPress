@@ -71,19 +71,43 @@ class ApplicationTest extends WebTestCase {
     }
 
     public function testRestInterface() {
+        $app = $this->app;
         $client = $this->createClient();
+
+        // add test post
+        $post = new Post($app);
+        $post->setProperty('slugs', array('slug'));
+        $post->setProperty('tags', array('Test'));
+        $post->setProperty('title', 'REST test');
+        $post->setProperty('body', 'test');
+        $post->setProperty('status', 'published');
+        $post->setProperty('disqus', false);
+        $post->save();
+        $id = $post->getId();
+
         $payload = json_encode(array('payload' => 'test'));
 
-        $client->request('GET', '/post/12345/');
+        $client->request('GET', "/posts/");
+        $this->assertTrue($client->getResponse()->isOk());
+
+        $client->request('GET', "/post/{$id}/");
         $this->assertTrue($client->getResponse()->isOk());
 
         $client->request('PUT', '/post/', array(), array(), array(), $payload);
-        $this->assertTrue($client->getResponse()->isOk());
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('POST', '/post/12345/', array(), array(), array(), $payload);
-        $this->assertTrue($client->getResponse()->isOk());
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $newPostId = $response['response']['documentId'];
 
-        $client->request('DELETE', '/post/12345/');
-        $this->assertTrue($client->getResponse()->isOk());
+        $client->request('POST', "/post/{$newPostId}/", array(), array(), array(), $payload);
+        $this->assertEquals(202, $client->getResponse()->getStatusCode());
+
+        $client->request('DELETE', "/post/{$newPostId}/");
+        $this->assertEquals(202, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', "/post/{$newPostId}/");
+        $this->assertFalse($client->getResponse()->isOk());
+
+        $post->delete();
     }
 }

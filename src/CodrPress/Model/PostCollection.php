@@ -12,8 +12,14 @@ class PostCollection extends DocumentCollection {
         parent::__construct(new Post($app));
     }
 
-    public function findPosts($limit = 10, $offset = 0) {
-        return $this->find($limit, $offset, array('published_at' => array('$ne' => null), 'status' => 'published'));
+    public function findPosts($limit = 10, $offset = 0, $published = true) {
+        $conditions = array('published_at' => array('$ne' => null));
+
+        if($published === true) {
+            $conditions['status'] = 'published';
+        }
+
+        return $this->find($limit, $offset, $conditions);
     }
 
     public function findPages($limit = 10) {

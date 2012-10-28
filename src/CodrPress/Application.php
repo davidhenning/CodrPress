@@ -36,6 +36,25 @@ class Application extends MongoAppKitApplication {
         });
 
         $this->error(function(\Exception $e) use($app) {
+            $request = $app['request'];
+
+            if(strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
+                $error = array(
+                    'status' => 400,
+                    'time' => date('Y-m-d H:i:s'),
+                    'request' => array(
+                        'method' => $request->getMethod(),
+                        'url' => $request->getPathInfo()
+                    ),
+                    'response' => array(
+                        'error' => str_ireplace('exception', '', get_class($e)),
+                        'message' => $e->getMessage()
+                    )
+                );
+
+                return $app->json($error, 400);
+            }
+
             $code = ($e->getCode() > 0) ? $e->getCode() : 500;
             $content = $app['twig']->render('error.twig', array(
                 'code' => $code,
