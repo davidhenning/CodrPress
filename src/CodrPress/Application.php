@@ -30,23 +30,6 @@ class Application extends MongoAppKitApplication {
 
         $app = $this;
 
-        $this->before(function(Request $request) use($config) {
-            if(strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
-                $data = json_decode($request->getContent(), true);
-                $request->request->replace(is_array($data) ? $data : array());
-            }
-        });
-
-        $this->error(function(HttpException $e) use($app) {
-            if($e->getCode() === 401) {
-                return $e->getCallingObject()->sendAuthenticationHeader(true);
-            }
-
-            $exceptionHandler = new ExceptionHandler($app['config']);
-
-            return $exceptionHandler->createResponse($e);
-        });
-
         $this->error(function(\Exception $e) use($app) {
             $request = $app['request'];
 

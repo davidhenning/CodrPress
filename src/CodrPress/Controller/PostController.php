@@ -9,7 +9,8 @@ use Silex\Application,
 use Symfony\Component\HttpFoundation\Response,
     Symfony\Component\HttpFoundation\Request;
 
-use MongoAppKit\HttpAuthDigest;
+use MongoAppKit\HttpAuthDigest,
+    MongoAppKit\Exception\HttpException;
 
 use CodrPress\Model\PostCollection,
     CodrPress\View\PostRestView,
@@ -52,23 +53,7 @@ class PostController implements ControllerProviderInterface {
 
     protected function _connectRestRoutes(Application $app, ControllerCollection $router) {
         $view = new PostRestView();
-
-        $login = function(Request $request) use ($app) {
-            if(isset($app['unittest']) && $app['unittest'] === true) {
-                return null;
-            }
-
-            $auth = new HttpAuthDigest($request, 'CodrPress');
-            $response = $auth->sendAuthenticationHeader();
-
-            if($response instanceof Response) {
-                return $response;
-            }
-
-            $auth->authenticate('8514c67a500cb6509b7f240d14761364');
-
-            return null;
-        };
+        $login = $this->_setUpRestInterface($app);
 
         $router->get('/posts/', function() use($app, $view) {
             $output = $view->getPostsOutput($app);
@@ -108,5 +93,41 @@ class PostController implements ControllerProviderInterface {
         ->assert('id', '[a-z0-9]{24}')
         ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); })
         ->before($login);
+    }
+
+    protected function _setUpRestInterface(Application $app) {
+        $app->before(function(Request $request) {
+            if(strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
+                $data = json_decode($request->getContent(), true);
+                $request->request->replace(is_array($data) ? $data : array());
+            }
+        });
+
+        $app->error(function(HttpException $e) use($app) {
+            if($e->getCode() === 401) {
+                return $e->getCallingObject()->sendAuthenticationHeader(true);
+            }
+
+            $exceptionHandler = new ExceptionHandler($app['config']);
+
+            return $exceptionHandler->createResponse($e);
+        });
+
+        return function(Request $request) use ($app) {
+            if(isset($app['unittest']) && $app['unittest'] === true) {
+                return null;
+            }
+
+            $auth = new HttpAuthDigest($request, 'CodrPress');
+            $response = $auth->sendAuthenticationHeader();
+
+            if($response instanceof Response) {
+                return $response;
+            }
+
+            $auth->authenticate('8514c67a500cb6509b7f240d14761364');
+
+            return null;
+        };
     }
 }
