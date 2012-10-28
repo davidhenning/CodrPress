@@ -8,6 +8,7 @@ class ApplicationTest extends WebTestCase {
 
     public function createApplication() {
         $app = require realpath(__DIR__ . '/../../../app.php');
+        $app['unittest'] = true;
 
         return $app;
     }
