@@ -2,7 +2,7 @@
 
 namespace CodrPress\Model;
 
-use MongoAppKit\Documents\DocumentCollection;
+use MongoAppKit\Document\DocumentCollection;
 
 use Silex\Application;
 

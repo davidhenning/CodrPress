@@ -5,10 +5,12 @@ namespace CodrPress;
 use Silex\Provider\UrlGeneratorServiceProvider;
 
 use Symfony\Component\HttpFoundation\Response,
-    Symfony\Component\HttpFoundation\Request;
+    Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 
 use MongoAppKit\Application as MongoAppKitApplication,
-    MongoAppKit\Config;
+    MongoAppKit\Config,
+    MongoAppKit\Exception\HttpException;
 
 use SilexMarkdown\Provider\MarkdownServiceProvider;
 
@@ -33,6 +35,16 @@ class Application extends MongoAppKitApplication {
                 $data = json_decode($request->getContent(), true);
                 $request->request->replace(is_array($data) ? $data : array());
             }
+        });
+
+        $this->error(function(HttpException $e) use($app) {
+            if($e->getCode() === 401) {
+                return $e->getCallingObject()->sendAuthenticationHeader(true);
+            }
+
+            $exceptionHandler = new ExceptionHandler($app['config']);
+
+            return $exceptionHandler->createResponse($e);
         });
 
         $this->error(function(\Exception $e) use($app) {

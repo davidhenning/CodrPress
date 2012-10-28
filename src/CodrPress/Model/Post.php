@@ -4,7 +4,7 @@ namespace CodrPress\Model;
 
 use Silex\Application;
 
-use MongoAppKit\Documents\Document;
+use MongoAppKit\Document\Document;
 
 class Post extends Document {
 

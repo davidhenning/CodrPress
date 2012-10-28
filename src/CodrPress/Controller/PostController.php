@@ -6,8 +6,12 @@ use Silex\Application,
     Silex\ControllerProviderInterface,
     Silex\ControllerCollection;
 
-use CodrPress\Model\Post,
-    CodrPress\Model\PostCollection,
+use Symfony\Component\HttpFoundation\Response,
+    Symfony\Component\HttpFoundation\Request;
+
+use MongoAppKit\HttpAuthDigest;
+
+use CodrPress\Model\PostCollection,
     CodrPress\View\PostRestView,
     CodrPress\Exception\PostNotFoundException;
 
@@ -49,11 +53,28 @@ class PostController implements ControllerProviderInterface {
     protected function _connectRestRoutes(Application $app, ControllerCollection $router) {
         $view = new PostRestView();
 
+        $login = function(Request $request) use ($app) {
+            if(isset($app['unittest']) && $app['unittest'] === true) {
+                return null;
+            }
+
+            $auth = new HttpAuthDigest($request, 'CodrPress');
+            $response = $auth->sendAuthenticationHeader();
+
+            if($response instanceof Response) {
+                return $response;
+            }
+
+            $auth->authenticate('8514c67a500cb6509b7f240d14761364');
+
+            return null;
+        };
+
         $router->get('/posts/', function() use($app, $view) {
             $output = $view->getPostsOutput($app);
 
             return $app->json($output);
-        });
+        })->before($login);
 
         $router->get('/post/{id}/', function($id) use($app, $view) {
             $output = $view->getPostOutput($app, $id);
@@ -61,13 +82,14 @@ class PostController implements ControllerProviderInterface {
             return $app->json($output, $output['status']);
         })
         ->assert('id', '[a-z0-9]{24}')
-        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); })
+        ->before($login);
 
         $router->put('/post/', function() use($app, $view) {
             $output = $view->getPostUpdateOutput($app);
 
             return $app->json($output, $output['status']);
-        });
+        })->before($login);
 
         $router->post('/post/{id}/', function($id) use($app, $view) {
             $output = $view->getPostUpdateOutput($app, $id);
@@ -75,7 +97,8 @@ class PostController implements ControllerProviderInterface {
             return $app->json($output, $output['status']);
         })
         ->assert('id', '[a-z0-9]{24}')
-        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); })
+        ->before($login);
 
         $router->delete('/post/{id}/', function($id) use($app, $view) {
             $output = $view->getPostDeleteOutput($app, $id);
@@ -83,6 +106,7 @@ class PostController implements ControllerProviderInterface {
             return $app->json($output, $output['status']);
         })
         ->assert('id', '[a-z0-9]{24}')
-        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); });
+        ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); })
+        ->before($login);
     }
 }
