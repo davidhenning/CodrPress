@@ -7,7 +7,8 @@ use Silex\Application,
     Silex\ControllerCollection;
 
 use Symfony\Component\HttpFoundation\Response,
-    Symfony\Component\HttpFoundation\Request;
+    Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 
 use MongoAppKit\HttpAuthDigest,
     MongoAppKit\Exception\HttpException;
