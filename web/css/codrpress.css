@@ -11,6 +11,7 @@ body, textarea {
 pre, code {
     font-family: 'Droid Sans Mono', sans-serif;
     font-size: 14px;
+    color: #000000;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -62,4 +63,12 @@ article .meta {
 
     article .meta li {
         padding: .4em 0;
+    }
+
+    article ul {
+        list-style-type: square;
+    }
+
+    article li {
+        margin: 1em 0;
     }
