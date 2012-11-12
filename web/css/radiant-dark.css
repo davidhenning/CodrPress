@@ -1,8 +1,17 @@
 .radiant {
     background: #090a1b;
+    border: none;
     border-radius: 5px;
     padding: 10px;
     color: #FFFFFF;
+    overflow: auto;
+}
+
+.radiant code {
+    display: block;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
 }
 
 .language-html {
