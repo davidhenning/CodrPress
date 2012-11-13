@@ -8,18 +8,20 @@ class Pagination {
 
     protected $_app;
     protected $_route;
+    protected $_parameters;
     protected $_limit;
     protected $_currentPage;
     protected $_pagination;
 
-    public function __construct(Application $app, $route = '', $limit = 10, $currentPage = 1) {
+    public function __construct(Application $app, $route = '', $parameters = array(), $currentPage = 1, $limit = 10) {
         $this->_app = $app;
         $this->_route = $route;
+        $this->_parameters = $parameters;
         $this->_limit = $limit;
         $this->_currentPage = $currentPage;
     }
 
-    public function getPagination($total, $route = null) {
+    public function getPagination($total, $route = null, $parameters = array()) {
         if($this->_pagination === null) {
             // compute total pages
             $route = (!is_null($route)) ? $route : $this->_route;
@@ -38,7 +40,7 @@ class Pagination {
 
                 // set URL to previous page and first page
                 if($currentPage > 1) {
-                    $pages['prevPageUrl'] = $this->createPageUrl($route, $currentPage - 1);
+                    $pages['prevPageUrl'] = $this->createPageUrl($route, $parameters, $currentPage - 1);
                     $pages['firstPageUrl'] = $this->createPageUrl($route, 1);
                 } else {
                     $pages['prevPageUrl'] = false;
@@ -47,14 +49,14 @@ class Pagination {
 
                 // set URL to next page and last page
                 if($currentPage < $pageCount) {
-                    $pages['nextPageUrl'] = $this->createPageUrl($route, $currentPage + 1);
-                    $pages['lastPageUrl'] = $this->createPageUrl($route, $pageCount);
+                    $pages['nextPageUrl'] = $this->createPageUrl($route, $parameters, $currentPage + 1);
+                    $pages['lastPageUrl'] = $this->createPageUrl($route, $parameters, $pageCount);
                 } else {
                     $pages['nextPageUrl'] = false;
                     $pages['lastPageUrl'] = false;
                 }
                 if($total > $limit) {
-                    $pages['pages'] = $this->getPages($route, $pageCount);
+                    $pages['pages'] = $this->getPages($route, $parameters, $pageCount);
                 }
 
 
@@ -65,14 +67,14 @@ class Pagination {
         return $this->_pagination;
     }
 
-    public function getPages($route, $pageCount) {
+    public function getPages($route, $parameters = array(), $pageCount) {
         $pages = array();
 
         // set pages with number, url and active state
         for($i = 1; $i <= $pageCount; $i++) {
             $page = array(
                 'nr' => $i,
-                'url' => $this->createPageUrl($route, $i),
+                'url' => $this->createPageUrl($route, $parameters, $i),
                 'active' => false
             );
 
@@ -86,11 +88,12 @@ class Pagination {
         return $pages;
     }
 
-    public function createPageUrl($route, $page, $params = array()) {
-        $url = $this->_app['url_generator']->generate($route, array('page' => $page));
+    public function createPageUrl($route, $parameters = array(), $page, $getParameters = array()) {
+        $parameters = array_merge($parameters, array('page' => $page));
+        $url = $this->_app['url_generator']->generate($route, $parameters);
 
-        if(!empty($params)) {
-            $url .= '?' . http_build_query($params);
+        if(!empty($getParameters)) {
+            $url .= '?' . http_build_query($getParameters);
         }
 
         return $url;
