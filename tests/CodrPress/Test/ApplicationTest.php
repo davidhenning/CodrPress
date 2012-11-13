@@ -2,7 +2,8 @@
 
 use Silex\WebTestCase;
 
-use CodrPress\Model\Post;
+use CodrPress\Model\Post,
+    CodrPress\Model\PostCollection;
 
 class ApplicationTest extends WebTestCase {
 
@@ -11,6 +12,14 @@ class ApplicationTest extends WebTestCase {
         $app['unittest'] = true;
 
         return $app;
+    }
+
+    public function tearDown() {
+        parent::tearDown();
+        $app = $this->app;
+
+        $posts = new PostCollection($app);
+        $posts->find(array('body' => 'test'))->remove();
     }
 
     public function testPosts() {
@@ -43,7 +52,7 @@ class ApplicationTest extends WebTestCase {
         $client->request('GET', '/dfdf/09/13/slug/');
         $this->assertFalse($client->getResponse()->isOk());
 
-        $post->delete();
+        $post->remove();
     }
 
     public function testTags() {
@@ -68,7 +77,7 @@ class ApplicationTest extends WebTestCase {
         $client->request('GET', '/tag/MUHAHA/');
         $this->assertFalse($client->getResponse()->isOk());
 
-        $post->delete();
+        $post->remove();
     }
 
     public function testRestInterface() {
@@ -109,6 +118,6 @@ class ApplicationTest extends WebTestCase {
         $client->request('GET', "/post/{$newPostId}/");
         $this->assertFalse($client->getResponse()->isOk());
 
-        $post->delete();
+        $post->remove();
     }
 }
