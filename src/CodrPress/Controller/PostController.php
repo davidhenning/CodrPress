@@ -14,7 +14,7 @@ use MongoAppKit\HttpAuthDigest,
     MongoAppKit\Exception\HttpException;
 
 use CodrPress\Model\PostCollection,
-    CodrPress\View\PostRestView,
+    CodrPress\ViewHelper\PostRestViewHelper,
     CodrPress\Exception\PostNotFoundException;
 
 class PostController implements ControllerProviderInterface {
@@ -53,17 +53,17 @@ class PostController implements ControllerProviderInterface {
     }
 
     protected function _connectRestRoutes(Application $app, ControllerCollection $router) {
-        $view = new PostRestView();
+        $viewHelper = new PostRestViewHelper();
         $login = $this->_setUpRestInterface($app);
 
-        $router->get('/posts/', function() use($app, $view) {
-            $output = $view->getPostsOutput($app);
+        $router->get('/posts/', function() use($app, $viewHelper) {
+            $output = $viewHelper->getPostsOutput($app);
 
             return $app->json($output);
         })->before($login);
 
-        $router->get('/post/{id}/', function($id) use($app, $view) {
-            $output = $view->getPostOutput($app, $id);
+        $router->get('/post/{id}/', function($id) use($app, $viewHelper) {
+            $output = $viewHelper->getPostOutput($app, $id);
 
             return $app->json($output, $output['status']);
         })
@@ -71,14 +71,14 @@ class PostController implements ControllerProviderInterface {
         ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); })
         ->before($login);
 
-        $router->put('/post/', function() use($app, $view) {
-            $output = $view->getPostUpdateOutput($app);
+        $router->put('/post/', function() use($app, $viewHelper) {
+            $output = $viewHelper->getPostUpdateOutput($app);
 
             return $app->json($output, $output['status']);
         })->before($login);
 
-        $router->post('/post/{id}/', function($id) use($app, $view) {
-            $output = $view->getPostUpdateOutput($app, $id);
+        $router->post('/post/{id}/', function($id) use($app, $viewHelper) {
+            $output = $viewHelper->getPostUpdateOutput($app, $id);
 
             return $app->json($output, $output['status']);
         })
@@ -86,8 +86,8 @@ class PostController implements ControllerProviderInterface {
         ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); })
         ->before($login);
 
-        $router->delete('/post/{id}/', function($id) use($app, $view) {
-            $output = $view->getPostDeleteOutput($app, $id);
+        $router->delete('/post/{id}/', function($id) use($app, $viewHelper) {
+            $output = $viewHelper->getPostDeleteOutput($app, $id);
 
             return $app->json($output, $output['status']);
         })
