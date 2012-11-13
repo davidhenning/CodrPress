@@ -1,13 +1,13 @@
 <?php
 
-namespace CodrPress\View;
+namespace CodrPress\ViewHelper;
 
 use Silex\Application;
 
 use CodrPress\Model\Post,
     CodrPress\Model\PostCollection;
 
-class PostRestView {
+class PostRestViewHelper {
 
     protected function _getOutputSkeleton($app) {
         return array(
@@ -101,7 +101,7 @@ class PostRestView {
         try {
             $post = new Post($app);
             $post->load($id);
-            $post->delete();
+            $post->remove();
             $output['status'] = 202;
             $output['response'] = array(
                 'action' => 'delete',
