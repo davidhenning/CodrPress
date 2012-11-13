@@ -19,11 +19,11 @@ class PostCollection extends DocumentCollection {
             $conditions['status'] = 'published';
         }
 
-        return $this->find($limit, $offset, $conditions);
+        return $this->find($conditions, $limit, $offset);
     }
 
     public function findPages($limit = 10) {
-        return $this->find($limit, 0, array('published_at' => null, 'status' => 'published'));
+        return $this->find(array('published_at' => null, 'status' => 'published'), $limit);
     }
 
     public function findBySlug($year, $month, $day, $slug) {
@@ -39,10 +39,10 @@ class PostCollection extends DocumentCollection {
             'status' => 'published'
         );
 
-        return $this->find(1, 0, $conditions);
+        return $this->find($conditions, 1);
     }
 
-    public function findByTag($tag, $limit = 100, $skip = 0) {
-        return $this->find($limit, $skip, array('tags' => $tag, 'status' => 'published'));
+    public function findByTag($tag, $limit = 100, $offset = 0) {
+        return $this->find(array('tags' => $tag, 'status' => 'published'), $limit, $offset);
     }
 }
