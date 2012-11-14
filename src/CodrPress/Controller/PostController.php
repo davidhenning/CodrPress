@@ -94,6 +94,12 @@ class PostController implements ControllerProviderInterface {
         ->assert('id', '[a-z0-9]{24}')
         ->convert('id', function($id) use ($app) { return $app['config']->sanitize($id); })
         ->before($login);
+
+        $router->get('/posts/convertMarkdown/', function() use($app, $viewHelper) {
+            $output = $viewHelper->getConvertMarkdownOutput($app);
+
+            return $app->json($output, $output['status']);
+        })->before($login);
     }
 
     protected function _setUpRestInterface(Application $app) {

@@ -116,4 +116,21 @@ class PostRestViewHelper {
 
         return $output;
     }
+
+    public function getConvertMarkdownOutput(Application $app) {
+        $output = $this->_getOutputSkeleton($app);
+        $posts = new PostCollection($app);
+        $posts->find()->map(function($document) use ($app) {
+            $md = $document->getProperty('body');
+            $html = $app['markdown']->transform($md);
+            $document->setProperty('body_html', $html)->save();
+        });
+
+        $output['status'] = 202;
+        $output['response'] = array(
+            'action' => 'convertMarkdown',
+        );
+
+        return $output;
+    }
 }

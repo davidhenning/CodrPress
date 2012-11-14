@@ -31,7 +31,7 @@ class Post extends Document {
     }
 
     public function getBody() {
-        return $this->_app['markdown']->transform($this->getProperty('body'));
+        return $this->getProperty('body_html');
     }
 
     public function getRawBody() {
