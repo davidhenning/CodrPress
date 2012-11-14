@@ -59,7 +59,7 @@ class PostCollection extends DocumentCollection
         $posts = $this->find(array('published_at' => array('$ne' => null)));
         $tags = new MutableList();
 
-        $posts->map(function ($post) use ($tags) {
+        $posts->each(function ($post) use ($tags) {
            if(isset($post->tags) && !empty($post->tags)) {
                foreach($post->tags as $tag) {
                    if(!isset($tags->{$tag})) {
