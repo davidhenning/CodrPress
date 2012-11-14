@@ -1,6 +1,7 @@
 {% import 'tools.twig' as tools %}
 {% for post in posts %}
     <article>
+        <time>{{ tools.niceDate(post.created_at) }}</time>
         <h1>
             {% if page == false %}<a href="{{ post.getLink() }}">{% endif %}
                 {{ post.title }}
