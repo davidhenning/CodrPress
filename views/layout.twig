@@ -18,7 +18,13 @@
                     {% block body %}{% endblock %}
                 </div>
                 <div class="span3 offset2">
-                    Sidebar
+                    {% if tags is defined %}
+                        <section id="tags">
+                            {% for tag in tags %}
+                                <span class=""><a href="{{ app.url_generator.generate('tag', {'tag': tag.name}) }}">{{ tag.name }}</a></span>
+                            {% endfor %}
+                        </section>
+                    {% endif %}
                 </div>
             </div>
             <footer>

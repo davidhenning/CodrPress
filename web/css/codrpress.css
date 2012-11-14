@@ -49,13 +49,17 @@ p {
     margin-top: 2px;
 }
 
+.label a, .badge a {
+    color: inherit;
+}
+
 section article {
     margin-bottom: 4em;
 }
 
 article .meta {
     margin: 0;
-    padding: .4em 0;
+    padding:  0 0 .4em 0;
     list-style: none;
     border-top: 1px solid #E1E1E8;
     overflow: hidden;
@@ -65,11 +69,33 @@ article .meta {
         padding: .4em 0;
     }
 
+        article .meta .tags .label {
+             font-size: 14px;
+        }
+
+        article .meta .tags a {
+            text-decoration: none;
+        }
+
+    article .content {
+        color: #555;
+    }
+
+        article .content a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 2px solid #EC964E;
+        }
+
+            article .content a:hover {
+                color: #EC964E;
+            }
+
     article ul {
         list-style-type: square;
     }
 
     article li {
-        margin: .5em 0;
+        margin: 0 0 .5em 0;
         line-height: 2em;
     }

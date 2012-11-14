@@ -8,20 +8,18 @@
         </h1>
 
         <ul class="meta">
-            <li>
-                <i class="icon-time"></i> <time>{{ tools.niceDate(post.created_at) }}</time>
-            </li>
             {% if post.tags is defined %}
-                <li>
-                    <i class="icon-tags"></i> {% for tag in post.tags %}<a href="{{ app.url_generator.generate('tag', {'tag': tag}) }}">{{ tag }}</a>{% if loop.last == false %}, {% endif %}{% endfor %}
-                </li>
-            {% endif %}
-            {% if page == false %}
-                <li>
-                    <i class="icon-comment"></i> <a href="{{ post.getLink() }}#comments">1 Kommentar</a>
+                <li class="tags">
+                    {% for tag in post.tags %}
+                        <a href="{{ app.url_generator.generate('tag', {'tag': tag}) }}">
+                            <span class="label label-warning">{{ tag }}</span>
+                        </a>
+                    {% endfor %}
                 </li>
             {% endif %}
         </ul>
-        {{ post.getBody()|raw }}
+        <div class="content">
+            {{ post.getBody()|raw }}
+        </div>
     </article>
 {% endfor %}
