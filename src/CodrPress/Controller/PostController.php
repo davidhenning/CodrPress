@@ -44,16 +44,16 @@ class PostController implements ControllerProviderInterface
             ->assert('month', '\d{1,2}')
             ->assert('day', '\d{1,2}')
             ->convert('year', function ($year) {
-            return (int)$year;
+                return (int)$year;
         })
             ->convert('month', function ($month) {
-            return (int)$month;
+                return (int)$month;
         })
             ->convert('day', function ($day) {
-            return (int)$day;
+                return (int)$day;
         })
             ->convert('slug', function ($slug) use ($app) {
-            return $app['config']->sanitize($slug);
+                return $app['config']->sanitize($slug);
         })
             ->bind('post');
 
