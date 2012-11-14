@@ -57,7 +57,7 @@ class HomepageController implements ControllerProviderInterface
         );
 
         if ($total > $limit) {
-            $pagination = new Pagination($app, 'home_page', $limit, $page);
+            $pagination = new Pagination($app, 'home_page', array(), $page, $limit);
             $templateData['pagination'] = $pagination->getPagination($total);
         }
 

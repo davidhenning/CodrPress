@@ -44,7 +44,7 @@ class Pagination
                 // set URL to previous page and first page
                 if ($currentPage > 1) {
                     $pages['prevPageUrl'] = $this->createPageUrl($route, $parameters, $currentPage - 1);
-                    $pages['firstPageUrl'] = $this->createPageUrl($route, 1);
+                    $pages['firstPageUrl'] = $this->createPageUrl($route, $parameters, 1);
                 } else {
                     $pages['prevPageUrl'] = false;
                     $pages['firstPageUrl'] = false;
@@ -58,6 +58,7 @@ class Pagination
                     $pages['nextPageUrl'] = false;
                     $pages['lastPageUrl'] = false;
                 }
+
                 if ($total > $limit) {
                     $pages['pages'] = $this->getPages($route, $parameters, $pageCount);
                 }
@@ -92,7 +93,7 @@ class Pagination
         return $pages;
     }
 
-    public function createPageUrl($route, $parameters = array(), $page, $getParameters = array())
+    public function createPageUrl($route, $parameters = array(), $page = 1, $getParameters = array())
     {
         $parameters = array_merge($parameters, array('page' => $page));
         $url = $this->_app['url_generator']->generate($route, $parameters);
