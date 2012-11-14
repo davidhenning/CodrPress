@@ -31,11 +31,9 @@ class TagController implements ControllerProviderInterface
                 'posts' => $posts,
                 'pages' => $pageCollection->findPages()
             ));
-        })
-            ->convert('tag', function ($tag) use ($app) {
+        })->convert('tag', function ($tag) use ($app) {
             return $app['config']->sanitize($tag);
-        })
-            ->bind('tag');
+        })->bind('tag');
 
         return $router;
     }
