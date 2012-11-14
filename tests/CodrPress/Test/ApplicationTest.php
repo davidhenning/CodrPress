@@ -5,16 +5,19 @@ use Silex\WebTestCase;
 use CodrPress\Model\Post,
     CodrPress\Model\PostCollection;
 
-class ApplicationTest extends WebTestCase {
+class ApplicationTest extends WebTestCase
+{
 
-    public function createApplication() {
+    public function createApplication()
+    {
         $app = require realpath(__DIR__ . '/../../../app.php');
         $app['unittest'] = true;
 
         return $app;
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         parent::tearDown();
         $app = $this->app;
 
@@ -22,7 +25,8 @@ class ApplicationTest extends WebTestCase {
         $posts->find(array('body' => 'test'))->remove();
     }
 
-    public function testPosts() {
+    public function testPosts()
+    {
         $app = $this->app;
         $client = $this->createClient();
 
@@ -55,7 +59,8 @@ class ApplicationTest extends WebTestCase {
         $post->remove();
     }
 
-    public function testTags() {
+    public function testTags()
+    {
         $app = $this->app;
         $client = $this->createClient();
 
@@ -80,7 +85,8 @@ class ApplicationTest extends WebTestCase {
         $post->remove();
     }
 
-    public function testRestInterface() {
+    public function testRestInterface()
+    {
         $app = $this->app;
         $client = $this->createClient();
 

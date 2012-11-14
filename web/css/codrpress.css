@@ -70,5 +70,6 @@ article .meta {
     }
 
     article li {
-        margin: 1em 0;
+        margin: .5em 0;
+        line-height: 2em;
     }

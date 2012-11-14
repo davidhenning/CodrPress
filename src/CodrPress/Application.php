@@ -14,13 +14,15 @@ use MongoAppKit\Application as MongoAppKitApplication,
 
 use SilexMarkdown\Provider\MarkdownServiceProvider;
 
-class Application extends MongoAppKitApplication {
+class Application extends MongoAppKitApplication
+{
 
     /**
      * @param \MongoAppKit\Config $config
      */
 
-    public function __construct(Config $config) {
+    public function __construct(Config $config)
+    {
         parent::__construct($config);
 
         $this['debug'] = $config->getProperty('DebugMode');
@@ -30,10 +32,10 @@ class Application extends MongoAppKitApplication {
 
         $app = $this;
 
-        $this->error(function(\Exception $e) use($app) {
+        $this->error(function (\Exception $e) use ($app) {
             $request = $app['request'];
 
-            if(strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
+            if (strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
                 $error = array(
                     'status' => 400,
                     'time' => date('Y-m-d H:i:s'),

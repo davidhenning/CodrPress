@@ -7,9 +7,11 @@ use Silex\Application;
 use CodrPress\Model\Post,
     CodrPress\Model\PostCollection;
 
-class PostRestViewHelper {
+class PostRestViewHelper
+{
 
-    protected function _getOutputSkeleton($app) {
+    protected function _getOutputSkeleton($app)
+    {
         return array(
             'status' => 200,
             'time' => date('Y-m-d H:i:s'),
@@ -20,7 +22,8 @@ class PostRestViewHelper {
         );
     }
 
-    public function getPostsOutput(Application $app) {
+    public function getPostsOutput(Application $app)
+    {
         $config = $app['config'];
         $request = $app['request'];
         $limit = (int)$request->query->get('limit');
@@ -36,8 +39,8 @@ class PostRestViewHelper {
         $output['response']['total'] = $postCollection->getTotalDocuments();
         $output['response']['found'] = $postCollection->getFoundDocuments();
 
-        if(count($posts) > 0) {
-            foreach($posts as $post) {
+        if (count($posts) > 0) {
+            foreach ($posts as $post) {
                 $output['response']['documents'][] = $post->getProperties();
             }
         }
@@ -45,7 +48,8 @@ class PostRestViewHelper {
         return $output;
     }
 
-    public function getPostOutput(Application $app, $id) {
+    public function getPostOutput(Application $app, $id)
+    {
         $output = $this->_getOutputSkeleton($app);
 
         try {
@@ -54,7 +58,7 @@ class PostRestViewHelper {
             $output['response']['total'] = 1;
             $output['response']['found'] = 1;
             $output['response']['documents'][] = $post->getProperties();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $output['status'] = 404;
             $output['response']['total'] = 0;
             $output['response']['found'] = 0;
@@ -64,7 +68,8 @@ class PostRestViewHelper {
         return $output;
     }
 
-    public function getPostUpdateOutput(Application $app, $id = null) {
+    public function getPostUpdateOutput(Application $app, $id = null)
+    {
         $config = $app['config'];
         $request = $app['request'];
         $output = $this->_getOutputSkeleton($app);
@@ -72,7 +77,7 @@ class PostRestViewHelper {
         try {
             $post = new Post($app);
 
-            if(!is_null($id)) {
+            if (!is_null($id)) {
                 $post->load($id);
             }
 
@@ -85,7 +90,7 @@ class PostRestViewHelper {
                 'documentId' => $post->getId(),
                 'documentUri' => "/post/{$post->getId()}/"
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $output['status'] = 404;
             $output['response']['total'] = 0;
             $output['response']['found'] = 0;
@@ -95,7 +100,8 @@ class PostRestViewHelper {
         return $output;
     }
 
-    public function getPostDeleteOutput(Application $app, $id) {
+    public function getPostDeleteOutput(Application $app, $id)
+    {
         $output = $this->_getOutputSkeleton($app);
 
         try {
@@ -107,7 +113,7 @@ class PostRestViewHelper {
                 'action' => 'delete',
                 'documentId' => $id
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $output['status'] = 404;
             $output['response']['total'] = 0;
             $output['response']['found'] = 0;
@@ -117,10 +123,11 @@ class PostRestViewHelper {
         return $output;
     }
 
-    public function getConvertMarkdownOutput(Application $app) {
+    public function getConvertMarkdownOutput(Application $app)
+    {
         $output = $this->_getOutputSkeleton($app);
         $posts = new PostCollection($app);
-        $posts->find()->map(function($document) use ($app) {
+        $posts->find()->map(function ($document) use ($app) {
             $md = $document->getProperty('body');
             $html = $app['markdown']->transform($md);
             $document->setProperty('body_html', $html)->save();

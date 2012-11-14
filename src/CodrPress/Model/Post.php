@@ -6,19 +6,23 @@ use Silex\Application;
 
 use MongoAppKit\Document\Document;
 
-class Post extends Document {
+class Post extends Document
+{
 
-    public function __construct(Application $app) {
+    public function __construct(Application $app)
+    {
         parent::__construct($app, 'posts');
     }
 
-    public function getCurrentSlug() {
+    public function getCurrentSlug()
+    {
         $slugs = $this->getProperty('slugs');
 
         return end($slugs);
     }
 
-    public function getLink() {
+    public function getLink()
+    {
         $timestamp = strtotime($this->getProperty('created_at'));
         $params = array(
             'year' => date('Y', $timestamp),
@@ -30,11 +34,13 @@ class Post extends Document {
         return $this->_app['url_generator']->generate('post', $params);
     }
 
-    public function getBody() {
+    public function getBody()
+    {
         return $this->getProperty('body_html');
     }
 
-    public function getRawBody() {
+    public function getRawBody()
+    {
         return $this->getProperty('body');
     }
 }

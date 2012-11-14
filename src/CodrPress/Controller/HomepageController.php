@@ -8,31 +8,36 @@ use Silex\Application,
 use CodrPress\Model\PostCollection,
     CodrPress\Helper\Pagination;
 
-class HomepageController implements ControllerProviderInterface {
+class HomepageController implements ControllerProviderInterface
+{
 
-    public function connect(Application $app) {
+    public function connect(Application $app)
+    {
         $router = $app['controllers_factory'];
         $self = $this;
 
-        $router->get('/', function() use($app, $self) {
+        $router->get('/', function () use ($app, $self) {
             $templateData = $self->getTemplateData($app);
 
             return $app['twig']->render('posts.twig', $templateData);
         })->bind('home');
 
-        $router->get('/{page}/', function($page) use($app, $self) {
+        $router->get('/{page}/', function ($page) use ($app, $self) {
             $templateData = $self->getTemplateData($app, $page);
 
             return $app['twig']->render('posts.twig', $templateData);
         })
-        ->bind('home_page')
-        ->assert('page', '\d+')
-        ->convert('page', function($page) { return (int)$page; });
+            ->bind('home_page')
+            ->assert('page', '\d+')
+            ->convert('page', function ($page) {
+            return (int)$page;
+        });
 
         return $router;
     }
 
-    public function getTemplateData(Application $app, $page = 1) {
+    public function getTemplateData(Application $app, $page = 1)
+    {
         $postCollection = new PostCollection($app);
         $postCollection->sortBy('created_at', 'desc');
         $pageCollection = new PostCollection($app);
@@ -48,7 +53,7 @@ class HomepageController implements ControllerProviderInterface {
             'pages' => $pageCollection->findPages()
         );
 
-        if($total > $limit) {
+        if ($total > $limit) {
             $pagination = new Pagination($app, 'home_page', $limit, $page);
             $templateData['pagination'] = $pagination->getPagination($total);
         }
