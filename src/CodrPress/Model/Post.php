@@ -31,7 +31,7 @@ class Post extends Document
             'slug' => $this->getCurrentSlug()
         );
 
-        return $this->_app['url_generator']->generate('post', $params);
+        return $this->_app['url_generator']->generate('post', $params, true);
     }
 
     public function getBody()
