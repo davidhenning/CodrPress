@@ -3,6 +3,7 @@
     <head>
         <title>{% block title %} - Powered by CodrPress{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link href="{{ app.url_generator.generate('feed') }}" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
         <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/codrpress.css">
         <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/responsive.css">
