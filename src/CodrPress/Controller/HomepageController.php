@@ -42,6 +42,8 @@ class HomepageController implements ControllerProviderInterface
         $postCollection->sortBy('created_at', 'desc');
         $pageCollection = new PostCollection($app);
         $pageCollection->sortBy('created_at', 'desc');
+        $tagCollection = new PostCollection($app);
+        $tagCollection->sortBy('created_at', 'desc');
 
         $config = $app['config'];
         $limit = $config->getProperty('PerPage');
@@ -50,7 +52,8 @@ class HomepageController implements ControllerProviderInterface
         $total = $posts->getTotalDocuments();
         $templateData = array(
             'posts' => $posts,
-            'pages' => $pageCollection->findPages()
+            'pages' => $pageCollection->findPages(),
+            'tags' => $tagCollection->findTags()
         );
 
         if ($total > $limit) {
