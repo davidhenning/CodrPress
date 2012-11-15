@@ -3,9 +3,9 @@
 /* Fonts */
 
 body, textarea {
-    font-family: 'Droid Sans', sans-serif;
     font-size: 16px;
     line-height: 2em;
+    color: #263034;
 }
 
 pre, code {
@@ -15,16 +15,30 @@ pre, code {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bitter', serif;
     line-height: inherit;
 }
 
 h1 {
-    font-family: 'Bitter', serif;
     font-size: 28px;
+    color: #263034;
 }
 
+    h1 a {
+        color: inherit;
+    }
+
+        h1 a:hover {
+            color: #FF4E00;
+            text-decoration: none;
+        }
+
+    time + h1 {
+        margin-top: 0;
+    }
+
 h2 {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 h3, h4, h5, h6 {
@@ -38,7 +52,11 @@ header {
 }
 
 h1 + h2 {
-    margin-top: 0;
+    font-family: inherit;
+    font-weight: normal;
+    font-size: 16px;
+    margin-top: -10px;
+    color: #657B83;
 }
 
 p {
@@ -47,6 +65,11 @@ p {
 
 [class^="icon-"], [class*=" icon-"] {
     margin-top: 2px;
+}
+
+.label, .badge {
+    font-weight: normal;
+    background: #657B83;
 }
 
 .label a, .badge a {
@@ -59,36 +82,42 @@ section article {
 
 article .meta {
     margin: 0;
-    padding:  0 0 .4em 0;
-    list-style: none;
-    border-top: 1px solid #E1E1E8;
+    padding:  .2em 0 .3em 0;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    line-height: 1em;
     overflow: hidden;
 }
-
-    article .meta li {
-        padding: .4em 0;
+    .meta time {
+        font-size: 14px;
+        padding-top: 2px;
+        display: block;
+        margin-bottom: .5em;
     }
 
-        article .meta .tags .label {
-             font-size: 14px;
+    .meta .label {
+        background: #FF4E00;
+    }
+
+        .meta .label:hover {
+            background: #dc322f;
         }
 
-        article .meta .tags a {
-            text-decoration: none;
-        }
+    .meta a {
+        text-decoration: none;
+    }
 
     article .content {
         color: #555;
     }
 
         article .content a {
-            color: inherit;
+            color: #FF4E00;
             text-decoration: none;
-            border-bottom: 2px solid #EC964E;
         }
 
             article .content a:hover {
-                color: #EC964E;
+                color: #dc322f;
             }
 
     article ul {

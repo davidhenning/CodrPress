@@ -1,12 +1,13 @@
 {% extends 'layout.twig' %}
-{% block title %}View {{  parent() }}{% endblock %}
+{% set post = posts.head() %}
+{% block title %}{{ post.title }} {{  parent() }}{% endblock %}
 
 {% block body %}
     <section class="articles">
         {% include 'articles.twig' with {'page': true} %}
     </section>
 
-    {% if posts and posts.head().disqus %}
+    {% if post.disqus %}
         <section class="comments">
             <h3>Comments</h3>
         </section>
