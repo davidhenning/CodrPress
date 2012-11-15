@@ -4,7 +4,7 @@
         <time>{{ tools.niceDate(post.created_at) }}</time>
         <h1>
             {% if page == false %}<a href="{{ post.getLink() }}">{% endif %}
-                {{ post.title }}
+            {{ post.title }}
             {% if page == false %}</a>{% endif %}
         </h1>
 
@@ -20,7 +20,7 @@
             {% endif %}
         </ul>
         <div class="content">
-            {{ post.getBody()|raw }}
+            {{ post.body_html|raw }}
         </div>
     </article>
 {% endfor %}

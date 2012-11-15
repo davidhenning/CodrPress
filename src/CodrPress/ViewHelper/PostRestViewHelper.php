@@ -83,7 +83,7 @@ class PostRestViewHelper
 
             $payload = $config->sanitize($request->request->get('payload'));
             $post->updateProperties($payload);
-            $post->save();
+            $post->store();
             $output['status'] = (!is_null($id)) ? 202 : 201;
             $output['response'] = array(
                 'action' => (!is_null($id)) ? 'update' : 'create',
@@ -128,9 +128,7 @@ class PostRestViewHelper
         $output = $this->_getOutputSkeleton($app);
         $posts = new PostCollection($app);
         $posts->find()->map(function ($document) use ($app) {
-            $md = $document->getProperty('body');
-            $html = $app['markdown']->transform($md);
-            $document->setProperty('body_html', $html)->save();
+            $document->store();
         });
 
         $output['status'] = 202;

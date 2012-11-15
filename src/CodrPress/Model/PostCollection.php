@@ -2,8 +2,7 @@
 
 namespace CodrPress\Model;
 
-use MongoAppKit\Collection\ArrayList,
-    MongoAppKit\Collection\MutableList,
+use MongoAppKit\Collection\MutableMap,
     MongoAppKit\Document\DocumentCollection;
 
 use Silex\Application;
@@ -57,13 +56,13 @@ class PostCollection extends DocumentCollection
     public function findTags()
     {
         $posts = $this->find(array('published_at' => array('$ne' => null)));
-        $tags = new MutableList();
+        $tags = new MutableMap();
 
         $posts->each(function ($post) use ($tags) {
            if(isset($post->tags) && !empty($post->tags)) {
                foreach($post->tags as $tag) {
                    if(!isset($tags->{$tag})) {
-                       $list = new MutableList();
+                       $list = new MutableMap();
                        $tags->{$tag} = $list->assign(array('name' => $tag, 'count' => 0));
                    }
 

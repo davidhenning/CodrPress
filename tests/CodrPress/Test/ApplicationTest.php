@@ -38,7 +38,7 @@ class ApplicationTest extends WebTestCase
         $post->setProperty('body', 'test');
         $post->setProperty('status', 'published');
         $post->setProperty('disqus', false);
-        $post->save();
+        $post->store();
 
         // home
         $client->request('GET', '/');
@@ -72,7 +72,7 @@ class ApplicationTest extends WebTestCase
         $post->setProperty('body', 'test');
         $post->setProperty('status', 'published');
         $post->setProperty('disqus', false);
-        $post->save();
+        $post->store();
 
         // existing tag
         $client->request('GET', '/tag/Test/');
@@ -98,7 +98,7 @@ class ApplicationTest extends WebTestCase
         $post->setProperty('body', 'test');
         $post->setProperty('status', 'published');
         $post->setProperty('disqus', false);
-        $post->save();
+        $post->store();
         $id = $post->getId();
 
         $payload = json_encode(array('payload' => 'test'));

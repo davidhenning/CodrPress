@@ -14,33 +14,23 @@ class Post extends Document
         parent::__construct($app, 'posts');
     }
 
-    public function getCurrentSlug()
-    {
-        $slugs = $this->getProperty('slugs');
+    protected function _prepareStore(array $properties) {
+        //transform Markdown
+        $properties['body_html'] = $this->_app['markdown']->transform($properties['body']);
 
-        return end($slugs);
+        return parent::_prepareStore($properties);
     }
 
     public function getLink()
     {
-        $timestamp = strtotime($this->getProperty('created_at'));
+        $timestamp = $this->getProperty('created_at');
         $params = array(
             'year' => date('Y', $timestamp),
             'month' => date('m', $timestamp),
             'day' => date('d', $timestamp),
-            'slug' => $this->getCurrentSlug()
+            'slug' => $this->getProperty('slugs')->last()
         );
 
         return $this->_app['url_generator']->generate('post', $params, true);
-    }
-
-    public function getBody()
-    {
-        return $this->getProperty('body_html');
-    }
-
-    public function getRawBody()
-    {
-        return $this->getProperty('body');
     }
 }
