@@ -27,6 +27,7 @@ class TagController implements ControllerProviderInterface
             }
 
             return $app['twig']->render('posts.twig', array(
+                'config' => $app['config'],
                 'tag' => $tag,
                 'posts' => $posts,
                 'pages' => $pageCollection->findPages()

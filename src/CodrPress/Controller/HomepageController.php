@@ -51,6 +51,7 @@ class HomepageController implements ControllerProviderInterface
         $posts = $postCollection->findPosts($limit, $offset);
         $total = $posts->getTotalDocuments();
         $templateData = array(
+            'config' => $config,
             'posts' => $posts,
             'pages' => $pageCollection->findPages(),
             'tags' => $tagCollection->findTags()

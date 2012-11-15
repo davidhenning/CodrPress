@@ -36,6 +36,7 @@ class PostController implements ControllerProviderInterface
             }
 
             return $app['twig']->render('post.twig', array(
+                'config' => $app['config'],
                 'posts' => $posts,
                 'pages' => $pageCollection->findPages()
             ));

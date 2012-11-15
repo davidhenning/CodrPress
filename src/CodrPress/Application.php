@@ -14,6 +14,8 @@ use MongoAppKit\Application as MongoAppKitApplication,
 
 use SilexMarkdown\Provider\MarkdownServiceProvider;
 
+use CodrPress\Model\ConfigCollection;
+
 class Application extends MongoAppKitApplication
 {
 
@@ -60,6 +62,10 @@ class Application extends MongoAppKitApplication
 
             return new Response($content, $code);
         });
+
+        $configCollection = new ConfigCollection($app);
+        $dbConfig = $configCollection->find(array('_id' => 'codrpress'))->head()->getProperties();
+        $config->setProperty('DbConfig', $dbConfig);
     }
 
 }

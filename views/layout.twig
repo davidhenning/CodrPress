@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{% block title %} - Powered by CodrPress{% endblock %}</title>
+        {% set blogName = config.DbConfig.blog_title|default('CodrPress') %}
+        <title>{% block title %} - {{ blogName }}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
         <link href="{{ app.url_generator.generate('feed') }}" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
         <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/css/bootstrap.min.css">
@@ -12,7 +13,7 @@
     <body data-basepath="{{ app.request.basepath }}">
         <div class="container">
             <header>
-                <a href="{{ app.url_generator.generate('home') }}">CodrPress</a>
+                <a href="{{ app.url_generator.generate('home') }}">{{ blogName }}</a>
             </header>
             <div class="row">
                 <div class="span7">
