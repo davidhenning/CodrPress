@@ -32,10 +32,12 @@ class Application extends MongoAppKitApplication
         $this['debug'] = $config->getProperty('DebugMode');
 
         $this->register(new UrlGeneratorServiceProvider());
-        $this->register(new MarkdownServiceProvider());
-
-        $this['markdown']->registerFilter('block_code', new RadiantFilter());
-        $this['markdown']->registerFilter('image', new EssenceFilter());
+        $this->register(new MarkdownServiceProvider(), array(
+            'markdown.filter' => array(
+                'image' => new EssenceFilter(),
+                'block_code' => new RadiantFilter()
+            )
+        ));
 
         $app = $this;
 
