@@ -68,7 +68,6 @@ class Application extends MongoAppKitApplication
             ));
 
             echo $e->getMessage();
-            print_r($e->getTrace());
 
             return new Response($content, $code);
         });
