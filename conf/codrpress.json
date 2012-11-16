@@ -1,59 +1,10 @@
 {
-    "PerPage": 10,
-    "Fields": {
-        "posts": {
-            "_id": {
-                "mongoType": "id"
-            },
-            "created_at": {
-                "mongoType": "date",
-                "index": {
-                    "use": true
-                }
-            },
-            "updated_at": {
-                "mongoType": "date",
-                "index": {
-                    "use": true
-                }
-            },
-            "published_at": {
-                "mongoType": "date",
-                "autoUpdate": false,
-                "index": {
-                    "use": true
-                }
-            },
-            "title": {
-
-            },
-            "subtitle": {
-
-            },
-            "body": {
-
-            },
-            "body_html": {
-
-            },
-            "slugs": {
-                "index": {
-                    "use": true
-                }
-            },
-            "status": {
-                "index": {
-                    "use": true
-                }
-            },
-            "disqus": {
-
-            },
-            "tags": {
-                "index": {
-                    "use": true
-                }
-            }
-        }
-    }
+    "MongoServer": "localhost",
+    "MongoPort": "27017",
+    "MongoUser": null,
+    "MongoPassword": null,
+    "MongoDatabase": "codrpress",
+    "EncryptionKey": "Aeng3Eicaequeileis0senongooqu9in",
+    "DebugMode": true,
+    "PerPage": 10
 }
