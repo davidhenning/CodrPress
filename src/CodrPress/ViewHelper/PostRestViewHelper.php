@@ -82,8 +82,7 @@ class PostRestViewHelper
             }
 
             $payload = $config->sanitize($request->request->get('payload'));
-            $post->updateProperties($payload);
-            $post->store();
+            $post->updateProperties($payload)->store();
             $output['status'] = (!is_null($id)) ? 202 : 201;
             $output['response'] = array(
                 'action' => (!is_null($id)) ? 'update' : 'create',
