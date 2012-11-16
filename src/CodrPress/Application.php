@@ -67,7 +67,7 @@ class Application extends MongoAppKitApplication
                 'message' => $e->getMessage()
             ));
 
-            echo $e->getMessage();
+            echo "{$e->getMessage()}: {$e->getFile()} on line {$e->getLine()}\n";
 
             return new Response($content, $code);
         });
