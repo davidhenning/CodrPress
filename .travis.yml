@@ -10,7 +10,7 @@ before_script:
   - tar xfz mongo-1.2.9.tgz
   - sh -c "cd mongo-1.2.9 && phpize && ./configure && make && sudo make install"
   - echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
-  - mongo codrpress --eval 'db.getCollection("config").insert({"_id": "codrpress", "author_name": "David", "blog_title": "WebCodr"});'
+  - sh initmongodb.sh
 
 php:
   - 5.3

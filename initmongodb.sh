@@ -1,0 +1,1 @@
+mongo codrpress --eval 'db.getCollection("config").insert({"_id": "codrpress", "author_name": "David", "blog_title": "WebCodr"});'
