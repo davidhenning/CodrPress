@@ -41,7 +41,7 @@ class PostRestViewHelper
 
         if (count($posts) > 0) {
             foreach ($posts as $post) {
-                $output['response']['documents'][] = $post->getProperties();
+                $output['response']['documents'][] = $post->getArray();
             }
         }
 
@@ -57,7 +57,7 @@ class PostRestViewHelper
             $post->load($id);
             $output['response']['total'] = 1;
             $output['response']['found'] = 1;
-            $output['response']['documents'][] = $post->getProperties();
+            $output['response']['documents'][] = $post->getArray();
         } catch (\Exception $e) {
             $output['status'] = 404;
             $output['response']['total'] = 0;
