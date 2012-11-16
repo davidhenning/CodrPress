@@ -12,7 +12,9 @@ use MongoAppKit\Application as MongoAppKitApplication,
     MongoAppKit\Config,
     MongoAppKit\Exception\HttpException;
 
-use SilexMarkdown\Provider\MarkdownServiceProvider;
+use SilexMarkdown\Filter\EssenceFilter,
+    SilexMarkdown\Filter\RadiantFilter,
+    SilexMarkdown\Provider\MarkdownServiceProvider;
 
 use CodrPress\Model\ConfigCollection;
 
@@ -31,6 +33,9 @@ class Application extends MongoAppKitApplication
 
         $this->register(new UrlGeneratorServiceProvider());
         $this->register(new MarkdownServiceProvider());
+
+        $this['markdown']->registerFilter('block_code', new RadiantFilter());
+        $this['markdown']->registerFilter('image', new EssenceFilter());
 
         $app = $this;
 
