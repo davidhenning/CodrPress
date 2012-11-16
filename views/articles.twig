@@ -1,9 +1,9 @@
 {% import 'tools.twig' as tools %}
-{% spaceless %}
-    {% for post in posts %}
-        <article>
-            <h1>{% if page == false %}<a href="{{ post.getLink() }}">{% endif %}{{ post.title }}{% if page == false %}</a>{% endif %}</h1>
-            {% if post.subtitle is defined and post.subtitle is not empty %}<h2>{{ post.subtitle }}</h2>{% endif %}
+{% for post in posts %}
+    <article>
+        <h1>{% if page == false %}<a href="{{ post.getLink() }}">{% endif %}{{ post.title }}{% if page == false %}</a>{% endif %}</h1>
+        {% if post.subtitle is defined and post.subtitle is not empty %}<h2>{{ post.subtitle }}</h2>{% endif %}
+        {% spaceless %}
             <p class="meta">
                 <time datetime="{{ post.created_at|date('c') }}">{{ tools.niceDate(post.created_at) }}</time>
                 {% if post.tags is defined %}
@@ -14,9 +14,9 @@
                     {% endfor %}
                 {% endif %}
             </p>
-            <div class="content">
-                {{ post.body_html|raw }}
-            </div>
-        </article>
-    {% endfor %}
-{% endspaceless %}
+        {% endspaceless %}
+        <div class="content">
+            {{ post.body_html|raw }}
+        </div>
+    </article>
+{% endfor %}
