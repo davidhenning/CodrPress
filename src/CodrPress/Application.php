@@ -61,7 +61,7 @@ class Application extends MongoAppKitApplication
                 return $app->json($error, 400);
             }
 
-            $code = ($e->getCode() > 0) ? $e->getCode() : 500;
+            $code = ($e->getCode() > 100 && $e->getCode() <= 600) ? $e->getCode() : 500;
             $content = $app['twig']->render('error.twig', array(
                 'code' => $code,
                 'message' => $e->getMessage()
