@@ -32,6 +32,9 @@ class ApplicationTest extends WebTestCase
 
         // add test post
         $post = new Post($app);
+        $post->setProperty('created_at', time());
+        $post->setProperty('updated_at', time());
+        $post->setProperty('published_at', time());
         $post->setProperty('slugs', array('slug'));
         $post->setProperty('tags', array('Test'));
         $post->setProperty('title', 'test');
