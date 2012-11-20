@@ -104,7 +104,13 @@ article .meta {
         }
 
     .meta a {
+        display: inline-block;
         text-decoration: none;
+        margin-right: 5px;
+    }
+
+    .meta a:last-child {
+        margin: 0;
     }
 
     article .content {
