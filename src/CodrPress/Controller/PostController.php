@@ -77,7 +77,7 @@ class PostController implements ControllerProviderInterface
         $router->get('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $output = $viewHelper->getPostOutput($app, $id);
 
-            return $app->json($output, $output['status']);
+            return $app->json($output, $output['meta']['status']);
         })
             ->assert('id', '[a-z0-9]{24}')
             ->convert('id', function ($id) use ($app) {
@@ -88,13 +88,13 @@ class PostController implements ControllerProviderInterface
         $router->put('/post/', function () use ($app, $viewHelper) {
             $output = $viewHelper->getPostUpdateOutput($app);
 
-            return $app->json($output, $output['status']);
+            return $app->json($output, $output['meta']['status']);
         })->before($login);
 
         $router->post('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $output = $viewHelper->getPostUpdateOutput($app, $id);
 
-            return $app->json($output, $output['status']);
+            return $app->json($output, $output['meta']['status']);
         })
             ->assert('id', '[a-z0-9]{24}')
             ->convert('id', function ($id) use ($app) {
@@ -105,7 +105,7 @@ class PostController implements ControllerProviderInterface
         $router->delete('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $output = $viewHelper->getPostDeleteOutput($app, $id);
 
-            return $app->json($output, $output['status']);
+            return $app->json($output, $output['meta']['status']);
         })
             ->assert('id', '[a-z0-9]{24}')
             ->convert('id', function ($id) use ($app) {
@@ -116,7 +116,7 @@ class PostController implements ControllerProviderInterface
         $router->get('/posts/convertMarkdown/', function () use ($app, $viewHelper) {
             $output = $viewHelper->getConvertMarkdownOutput($app);
 
-            return $app->json($output, $output['status']);
+            return $app->json($output, $output['meta']['status']);
         })->before($login);
     }
 

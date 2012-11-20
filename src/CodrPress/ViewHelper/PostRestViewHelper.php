@@ -4,20 +4,20 @@ namespace CodrPress\ViewHelper;
 
 use Silex\Application;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use CodrPress\Model\Post,
     CodrPress\Model\PostCollection;
 
 class PostRestViewHelper
 {
 
-    protected function _getOutputSkeleton($app)
+    protected function _getOutputSkeleton($httpStatusCode)
     {
         return array(
-            'status' => 200,
-            'time' => date('Y-m-d H:i:s'),
-            'request' => array(
-                'method' => 'GET',
-                'url' => $app['request']->getPathInfo()
+            'meta' => array(
+                'status' => $httpStatusCode,
+                'msg' => Response::$statusTexts[$httpStatusCode]
             )
         );
     }
@@ -35,34 +35,34 @@ class PostRestViewHelper
         $postCollection->findPosts($limit, $offset, false);
         $posts = $postCollection->getProperties();
 
-        $output = $this->_getOutputSkeleton($app);
-        $output['response']['total'] = $postCollection->getTotalDocuments();
-        $output['response']['found'] = $postCollection->getFoundDocuments();
+        $output = $this->_getOutputSkeleton(200);
 
         if (count($posts) > 0) {
             foreach ($posts as $post) {
-                $output['response']['documents'][] = $post->getArray();
+                $output['response']['posts'][] = $post->getArray();
             }
         }
+
+        $output['response']['total'] = $postCollection->getTotalDocuments();
+        $output['response']['found'] = $postCollection->getFoundDocuments();
 
         return $output;
     }
 
     public function getPostOutput(Application $app, $id)
     {
-        $output = $this->_getOutputSkeleton($app);
-
         try {
             $post = new Post($app);
             $post->load($id);
+            $output = $this->_getOutputSkeleton(200);
+            $output['response']['posts'][] = $post->getArray();
             $output['response']['total'] = 1;
             $output['response']['found'] = 1;
-            $output['response']['documents'][] = $post->getArray();
         } catch (\Exception $e) {
-            $output['status'] = 404;
+            $output = $this->_getOutputSkeleton(404);
+            $output['response']['posts'] = array();
             $output['response']['total'] = 0;
             $output['response']['found'] = 0;
-            $output['response']['documents'] = array();
         }
 
         return $output;
@@ -72,7 +72,7 @@ class PostRestViewHelper
     {
         $config = $app['config'];
         $request = $app['request'];
-        $output = $this->_getOutputSkeleton($app);
+
 
         try {
             $post = new Post($app);
@@ -83,17 +83,18 @@ class PostRestViewHelper
 
             $payload = $config->sanitize($request->request->get('payload'));
             $post->updateProperties($payload)->store();
-            $output['status'] = (!is_null($id)) ? 202 : 201;
+            $status = (!is_null($id)) ? 202 : 201;
+            $output = $this->_getOutputSkeleton($status);
             $output['response'] = array(
                 'action' => (!is_null($id)) ? 'update' : 'create',
                 'documentId' => $post->getId(),
                 'documentUri' => "/post/{$post->getId()}/"
             );
         } catch (\Exception $e) {
-            $output['status'] = 404;
+            $output = $this->_getOutputSkeleton(404);
+            $output['response']['posts'] = array();
             $output['response']['total'] = 0;
             $output['response']['found'] = 0;
-            $output['response']['documents'] = array();
         }
 
         return $output;
@@ -101,22 +102,22 @@ class PostRestViewHelper
 
     public function getPostDeleteOutput(Application $app, $id)
     {
-        $output = $this->_getOutputSkeleton($app);
+
 
         try {
             $post = new Post($app);
             $post->load($id);
             $post->remove();
-            $output['status'] = 202;
+            $output = $this->_getOutputSkeleton(202);
             $output['response'] = array(
                 'action' => 'delete',
                 'documentId' => $id
             );
         } catch (\Exception $e) {
-            $output['status'] = 404;
+            $output = $this->_getOutputSkeleton(404);
+            $output['response']['posts'] = array();
             $output['response']['total'] = 0;
             $output['response']['found'] = 0;
-            $output['response']['documents'] = array();
         }
 
         return $output;
