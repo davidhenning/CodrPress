@@ -4,7 +4,8 @@ namespace CodrPress\Model;
 
 use Silex\Application;
 
-use MongoAppKit\Document\Document;
+use MongoAppKit\Collection\MutableMap,
+    MongoAppKit\Document\Document;
 
 class Post extends Document
 {
@@ -34,7 +35,31 @@ class Post extends Document
         //transform Markdown
         $properties['body_html'] = $this->_app['markdown']->transform($properties['body']);
 
+        // create slugs
+        $properties['slugs'] = $this->_createSlugs($properties['slugs'], $properties['title']);
+
         return parent::_prepareStore($properties);
+    }
+
+    protected function _createSlugs($slugs, $title)
+    {
+        if (!is_array($slugs)) {
+            $slugs = array($slugs);
+        }
+
+        $slugs = array_merge($slugs, array($title));
+
+        $slugs = new MutableMap($slugs);
+        $slugs->map(function($value) {
+            $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
+            $slug = preg_replace("/[^a-zA-Z0-9\/_| -]/", '', $slug);
+            $slug = strtolower(trim($slug, '-'));
+            $slug = preg_replace("/[\/_| -]+/", '-', $slug);
+
+            return $slug;
+        })->unique();
+
+        return $slugs->getArray();
     }
 
     public function getLink()
