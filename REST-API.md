@@ -22,11 +22,9 @@ Optional GET parameters:
 
 ```json
 {
-    {
-        "meta": {
-            "status": 200,
-            "msg": "OK"
-        }
+    "meta": {
+        "status": 200,
+        "msg": "OK"
     },
     "response": {
         "posts": [
@@ -54,11 +52,9 @@ Optional GET parameters:
 
 ```json
 {
-    {
-        "meta": {
-            "status": 200,
-            "msg": "OK"
-        }
+    "meta": {
+        "status": 200,
+        "msg": "OK"
     },
     "response": {
         "posts": [
@@ -100,11 +96,9 @@ Optional GET parameters:
 
 ```json
 {
-    {
-        "meta": {
-            "status": 201,
-            "msg": "Created"
-        }
+    "meta": {
+        "status": 201,
+        "msg": "Created"
     },
     "response": {
         "action": "insert",
@@ -140,11 +134,9 @@ Optional GET parameters:
 
 ```json
 {
-    {
-        "meta": {
-            "status": 202,
-            "msg": "Accepted"
-        }
+    "meta": {
+        "status": 202,
+        "msg": "Accepted"
     },
     "response": {
         "action": "update",
@@ -164,11 +156,9 @@ Optional GET parameters:
 
 ```json
 {
-    {
-        "meta": {
-            "status": 202,
-            "msg": "Accepted"
-        }
+    "meta": {
+        "status": 202,
+        "msg": "Accepted"
     },
     "response": {
         "action": "delete",
