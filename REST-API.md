@@ -22,20 +22,22 @@ Optional GET parameters:
 
 ```json
 {
-    "status": 200,
-    "time": "2012-10-28 22:11:37",
-    "request": {
-        "method": "GET",
-        "url": "/posts/"
+    {
+        "meta": {
+            "status": 200,
+            "msg": "OK"
+        }
     },
     "response": {
-        "total": 14,
-        "found": 10,
-        "documents": [
+        "posts": [
             {
-                "_id": "508d90539200ce5810000002"
+                "_id": "508d90539200ce5810000002",
+                "title": "REST-API"
+                ...
             }
-        ]
+        ],
+        "total": 14,
+        "found": 10
     }
 }
 ```
@@ -52,20 +54,22 @@ Optional GET parameters:
 
 ```json
 {
-    "status": 200,
-    "time": "2012-10-28 22:11:37",
-    "request": {
-        "method": "GET",
-        "url": "/post/508d90539200ce5810000002/"
+    {
+        "meta": {
+            "status": 200,
+            "msg": "OK"
+        }
     },
     "response": {
-        "total": 1,
-        "found": 1,
-        "documents": [
+        "posts": [
             {
-                "_id": "508d90539200ce5810000002"
+                "_id": "508d90539200ce5810000002",
+                "title": "REST-API"
+                ...
             }
-        ]
+        ],
+        "total": 1,
+        "found": 1
     }
 }
 ```
@@ -96,11 +100,11 @@ Optional GET parameters:
 
 ```json
 {
-    "status": 201,
-    "time": "2012-10-28 22:11:37",
-    "request": {
-        "method": "PUT",
-        "url": "/post/"
+    {
+        "meta": {
+            "status": 201,
+            "msg": "Created"
+        }
     },
     "response": {
         "action": "insert",
@@ -136,11 +140,11 @@ Optional GET parameters:
 
 ```json
 {
-    "status": 202,
-    "time": "2012-10-28 22:11:37",
-    "request": {
-        "method": "POST",
-        "url": "/post/508d90539200ce5810000002/"
+    {
+        "meta": {
+            "status": 202,
+            "msg": "Accepted"
+        }
     },
     "response": {
         "action": "update",
@@ -160,11 +164,11 @@ Optional GET parameters:
 
 ```json
 {
-    "status": 202,
-    "time": "2012-10-28 22:11:37",
-    "request": {
-        "method": "DELETE",
-        "url": "/post/508d90539200ce5810000002/"
+    {
+        "meta": {
+            "status": 202,
+            "msg": "Accepted"
+        }
     },
     "response": {
         "action": "delete",
