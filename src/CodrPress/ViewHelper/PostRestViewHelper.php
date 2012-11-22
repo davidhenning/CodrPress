@@ -102,8 +102,6 @@ class PostRestViewHelper
 
     public function getPostDeleteOutput(Application $app, $id)
     {
-
-
         try {
             $post = new Post($app);
             $post->load($id);
