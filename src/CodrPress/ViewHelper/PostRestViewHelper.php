@@ -123,7 +123,7 @@ class PostRestViewHelper
 
     public function getConvertMarkdownOutput(Application $app)
     {
-        $output = $this->_getOutputSkeleton($app);
+        $output = $this->_getOutputSkeleton(200);
         $posts = new PostCollection($app);
         $posts->find()->map(function ($document) use ($app) {
             $document->store();
