@@ -13,7 +13,7 @@ use MongoAppKit\Application as MongoAppKitApplication,
     MongoAppKit\Exception\HttpException;
 
 use SilexMarkdown\Filter\EssenceFilter,
-    SilexMarkdown\Filter\RadiantFilter,
+    SilexMarkdown\Filter\PygmentsFilter,
     SilexMarkdown\Provider\MarkdownServiceProvider;
 
 use CodrPress\Model\ConfigCollection;
@@ -35,7 +35,7 @@ class Application extends MongoAppKitApplication
         $this->register(new MarkdownServiceProvider(), array(
             'markdown.filter' => array(
                 'image' => new EssenceFilter(),
-                'block_code' => new RadiantFilter()
+                'block_code' => new PygmentsFilter()
             )
         ));
 

@@ -23,7 +23,7 @@
     color: #ff3954;
 }
 
-.radiant .radiant_keyword {
+.radiant .radiant_keyword, .pygments .k, .pygments .kd {
     color: #04ffa4;
 }
 
@@ -31,27 +31,27 @@
     color: #ff3954;
 }
 
-.radiant .radiant_method {
+.radiant .radiant_method, .pygments .nt, .pygments .nf, .pygments .nc {
     color: #6fd3ff;
 }
 
-.radiant .radiant_string {
+.radiant .radiant_string, .pygments .s1, .pygments .s2, .pygments .s {
     color: #e5da59;
 }
 
-.radiant .radiant_variable {
+.radiant .radiant_variable, .pygments .nv, .pygments .nx {
     color: #3779ff;
 }
 
-.radiant .radiant_operator {
+.radiant .radiant_operator, .pygments .o {
     color: #ff3954;
 }
 
-.radiant .radiant_number, .radiant .radiant_constant {
+.radiant .radiant_number, .radiant .radiant_constant, .pygments .m, .pygments .mi {
     color: #ad80e0;
 }
 
-.radiant .radiant_comment {
+.radiant .radiant_comment, .pygments .c1 {
     color: #747054;
 }
 
