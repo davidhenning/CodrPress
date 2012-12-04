@@ -12,8 +12,7 @@ use MongoAppKit\Application as MongoAppKitApplication,
     MongoAppKit\Config,
     MongoAppKit\Exception\HttpException;
 
-use SilexMarkdown\Filter\EssenceFilter,
-    SilexMarkdown\Filter\PygmentsFilter,
+use SilexMarkdown\Parser\AmplifyrParser,
     SilexMarkdown\Provider\MarkdownServiceProvider;
 
 use CodrPress\Model\ConfigCollection;
@@ -33,12 +32,8 @@ class Application extends MongoAppKitApplication
 
         $this->register(new UrlGeneratorServiceProvider());
         $this->register(new MarkdownServiceProvider(), array(
-            'markdown.filter' => array(
-                'image' => new EssenceFilter(),
-                'block_code' => new PygmentsFilter()
-            )
+            'markdown.parser' => new AmplifyrParser()
         ));
-
         $app = $this;
 
         $this->error(function (\Exception $e) use ($app) {
