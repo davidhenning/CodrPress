@@ -1,0 +1,18 @@
+{% extends 'admin/layout.twig' %}
+
+{% block body %}
+    {% if post is defined %}
+        {% set formAction = app.url_generator.generate('admin_post_edit', {'id': post._id}) %}
+    {% else %}
+        {% set formAction = app.url_generator.generate('admin_post_add') %}
+    {% endif %}
+    <form action="{{ formAction }}" method="post">
+        <fieldset>
+            <legend>Edit Post</legend>
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" class="input-xxlarge" value="{{ post.title|default('') }}">
+            <label for="body">Text</label>
+            <textarea name="body" id="body" class="input-xxlarge" rows="30">{{ post.body|default('') }}</textarea>
+        </fieldset>
+    </form>
+{% endblock %}

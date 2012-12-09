@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% set blogName = config.DbConfig.blog_title|default('CodrPress') %}
+    <title>{% block title %} - {{ blogName }}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/web/admin/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        {{ blogName }}
+    </header>
+    <div class="row">
+        <div class="span7">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+    <footer>
+
+    </footer>
+</div>
+<script type="application/javascript" src="{{ app.request.basepath }}/web/js/jquery-1.8.2.min.js"></script>
+<script type="application/javascript" src="{{ app.request.basepath }}/web/js/bootstrap.min.js"></script>
+</body>
+</html>

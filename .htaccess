@@ -1,6 +1,10 @@
 <IfModule mod_rewrite.c>
     Options -MultiViews
     RewriteEngine on
+
     RewriteCond %{SCRIPT_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    RewriteRule ^admin?(.*)$ admin.php$1 [L,NC]
+
+    RewriteCond %{SCRIPT_FILENAME} !-f
+    RewriteRule ^ index.php [NC]
 </IfModule>
