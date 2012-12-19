@@ -28,6 +28,14 @@ class PostController implements ControllerProviderInterface
         $pageCollection = new PostCollection($app);
         $pageCollection->sortBy('created_at', 'desc');
 
+        $sanitize = function ($id) use ($app) {
+            return $app['config']->sanitize($id);
+        };
+
+        $intval = function($value) {
+            return (int)$value;
+        };
+
         $router->get('/{year}/{month}/{day}/{slug}/', function ($year, $month, $day, $slug) use ($app, $postCollection, $pageCollection) {
             $posts = $postCollection->findBySlug($year, $month, $day, $slug);
 
@@ -41,29 +49,21 @@ class PostController implements ControllerProviderInterface
                 'pages' => $pageCollection->findPages()
             ));
         })
-            ->assert('year', '\d{4}')
-            ->assert('month', '\d{1,2}')
-            ->assert('day', '\d{1,2}')
-            ->convert('year', function ($year) {
-                return (int)$year;
-        })
-            ->convert('month', function ($month) {
-                return (int)$month;
-        })
-            ->convert('day', function ($day) {
-                return (int)$day;
-        })
-            ->convert('slug', function ($slug) use ($app) {
-                return $app['config']->sanitize($slug);
-        })
-            ->bind('post');
+        ->assert('year', '\d{4}')
+        ->assert('month', '\d{1,2}')
+        ->assert('day', '\d{1,2}')
+        ->convert('year', $intval)
+        ->convert('month', $intval)
+        ->convert('day', $intval)
+        ->convert('slug', $sanitize)
+        ->bind('post');
 
-        $this->_connectRestRoutes($app, $router);
+        $this->_connectRestRoutes($app, $router, $sanitize);
 
         return $router;
     }
 
-    protected function _connectRestRoutes(Application $app, ControllerCollection $router)
+    protected function _connectRestRoutes(Application $app, ControllerCollection $router, $sanitize)
     {
         $viewHelper = new PostRestViewHelper();
         $login = $this->_setUpRestInterface($app);
@@ -79,11 +79,9 @@ class PostController implements ControllerProviderInterface
 
             return $app->json($output, $output['meta']['status']);
         })
-            ->assert('id', '[a-z0-9]{24}')
-            ->convert('id', function ($id) use ($app) {
-            return $app['config']->sanitize($id);
-        })
-            ->before($login);
+        ->assert('id', '[a-z0-9]{24}')
+        ->convert('id', $sanitize)
+        ->before($login);
 
         $router->put('/post/', function () use ($app, $viewHelper) {
             $output = $viewHelper->getPostUpdateOutput($app);
@@ -96,22 +94,18 @@ class PostController implements ControllerProviderInterface
 
             return $app->json($output, $output['meta']['status']);
         })
-            ->assert('id', '[a-z0-9]{24}')
-            ->convert('id', function ($id) use ($app) {
-            return $app['config']->sanitize($id);
-        })
-            ->before($login);
+        ->assert('id', '[a-z0-9]{24}')
+        ->convert('id', $sanitize)
+        ->before($login);
 
         $router->delete('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $output = $viewHelper->getPostDeleteOutput($app, $id);
 
             return $app->json($output, $output['meta']['status']);
         })
-            ->assert('id', '[a-z0-9]{24}')
-            ->convert('id', function ($id) use ($app) {
-            return $app['config']->sanitize($id);
-        })
-            ->before($login);
+        ->assert('id', '[a-z0-9]{24}')
+        ->convert('id', $sanitize)
+        ->before($login);
 
         $router->get('/posts/convertMarkdown/', function () use ($app, $viewHelper) {
             $output = $viewHelper->getConvertMarkdownOutput($app);

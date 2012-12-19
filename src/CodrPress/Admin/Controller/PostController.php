@@ -17,6 +17,10 @@ class PostController implements ControllerProviderInterface
         $postCollection = new PostCollection($app);
         $postCollection->sortBy('created_at', 'desc');
 
+        $sanitize = function ($id) use ($app) {
+            return $app['config']->sanitize($id);
+        };
+
         $router->get('/admin/posts', function() use ($app, $postCollection) {
             return $app['twig']->render('admin/posts.twig', array(
                 'posts' => $postCollection->findPosts()
@@ -35,9 +39,8 @@ class PostController implements ControllerProviderInterface
                 'post' => $post
             ));
         })->assert('id', '[a-z0-9]{24}')
-          ->convert('id', function ($id) use ($app) {
-            return $app['config']->sanitize($id);
-        })->bind('admin_post');
+          ->convert('id', $sanitize)
+          ->bind('admin_post');
 
         $router->post('/admin/post', function() use($app) {
             return $app['twig']->render('admin/post.twig');
@@ -46,9 +49,8 @@ class PostController implements ControllerProviderInterface
         $router->post('/admin/post/{id}', function($id) use($app) {
             return $app['twig']->render('admin/post.twig');
         })->assert('id', '[a-z0-9]{24}')
-          ->convert('id', function ($id) use ($app) {
-            return $app['config']->sanitize($id);
-        })->bind('admin_post_edit');
+          ->convert('id', $sanitize)
+          ->bind('admin_post_edit');
 
         return $router;
     }
