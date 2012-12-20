@@ -12,7 +12,7 @@ use CodrPress\Model\Post,
 class PostRestViewHelper
 {
 
-    protected function _getOutputSkeleton($httpStatusCode)
+    protected function _getContentSkeleton($httpStatusCode)
     {
         return array(
             'meta' => array(
@@ -22,7 +22,7 @@ class PostRestViewHelper
         );
     }
 
-    public function getPostsOutput(Application $app)
+    public function getPostsContent(Application $app)
     {
         $config = $app['config'];
         $request = $app['request'];
@@ -35,40 +35,40 @@ class PostRestViewHelper
         $postCollection->findPosts($limit, $offset, false);
         $posts = $postCollection->getProperties();
 
-        $output = $this->_getOutputSkeleton(200);
+        $content = $this->_getContentSkeleton(200);
 
         if (count($posts) > 0) {
             foreach ($posts as $post) {
-                $output['response']['posts'][] = $post->getArray();
+                $content['response']['posts'][] = $post->getArray();
             }
         }
 
-        $output['response']['total'] = $postCollection->getTotalDocuments();
-        $output['response']['found'] = $postCollection->getFoundDocuments();
+        $content['response']['total'] = $postCollection->getTotalDocuments();
+        $content['response']['found'] = $postCollection->getFoundDocuments();
 
-        return $output;
+        return $content;
     }
 
-    public function getPostOutput(Application $app, $id)
+    public function getPostContent(Application $app, $id)
     {
         try {
             $post = new Post($app);
             $post->load($id);
-            $output = $this->_getOutputSkeleton(200);
-            $output['response']['posts'][] = $post->getArray();
-            $output['response']['total'] = 1;
-            $output['response']['found'] = 1;
+            $content = $this->_getContentSkeleton(200);
+            $content['response']['posts'][] = $post->getArray();
+            $content['response']['total'] = 1;
+            $content['response']['found'] = 1;
         } catch (\Exception $e) {
-            $output = $this->_getOutputSkeleton(404);
-            $output['response']['posts'] = array();
-            $output['response']['total'] = 0;
-            $output['response']['found'] = 0;
+            $content = $this->_getContentSkeleton(404);
+            $content['response']['posts'] = array();
+            $content['response']['total'] = 0;
+            $content['response']['found'] = 0;
         }
 
-        return $output;
+        return $content;
     }
 
-    public function getPostUpdateOutput(Application $app, $id = null)
+    public function getPostUpdateContent(Application $app, $id = null)
     {
         $config = $app['config'];
         $request = $app['request'];
@@ -84,56 +84,56 @@ class PostRestViewHelper
             $payload = $config->sanitize($request->request->get('payload'));
             $post->updateProperties($payload)->store();
             $status = (!is_null($id)) ? 202 : 201;
-            $output = $this->_getOutputSkeleton($status);
-            $output['response'] = array(
+            $content = $this->_getContentSkeleton($status);
+            $content['response'] = array(
                 'action' => (!is_null($id)) ? 'update' : 'create',
                 'documentId' => $post->getId(),
                 'documentUri' => "/post/{$post->getId()}/"
             );
         } catch (\Exception $e) {
-            $output = $this->_getOutputSkeleton(404);
-            $output['response']['posts'] = array();
-            $output['response']['total'] = 0;
-            $output['response']['found'] = 0;
+            $content = $this->_getContentSkeleton(404);
+            $content['response']['posts'] = array();
+            $content['response']['total'] = 0;
+            $content['response']['found'] = 0;
         }
 
-        return $output;
+        return $content;
     }
 
-    public function getPostDeleteOutput(Application $app, $id)
+    public function getPostDeleteContent(Application $app, $id)
     {
         try {
             $post = new Post($app);
             $post->load($id);
             $post->remove();
-            $output = $this->_getOutputSkeleton(202);
-            $output['response'] = array(
+            $content = $this->_getContentSkeleton(202);
+            $content['response'] = array(
                 'action' => 'delete',
                 'documentId' => $id
             );
         } catch (\Exception $e) {
-            $output = $this->_getOutputSkeleton(404);
-            $output['response']['posts'] = array();
-            $output['response']['total'] = 0;
-            $output['response']['found'] = 0;
+            $content = $this->_getContentSkeleton(404);
+            $content['response']['posts'] = array();
+            $content['response']['total'] = 0;
+            $content['response']['found'] = 0;
         }
 
-        return $output;
+        return $content;
     }
 
-    public function getConvertMarkdownOutput(Application $app)
+    public function getConvertMarkdownContent(Application $app)
     {
-        $output = $this->_getOutputSkeleton(200);
+        $content = $this->_getContentSkeleton(200);
         $posts = new PostCollection($app);
         $posts->find()->map(function ($document) use ($app) {
             $document->store();
         });
 
-        $output['status'] = 202;
-        $output['response'] = array(
+        $content['status'] = 202;
+        $content['response'] = array(
             'action' => 'convertMarkdown',
         );
 
-        return $output;
+        return $content;
     }
 }

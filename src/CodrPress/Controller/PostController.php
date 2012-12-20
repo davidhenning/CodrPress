@@ -14,6 +14,7 @@ use MongoAppKit\HttpAuthDigest,
     MongoAppKit\Exception\HttpException;
 
 use CodrPress\Model\PostCollection,
+    CodrPress\Helper\HttpCacheHelper,
     CodrPress\ViewHelper\PostRestViewHelper,
     CodrPress\Exception\PostNotFoundException;
 
@@ -43,11 +44,13 @@ class PostController implements ControllerProviderInterface
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
             }
 
-            return $app['twig']->render('post.twig', array(
+            $content = $app['twig']->render('post.twig', array(
                 'config' => $app['config'],
                 'posts' => $posts,
                 'pages' => $pageCollection->findPages()
             ));
+
+            return HttpCacheHelper::getResponse($app, $content, 200);
         })
             ->assert('year', '\d{4}')
             ->assert('month', '\d{1,2}')
@@ -70,49 +73,49 @@ class PostController implements ControllerProviderInterface
         $validateIdRegex = '[a-z0-9]{24}';
 
         $router->get('/posts/', function () use ($app, $viewHelper) {
-            $output = $viewHelper->getPostsOutput($app);
+            $content = $viewHelper->getPostsContent($app);
 
-            return $app->json($output);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
         })->before($login);
 
         $router->get('/post/{id}/', function ($id) use ($app, $viewHelper) {
-            $output = $viewHelper->getPostOutput($app, $id);
+            $content = $viewHelper->getPostContent($app, $id);
 
-            return $app->json($output, $output['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
             ->before($login);
 
         $router->put('/post/', function () use ($app, $viewHelper) {
-            $output = $viewHelper->getPostUpdateOutput($app);
+            $content = $viewHelper->getPostUpdateContent($app);
 
-            return $app->json($output, $output['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
         })
             ->before($login);
 
         $router->post('/post/{id}/', function ($id) use ($app, $viewHelper) {
-            $output = $viewHelper->getPostUpdateOutput($app, $id);
+            $content = $viewHelper->getPostUpdateContent($app, $id);
 
-            return $app->json($output, $output['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
             ->before($login);
 
         $router->delete('/post/{id}/', function ($id) use ($app, $viewHelper) {
-            $output = $viewHelper->getPostDeleteOutput($app, $id);
+            $content = $viewHelper->getPostDeleteContent($app, $id);
 
-            return $app->json($output, $output['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
             ->before($login);
 
         $router->get('/posts/convertMarkdown/', function () use ($app, $viewHelper) {
-            $output = $viewHelper->getConvertMarkdownOutput($app);
+            $content = $viewHelper->getConvertMarkdownContent($app);
 
-            return $app->json($output, $output['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
         })
             ->before($login);
     }
