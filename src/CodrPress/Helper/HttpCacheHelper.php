@@ -10,21 +10,21 @@ use Symfony\Component\HttpFoundation\Response,
 class HttpCacheHelper
 {
 
-    public static function getResponse(Application $app, $content, $status = 200)
+    public static function getResponse(Application $app, $content, $status = 200, $useCache = true)
     {
-        return self::_prepareResponse($app, new Response($content, $status));
+        return self::_prepareResponse($app, new Response($content, $status), $useCache);
     }
 
-    public static function getJsonResponse(Application $app, $content, $status = 200)
+    public static function getJsonResponse(Application $app, $content, $status = 200, $useCache = true)
     {
-        return self::_prepareResponse($app, new JsonResponse($content, $status));
+        return self::_prepareResponse($app, new JsonResponse($content, $status), $useCache);
     }
 
-    protected static function _prepareResponse(Application $app, Response $response)
+    protected static function _prepareResponse(Application $app, Response $response, $useCache = true)
     {
         $config = $app['config'];
 
-        if ($config->getProperty('UseHttpCache') === true) {
+        if ($useCache === true && $config->getProperty('UseHttpCache') === true) {
             $response = self::_setCacheHeader($response, $config);
         }
 

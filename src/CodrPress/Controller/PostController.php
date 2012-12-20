@@ -75,13 +75,13 @@ class PostController implements ControllerProviderInterface
         $router->get('/posts/', function () use ($app, $viewHelper) {
             $content = $viewHelper->getPostsContent($app);
 
-            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status'], false);
         })->before($login);
 
         $router->get('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $content = $viewHelper->getPostContent($app, $id);
 
-            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status'], false);
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
@@ -90,14 +90,14 @@ class PostController implements ControllerProviderInterface
         $router->put('/post/', function () use ($app, $viewHelper) {
             $content = $viewHelper->getPostUpdateContent($app);
 
-            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status'], false);
         })
             ->before($login);
 
         $router->post('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $content = $viewHelper->getPostUpdateContent($app, $id);
 
-            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status'], false);
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
@@ -106,7 +106,7 @@ class PostController implements ControllerProviderInterface
         $router->delete('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $content = $viewHelper->getPostDeleteContent($app, $id);
 
-            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status'], false);
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
@@ -115,7 +115,7 @@ class PostController implements ControllerProviderInterface
         $router->get('/posts/convertMarkdown/', function () use ($app, $viewHelper) {
             $content = $viewHelper->getConvertMarkdownContent($app);
 
-            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status']);
+            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status'], false);
         })
             ->before($login);
     }
