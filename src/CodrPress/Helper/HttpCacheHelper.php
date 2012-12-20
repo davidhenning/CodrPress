@@ -38,6 +38,7 @@ class HttpCacheHelper
         $expiration->modify("+ {$ttl} seconds");
         $response->setPublic();
         $response->setMaxAge($ttl);
+        $response->setSharedMaxAge($ttl);
         $response->setExpires($expiration);
 
         return $response;
