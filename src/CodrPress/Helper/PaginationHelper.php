@@ -4,7 +4,7 @@ namespace CodrPress\Helper;
 
 use Silex\Application;
 
-class Pagination
+class PaginationHelper
 {
 
     protected $_app;

@@ -8,7 +8,7 @@ use Silex\Application,
 
 use CodrPress\Model\PostCollection,
     CodrPress\Helper\HttpCacheHelper,
-    CodrPress\Helper\Pagination;
+    CodrPress\Helper\PaginationHelper;
 
 class HomepageController implements ControllerProviderInterface
 {
@@ -58,7 +58,7 @@ class HomepageController implements ControllerProviderInterface
         );
 
         if ($total > $limit) {
-            $pagination = new Pagination($app, 'home_page', array(), $page, $limit);
+            $pagination = new PaginationHelper($app, 'home_page', array(), $page, $limit);
             $templateData['pagination'] = $pagination->getPagination($total);
         }
 
