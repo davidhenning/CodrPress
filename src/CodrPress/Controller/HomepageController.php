@@ -5,7 +5,9 @@ namespace CodrPress\Controller;
 use Silex\Application,
     Silex\ControllerProviderInterface;
 
+
 use CodrPress\Model\PostCollection,
+    CodrPress\Helper\HttpCacheHelper,
     CodrPress\Helper\Pagination;
 
 class HomepageController implements ControllerProviderInterface
@@ -17,15 +19,15 @@ class HomepageController implements ControllerProviderInterface
         $self = $this;
 
         $router->get('/', function () use ($app, $self) {
-            $templateData = $self->getTemplateData($app);
+            $content = $app['twig']->render('posts.twig', $self->getTemplateData($app));
 
-            return $app['twig']->render('posts.twig', $templateData);
+            return HttpCacheHelper::getResponse($app, $content, 200);
         })->bind('home');
 
         $router->get('/{page}/', function ($page) use ($app, $self) {
-            $templateData = $self->getTemplateData($app, $page);
+            $content = $app['twig']->render('posts.twig', $self->getTemplateData($app, $page));
 
-            return $app['twig']->render('posts.twig', $templateData);
+            return HttpCacheHelper::getResponse($app, $content, 200);
         })
             ->bind('home_page')
             ->assert('page', '\d+')

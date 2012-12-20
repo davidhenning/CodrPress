@@ -6,5 +6,7 @@
     "MongoDatabase": "codrpress",
     "EncryptionKey": "Aeng3Eicaequeileis0senongooqu9in",
     "DebugMode": true,
-    "PerPage": 10
+    "PerPage": 10,
+    "UseHttpCache": true,
+    "HttpCacheTtl": 300
 }
