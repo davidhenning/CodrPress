@@ -49,14 +49,14 @@ class PostController implements ControllerProviderInterface
                 'pages' => $pageCollection->findPages()
             ));
         })
-        ->assert('year', '\d{4}')
-        ->assert('month', '\d{1,2}')
-        ->assert('day', '\d{1,2}')
-        ->convert('year', $intval)
-        ->convert('month', $intval)
-        ->convert('day', $intval)
-        ->convert('slug', $sanitize)
-        ->bind('post');
+            ->assert('year', '\d{4}')
+            ->assert('month', '\d{1,2}')
+            ->assert('day', '\d{1,2}')
+            ->convert('year', $intval)
+            ->convert('month', $intval)
+            ->convert('day', $intval)
+            ->convert('slug', $sanitize)
+            ->bind('post');
 
         $this->_connectRestRoutes($app, $router, $sanitize);
 
@@ -67,6 +67,7 @@ class PostController implements ControllerProviderInterface
     {
         $viewHelper = new PostRestViewHelper();
         $login = $this->_setUpRestInterface($app);
+        $validateIdRegex = '[a-z0-9]{24}';
 
         $router->get('/posts/', function () use ($app, $viewHelper) {
             $output = $viewHelper->getPostsOutput($app);
@@ -79,39 +80,41 @@ class PostController implements ControllerProviderInterface
 
             return $app->json($output, $output['meta']['status']);
         })
-        ->assert('id', '[a-z0-9]{24}')
-        ->convert('id', $sanitize)
-        ->before($login);
+            ->assert('id', $validateIdRegex)
+            ->convert('id', $sanitize)
+            ->before($login);
 
         $router->put('/post/', function () use ($app, $viewHelper) {
             $output = $viewHelper->getPostUpdateOutput($app);
 
             return $app->json($output, $output['meta']['status']);
-        })->before($login);
+        })
+            ->before($login);
 
         $router->post('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $output = $viewHelper->getPostUpdateOutput($app, $id);
 
             return $app->json($output, $output['meta']['status']);
         })
-        ->assert('id', '[a-z0-9]{24}')
-        ->convert('id', $sanitize)
-        ->before($login);
+            ->assert('id', $validateIdRegex)
+            ->convert('id', $sanitize)
+            ->before($login);
 
         $router->delete('/post/{id}/', function ($id) use ($app, $viewHelper) {
             $output = $viewHelper->getPostDeleteOutput($app, $id);
 
             return $app->json($output, $output['meta']['status']);
         })
-        ->assert('id', '[a-z0-9]{24}')
-        ->convert('id', $sanitize)
-        ->before($login);
+            ->assert('id', $validateIdRegex)
+            ->convert('id', $sanitize)
+            ->before($login);
 
         $router->get('/posts/convertMarkdown/', function () use ($app, $viewHelper) {
             $output = $viewHelper->getConvertMarkdownOutput($app);
 
             return $app->json($output, $output['meta']['status']);
-        })->before($login);
+        })
+            ->before($login);
     }
 
     protected function _setUpRestInterface(Application $app)

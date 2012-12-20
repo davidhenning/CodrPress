@@ -16,6 +16,7 @@ class PostController implements ControllerProviderInterface
         $router = $app['controllers_factory'];
         $postCollection = new PostCollection($app);
         $postCollection->sortBy('created_at', 'desc');
+        $validateIdRegex = '[a-z0-9]{24}';
 
         $sanitize = function ($id) use ($app) {
             return $app['config']->sanitize($id);
@@ -25,11 +26,13 @@ class PostController implements ControllerProviderInterface
             return $app['twig']->render('admin/posts.twig', array(
                 'posts' => $postCollection->findPosts()
             ));
-        })->bind('admin_posts');
+        })
+            ->bind('admin_posts');
 
         $router->get('/admin/post/new', function() use ($app) {
             return $app['twig']->render('admin/post.twig');
-        })->bind('admin_post_new');
+        })
+            ->bind('admin_post_new');
 
         $router->get('/admin/post/{id}', function($id) use ($app) {
             $post = new Post($app);
@@ -38,19 +41,22 @@ class PostController implements ControllerProviderInterface
             return $app['twig']->render('admin/post.twig', array(
                 'post' => $post
             ));
-        })->assert('id', '[a-z0-9]{24}')
-          ->convert('id', $sanitize)
-          ->bind('admin_post');
+        })
+            ->assert('id', $validateIdRegex)
+            ->convert('id', $sanitize)
+            ->bind('admin_post');
 
         $router->post('/admin/post', function() use($app) {
             return $app['twig']->render('admin/post.twig');
-        })->bind('admin_post_add');
+        })
+            ->bind('admin_post_add');
 
         $router->post('/admin/post/{id}', function($id) use($app) {
             return $app['twig']->render('admin/post.twig');
-        })->assert('id', '[a-z0-9]{24}')
-          ->convert('id', $sanitize)
-          ->bind('admin_post_edit');
+        })
+            ->assert('id', $validateIdRegex)
+            ->convert('id', $sanitize)
+            ->bind('admin_post_edit');
 
         return $router;
     }

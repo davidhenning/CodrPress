@@ -19,6 +19,10 @@ class TagController implements ControllerProviderInterface
         $pageCollection = new PostCollection($app);
         $pageCollection->sortBy('created_at', 'desc');
 
+        $sanitize = function ($id) use ($app) {
+            return $app['config']->sanitize($id);
+        };
+
         $router->get('/tag/{tag}/', function ($tag) use ($app, $postCollection, $pageCollection) {
             $posts = $postCollection->findByTag($tag);
 
@@ -32,9 +36,9 @@ class TagController implements ControllerProviderInterface
                 'posts' => $posts,
                 'pages' => $pageCollection->findPages()
             ));
-        })->convert('tag', function ($tag) use ($app) {
-            return $app['config']->sanitize($tag);
-        })->bind('tag');
+        })
+            ->convert('tag', $sanitize)
+            ->bind('tag');
 
         return $router;
     }

@@ -45,7 +45,8 @@ class FeedController implements ControllerProviderInterface
             });
 
             return new Response($feed->asXML(), 200, array('Content-type' => 'text/xml'));
-        })->bind('feed');
+        })
+            ->bind('feed');
 
         return $router;
     }

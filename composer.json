@@ -1,4 +1,10 @@
 {
+    "autoload": {
+        "psr-0":         {
+            "CodrPress": "src"
+        }
+    },
+    "minimum-stability": "dev",
     "require": {
         "mongoappkit/mongoappkit": "*",
         "silexmarkdown/silexmarkdown": "*"
@@ -6,11 +12,5 @@
     "require-dev": {
         "symfony/browser-kit": "2.1.*",
         "symfony/css-selector": "2.1.*"
-    },
-    "autoload": {
-        "psr-0": {
-            "CodrPress": "src"
-        }
-    },
-    "minimum-stability": "dev"
+    }
 }

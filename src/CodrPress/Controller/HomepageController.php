@@ -29,9 +29,7 @@ class HomepageController implements ControllerProviderInterface
         })
             ->bind('home_page')
             ->assert('page', '\d+')
-            ->convert('page', function ($page) {
-            return (int)$page;
-        });
+            ->convert('page', function ($page) { return (int)$page; });
 
         return $router;
     }
