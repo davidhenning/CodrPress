@@ -2,8 +2,9 @@
 
 namespace CodrPress\Model;
 
-use MongoAppKit\Collection\MutableMap,
-    MongoAppKit\Document\DocumentCollection;
+use MongoAppKit\Document\DocumentCollection;
+
+use Collection\MutableMap;
 
 use Silex\Application;
 

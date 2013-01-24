@@ -4,8 +4,9 @@ namespace CodrPress\Model;
 
 use Silex\Application;
 
-use MongoAppKit\Collection\MutableMap,
-    MongoAppKit\Document\Document;
+use MongoAppKit\Document\Document;
+
+use Collection\MutableMap;
 
 class Post extends Document
 {
