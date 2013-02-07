@@ -2,7 +2,9 @@
 
 namespace CodrPress;
 
-use Silex\Provider\UrlGeneratorServiceProvider;
+use Silex\Provider\UrlGeneratorServiceProvider,
+    Silex\Provider\ServiceControllerServiceProvider,
+    Silex\Provider\WebProfilerServiceProvider;
 
 use Symfony\Component\HttpFoundation\Response,
     Symfony\Component\HttpFoundation\Request,
@@ -28,12 +30,24 @@ class Application extends MongoAppKitApplication
     {
         parent::__construct($config);
 
+        $baseDir = $config->getBaseDir();
         $this['debug'] = $config->getProperty('DebugMode');
 
         $this->register(new UrlGeneratorServiceProvider());
+        $this->register(new ServiceControllerServiceProvider());
         $this->register(new MarkdownServiceProvider(), array(
             'markdown.parser' => new AmplifyrParser()
         ));
+
+        if ($this['debug'] === true) {
+            $profiler = new WebProfilerServiceProvider();
+            $this->register($profiler, array(
+                'profiler.cache_dir' => $baseDir . '/tmp/profiler',
+            ));
+
+            $this->mount('/_profiler', $profiler);
+        }
+
         $app = $this;
 
         $this->error(function (\Exception $e) use ($app) {
