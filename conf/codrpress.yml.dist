@@ -1,0 +1,10 @@
+MongoServer: localhost
+MongoPort: 27017
+MongoUser: null
+MongoPassword: null
+MongoDatabase: codrpress
+EncryptionKey: 123abc
+DebugMode: true
+PerPage: 10
+UseHttpCache: true
+HttpCacheTtl: 300
