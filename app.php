@@ -2,7 +2,8 @@
 
 $config = new MongoAppKit\Config();
 $config->setBaseDir(realpath(__DIR__));
-$config->addConfigFile($config->getConfDir() . '/codrpress.yml');
+$configFile = (isset($overrideConfigFile)) ? $config->getConfDir() . "/{$overrideConfigFile}" : $config->getConfDir() . '/codrpress.yml';
+$config->addConfigFile($configFile);
 
 $app = new CodrPress\Application($config);
 $app->mount('', new CodrPress\Controller\HomepageController());
