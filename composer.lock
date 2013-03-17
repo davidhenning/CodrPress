@@ -939,12 +939,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Mango.git",
-                "reference": "62c2c60d251ea349b6c6f1d8dcde3eb5394ddd1f"
+                "reference": "0.2.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/62c2c60d251ea349b6c6f1d8dcde3eb5394ddd1f",
-                "reference": "62c2c60d251ea349b6c6f1d8dcde3eb5394ddd1f",
+                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.2.5",
+                "reference": "0.2.5",
                 "shasum": ""
             },
             "require": {
@@ -977,7 +977,7 @@
                 "mongodb",
                 "odm"
             ],
-            "time": "2013-03-16 21:56:38"
+            "time": "2013-03-17 01:52:27"
         }
     ],
     "packages-dev": [

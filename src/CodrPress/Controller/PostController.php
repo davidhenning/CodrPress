@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Response,
     Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 
-use MongoAppKit\HttpAuthDigest,
-    MongoAppKit\Exception\HttpException;
+use CodrPress\HttpAuthDigest,
+    CodrPress\Exception\HttpException;
 
-use CodrPress\Model\PostCollection,
+use CodrPress\Model\Post,
     CodrPress\Helper\HttpCacheHelper,
     CodrPress\ViewHelper\PostRestViewHelper,
     CodrPress\Exception\PostNotFoundException;
@@ -24,10 +24,6 @@ class PostController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $router = $app['controllers_factory'];
-        $postCollection = new PostCollection($app);
-        $postCollection->sortBy('created_at', 'desc');
-        $pageCollection = new PostCollection($app);
-        $pageCollection->sortBy('created_at', 'desc');
 
         $sanitize = function ($id) use ($app) {
             return $app['config']->sanitize($id);
@@ -37,17 +33,22 @@ class PostController implements ControllerProviderInterface
             return (int)$value;
         };
 
-        $router->get('/{year}/{month}/{day}/{slug}/', function ($year, $month, $day, $slug) use ($app, $postCollection, $pageCollection) {
-            $posts = $postCollection->findBySlug($year, $month, $day, $slug);
+        $router->get('/{year}/{month}/{day}/{slug}/', function ($year, $month, $day, $slug) use ($app) {
+            $dm = $app['mango.dm'];
 
-            if (count($posts) === 0) {
+            $posts = Post::bySlug($dm, $year, $month, $day, $slug);
+            $pages = Post::pages($dm);
+            $tags = Post::tags($dm);
+
+            if ($posts->count() === 0) {
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
             }
 
             $content = $app['twig']->render('post.twig', array(
                 'config' => $app['config'],
                 'posts' => $posts,
-                'pages' => $pageCollection->findPages()
+                'pages' => $pages->sort(['created_at' => -1]),
+                'tags' => $tags
             ));
 
             return HttpCacheHelper::getResponse($app, $content, 200);

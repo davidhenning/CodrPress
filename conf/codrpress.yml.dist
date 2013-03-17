@@ -1,8 +1,4 @@
-MongoServer: localhost
-MongoPort: 27017
-MongoUser: null
-MongoPassword: null
-MongoDatabase: codrpress
+MongoUri: mongodb://localhost:27017/codrpress
 EncryptionKey: 123abc
 DebugMode: true
 PerPage: 10

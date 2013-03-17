@@ -5,8 +5,7 @@ namespace CodrPress\Controller;
 use Silex\Application,
     Silex\ControllerProviderInterface;
 
-
-use CodrPress\Model\PostCollection,
+use CodrPress\Model\Post,
     CodrPress\Helper\HttpCacheHelper,
     CodrPress\Helper\PaginationHelper;
 
@@ -16,16 +15,15 @@ class HomepageController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $router = $app['controllers_factory'];
-        $self = $this;
 
-        $router->get('/', function () use ($app, $self) {
-            $content = $app['twig']->render('posts.twig', $self->getTemplateData($app));
+        $router->get('/', function () use ($app) {
+            $content = $app['twig']->render('posts.twig', $this->getTemplateData($app));
 
             return HttpCacheHelper::getResponse($app, $content, 200);
         })->bind('home');
 
-        $router->get('/{page}/', function ($page) use ($app, $self) {
-            $content = $app['twig']->render('posts.twig', $self->getTemplateData($app, $page));
+        $router->get('/{page}/', function ($page) use ($app) {
+            $content = $app['twig']->render('posts.twig', $this->getTemplateData($app, $page));
 
             return HttpCacheHelper::getResponse($app, $content, 200);
         })
@@ -36,25 +34,24 @@ class HomepageController implements ControllerProviderInterface
         return $router;
     }
 
-    public function getTemplateData(Application $app, $page = 1)
+    private function getTemplateData(Application $app, $page = 1)
     {
-        $postCollection = new PostCollection($app);
-        $postCollection->sortBy('created_at', 'desc');
-        $pageCollection = new PostCollection($app);
-        $pageCollection->sortBy('created_at', 'desc');
-        $tagCollection = new PostCollection($app);
-        $tagCollection->sortBy('created_at', 'desc');
+        $dm = $app['mango.dm'];
+
+        $posts = Post::posts($dm);
+        $pages = Post::pages($dm);
+        $tags = Post::tags($dm);
 
         $config = $app['config'];
         $limit = $config->getProperty('PerPage');
         $offset = $limit * ($page - 1);
-        $posts = $postCollection->findPosts($limit, $offset);
-        $total = $posts->getTotalDocuments();
+        $posts = $posts->limit($limit)->skip($offset);
+        $total = $posts->count();
         $templateData = array(
             'config' => $config,
-            'posts' => $posts,
-            'pages' => $pageCollection->findPages(),
-            'tags' => $tagCollection->findTags()
+            'posts' => $posts->limit($limit)->skip($offset)->sort(['created_at' => -1]),
+            'pages' => $pages->sort(['created_at' => -1]),
+            'tags' => $tags
         );
 
         if ($total > $limit) {

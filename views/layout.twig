@@ -34,7 +34,7 @@
                 {% if pages is defined %}
                     |
                     {% for page in pages %}
-                        <a href="{{ page.getLink() }}">{{ page.title }}</a> {% if loop.last == false %} | {% endif %}
+                        <a href="{# page.getLink() #}">{{ page.title }}</a> {% if loop.last == false %} | {% endif %}
                     {% endfor %}
                 {% endif %}
             </footer>

@@ -2,43 +2,57 @@
 
 namespace CodrPress;
 
-use Silex\Provider\UrlGeneratorServiceProvider,
+use Silex\Application as SilexApplication,
+    Silex\Provider\TwigServiceProvider,
+    Silex\Provider\UrlGeneratorServiceProvider,
     Silex\Provider\ServiceControllerServiceProvider,
     Silex\Provider\WebProfilerServiceProvider;
 
 use Symfony\Component\HttpFoundation\Response,
-    Symfony\Component\HttpFoundation\Request,
-    Symfony\Component\HttpKernel\Debug\ExceptionHandler;
-
-use MongoAppKit\Application as MongoAppKitApplication,
-    MongoAppKit\Config,
-    MongoAppKit\Exception\HttpException;
+    Symfony\Component\HttpFoundation\Request;
 
 use SilexMarkdown\Parser\AmplifyrParser,
     SilexMarkdown\Provider\MarkdownServiceProvider;
 
-use CodrPress\Model\ConfigCollection;
+use Mango\Mango,
+    Mango\DocumentManager;
 
-class Application extends MongoAppKitApplication
+use CodrPress\Model\Config as ConfigModel;
+
+class Application extends SilexApplication
 {
 
     /**
-     * @param \MongoAppKit\Config $config
+     * @param \CodrPress\Config $config
      */
 
     public function __construct(Config $config)
     {
-        parent::__construct($config);
+        parent::__construct();
+        $this['config'] = $config;
 
         $baseDir = $config->getBaseDir();
         $this['debug'] = $config->getProperty('DebugMode');
 
+        $mango = new Mango($config->getProperty('MongoUri'));
+        $dm = new DocumentManager($mango);
+        $this['mango.dm'] = $dm;
+
+        $this->register(new TwigServiceProvider(), array(
+            'twig.path' => $baseDir . "/views",
+            'twig.options' => array(
+                'cache' => $baseDir . '/tmp/twig',
+                'auto_reload' => $config->getProperty('DebugMode')
+            )
+        ));
+
         $this->register(new UrlGeneratorServiceProvider());
-        $this->register(new ServiceControllerServiceProvider());
+        #$this->register(new ServiceControllerServiceProvider());
         $this->register(new MarkdownServiceProvider(), array(
             'markdown.parser' => new AmplifyrParser()
         ));
 
+        /*
         if ($this['debug'] === true) {
             $profiler = new WebProfilerServiceProvider();
             $this->register($profiler, array(
@@ -47,7 +61,7 @@ class Application extends MongoAppKitApplication
 
             $this->mount('/_profiler', $profiler);
         }
-
+        */
         $app = $this;
 
         $this->error(function (\Exception $e) use ($app) {
@@ -81,8 +95,8 @@ class Application extends MongoAppKitApplication
             return new Response($content, $code);
         });
 
-        $configCollection = new ConfigCollection($app);
-        $dbConfig = $configCollection->find(array('_id' => 'codrpress'))->head()->getProperties();
+        $configModel = new ConfigModel();
+        $dbConfig = $configModel::where($dm, ['_id' => 'codrpress'])->head()->getProperties();
         $config->setProperty('DbConfig', $dbConfig);
     }
 

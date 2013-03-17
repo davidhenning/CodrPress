@@ -5,7 +5,7 @@ namespace CodrPress\Controller;
 use Silex\Application,
     Silex\ControllerProviderInterface;
 
-use CodrPress\Model\PostCollection,
+use CodrPress\Model\Post,
     CodrPress\Exception\PostNotFoundException;
 
 class TagController implements ControllerProviderInterface
@@ -14,17 +14,19 @@ class TagController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $router = $app['controllers_factory'];
-        $postCollection = new PostCollection($app);
-        $postCollection->sortBy('created_at', 'desc');
-        $pageCollection = new PostCollection($app);
-        $pageCollection->sortBy('created_at', 'desc');
+
 
         $sanitize = function ($id) use ($app) {
             return $app['config']->sanitize($id);
         };
 
-        $router->get('/tag/{tag}/', function ($tag) use ($app, $postCollection, $pageCollection) {
-            $posts = $postCollection->findByTag($tag);
+        $router->get('/tag/{tag}/', function ($tag) use ($app) {
+            $dm = $app['mango.dm'];
+
+            $posts = Post::byTag($dm, $tag);
+            $pages = Post::pages($dm);
+            $tags = Post::tags($dm);
+
 
             if (count($posts) === 0) {
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
@@ -34,7 +36,8 @@ class TagController implements ControllerProviderInterface
                 'config' => $app['config'],
                 'tag' => $tag,
                 'posts' => $posts,
-                'pages' => $pageCollection->findPages()
+                'pages' => $pages->sort(['created_at' => -1]),
+                'tags' => $tags
             ));
         })
             ->convert('tag', $sanitize)
