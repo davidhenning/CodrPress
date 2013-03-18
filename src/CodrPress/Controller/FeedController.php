@@ -19,8 +19,7 @@ class FeedController implements ControllerProviderInterface
 
         $router->get('/feed', function (Request $request) use ($app) {
             $dbConfig = $app['config']->getProperty('DbConfig');
-            $dm = $app['mango.dm'];
-            $posts = $posts = Post::posts($dm)->sort(['created_at' => -1])->limit(20);
+            $posts = Post::posts()->sort(['created_at' => -1])->limit(20);
 
             $feed = new \SimpleXMLElement('<feed></feed>');
             $feed->addAttribute('xmlns', 'http://www.w3.org/2005/Atom');

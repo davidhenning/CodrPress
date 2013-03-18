@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/felixgirault/essence.git",
-                "reference": "v1.2.0"
+                "reference": "v1.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/felixgirault/essence/zipball/v1.2.0",
-                "reference": "v1.2.0",
+                "url": "https://api.github.com/repos/felixgirault/essence/zipball/v1.3.0",
+                "reference": "v1.3.0",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "oembed",
                 "opengraph"
             ],
-            "time": "2013-03-15 18:49:51"
+            "time": "2013-03-18 20:58:39"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -506,12 +506,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "18efc4bfd228dda0e839854836dbd4c22db090f1"
+                "reference": "e0f3be3a7a82f8027bb3d2a199b0460fb7b461d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/18efc4bfd228dda0e839854836dbd4c22db090f1",
-                "reference": "18efc4bfd228dda0e839854836dbd4c22db090f1",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/e0f3be3a7a82f8027bb3d2a199b0460fb7b461d8",
+                "reference": "e0f3be3a7a82f8027bb3d2a199b0460fb7b461d8",
                 "shasum": ""
             },
             "require": {
@@ -566,7 +566,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-15 10:54:52"
+            "time": "2013-03-15 12:43:45"
         },
         {
             "name": "symfony/routing",
@@ -746,12 +746,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/WebProfilerBundle.git",
-                "reference": "fc57564f7db4b543b73f2e5423917f1832d967a9"
+                "reference": "27632095aea4caac437d97ca4b4c2aea02f07443"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/WebProfilerBundle/zipball/fc57564f7db4b543b73f2e5423917f1832d967a9",
-                "reference": "fc57564f7db4b543b73f2e5423917f1832d967a9",
+                "url": "https://api.github.com/repos/symfony/WebProfilerBundle/zipball/27632095aea4caac437d97ca4b4c2aea02f07443",
+                "reference": "27632095aea4caac437d97ca4b4c2aea02f07443",
                 "shasum": ""
             },
             "require": {
@@ -792,7 +792,7 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "http://symfony.com",
-            "time": "2013-03-06 17:13:54"
+            "time": "2013-03-18 15:18:56"
         },
         {
             "name": "symfony/yaml",
@@ -939,12 +939,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Mango.git",
-                "reference": "0.2.5"
+                "reference": "0.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.2.5",
-                "reference": "0.2.5",
+                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.3.0",
+                "reference": "0.3.0",
                 "shasum": ""
             },
             "require": {
@@ -977,7 +977,7 @@
                 "mongodb",
                 "odm"
             ],
-            "time": "2013-03-17 01:52:27"
+            "time": "2013-03-18 21:51:35"
         }
     ],
     "packages-dev": [

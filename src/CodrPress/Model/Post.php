@@ -55,7 +55,7 @@ class Post implements DocumentInterface
         );
     }
 
-    public static function posts(DocumentManager $dm, $published = true)
+    public static function posts($published = true)
     {
         $conditions = ['published_at' => array('$ne' => null)];
 
@@ -63,17 +63,17 @@ class Post implements DocumentInterface
             $conditions['status'] = 'published';
         }
 
-        return self::where($dm, $conditions);
+        return self::where($conditions);
     }
 
-    public static function pages(DocumentManager $dm)
+    public static function pages()
     {
-        return self::where($dm, ['published_at' => null, 'status' => 'published']);
+        return self::where(['published_at' => null, 'status' => 'published']);
     }
 
-    public static function tags(DocumentManager $dm)
+    public static function tags()
     {
-        $posts = self::posts($dm);
+        $posts = self::posts();
         $tags = new MutableMap();
 
         $posts->each(function ($post) use ($tags) {
@@ -92,7 +92,7 @@ class Post implements DocumentInterface
         return $tags;
     }
 
-    public static function bySlug(DocumentManager $dm, $year, $month, $day, $slug)
+    public static function bySlug($year, $month, $day, $slug)
     {
         $start = mktime(0, 0, 0, $month, $day, $year);
         $end = $start + 60 * 60 * 24;
@@ -106,17 +106,17 @@ class Post implements DocumentInterface
             'status' => 'published'
         ];
 
-        return self::where($dm, $conditions)->limit(1);
+        return self::where($conditions)->limit(1);
     }
 
-    public static function byTag(DocumentManager $dm, $tag)
+    public static function byTag($tag)
     {
-        return self::where($dm, ['tags' => $tag, 'status' => 'published']);
+        return self::where(['tags' => $tag, 'status' => 'published']);
     }
 
-    public static function byId(DocumentManager $dm, $id)
+    public static function byId($id)
     {
-        return self::where($dm, ['_id' => new \MongoId($id)]);
+        return self::where(['_id' => new \MongoId($id)]);
     }
 
     public static function getCollectionName()

@@ -34,11 +34,9 @@ class PostController implements ControllerProviderInterface
         };
 
         $router->get('/{year}/{month}/{day}/{slug}/', function ($year, $month, $day, $slug) use ($app) {
-            $dm = $app['mango.dm'];
-
-            $posts = Post::bySlug($dm, $year, $month, $day, $slug);
-            $pages = Post::pages($dm);
-            $tags = Post::tags($dm);
+            $posts = Post::bySlug($year, $month, $day, $slug);
+            $pages = Post::pages();
+            $tags = Post::tags();
 
             if ($posts->count() === 0) {
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");

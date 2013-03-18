@@ -21,11 +21,9 @@ class TagController implements ControllerProviderInterface
         };
 
         $router->get('/tag/{tag}/', function ($tag) use ($app) {
-            $dm = $app['mango.dm'];
-
-            $posts = Post::byTag($dm, $tag);
-            $pages = Post::pages($dm);
-            $tags = Post::tags($dm);
+            $posts = Post::byTag($tag);
+            $pages = Post::pages();
+            $tags = Post::tags();
 
 
             if (count($posts) === 0) {

@@ -36,11 +36,9 @@ class HomepageController implements ControllerProviderInterface
 
     private function getTemplateData(Application $app, $page = 1)
     {
-        $dm = $app['mango.dm'];
-
-        $posts = Post::posts($dm);
-        $pages = Post::pages($dm);
-        $tags = Post::tags($dm);
+        $posts = Post::posts();
+        $pages = Post::pages();
+        $tags = Post::tags();
 
         $config = $app['config'];
         $limit = $config->getProperty('PerPage');

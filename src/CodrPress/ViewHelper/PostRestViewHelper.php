@@ -6,6 +6,7 @@ use Silex\Application;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use CodrPress\Exception\PostNotFoundException;
 use CodrPress\Model\Post;
 
 class PostRestViewHelper
@@ -23,13 +24,12 @@ class PostRestViewHelper
 
     public function getPostsContent(Application $app)
     {
-        $dm = $app['mango.dm'];
         $config = $app['config'];
         $request = $app['request'];
         $limit = (int)$request->query->get('limit');
         $limit = ($limit > 0) ? $limit : $config->getProperty('PerPage');
         $offset = (int)$request->query->get('offset');
-        $posts = Post::posts($dm);
+        $posts = Post::posts();
         $total = $posts->count();
 
         $posts = $posts->limit($limit)->skip($offset)->sort(['created_at' => -1]);
@@ -50,12 +50,15 @@ class PostRestViewHelper
 
     public function getPostContent(Application $app, $id)
     {
-        $dm = $app['mango.dm'];
-
         try {
-            $post = Post::byId($dm, $id)->head();
+            $post = Post::byId($id);
+
+            if ($post->count() === 0) {
+                throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
+            }
+
             $content = $this->_getContentSkeleton(200);
-            $content['response']['posts'][] = $post->getProperties()->getArray();
+            $content['response']['posts'][] = $post->head()->getProperties()->getArray();
             $content['response']['total'] = 1;
             $content['response']['found'] = 1;
         } catch (\Exception $e) {
@@ -72,23 +75,29 @@ class PostRestViewHelper
     {
         $config = $app['config'];
         $request = $app['request'];
-        $dm = $app['mango.dm'];
 
         try {
             $post = new Post();
 
             if (!is_null($id)) {
-                $post = Post::byId($dm, $id)->head();
+                $posts = Post::byId($id);
+
+                if ($posts->count() === 0) {
+                    throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
+                }
+
+                $post = $posts->head();
             }
 
             $payload = $config->sanitize($request->request->get('payload'));
-            print_r($request->getContent());
 
-            foreach ($payload as $property => $value) {
-                $post->{$property} = $value;
+            if (is_array($payload)) {
+                foreach ($payload as $property => $value) {
+                    $post->{$property} = $value;
+                }
             }
 
-            $dm->store($post);
+            $post->store();
             $status = (!is_null($id)) ? 202 : 201;
             $content = $this->_getContentSkeleton($status);
             $content['response'] = array(
@@ -97,7 +106,6 @@ class PostRestViewHelper
                 'documentUri' => "/post/{$post->_id}/"
             );
         } catch (\Exception $e) {
-            echo $e->getMessage();
             $content = $this->_getContentSkeleton(404);
             $content['response']['posts'] = array();
             $content['response']['total'] = 0;
@@ -109,11 +117,9 @@ class PostRestViewHelper
 
     public function getPostDeleteContent(Application $app, $id)
     {
-        $dm = $app['mango.dm'];
-
         try {
-            $post = Post::byId($dm, $id)->head();
-            $dm->remove($post);
+            $post = Post::byId($id)->head();
+            $post->remove();
             $content = $this->_getContentSkeleton(202);
             $content['response'] = array(
                 'action' => 'delete',
