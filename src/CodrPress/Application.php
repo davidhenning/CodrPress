@@ -17,7 +17,8 @@ use SilexMarkdown\Parser\AmplifyrParser,
 use Mango\Mango,
     Mango\DocumentManager;
 
-use CodrPress\Model\Config as ConfigModel;
+use CodrPress\Model\Config as ConfigModel,
+    CodrPress\Helper\ContentHelper;
 
 class Application extends SilexApplication
 {
@@ -51,6 +52,8 @@ class Application extends SilexApplication
         $this->register(new MarkdownServiceProvider(), array(
             'markdown.parser' => new AmplifyrParser()
         ));
+
+        ContentHelper::setMarkdown($this['markdown']);
 
         /*
         if ($this['debug'] === true) {

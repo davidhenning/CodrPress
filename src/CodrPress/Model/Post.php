@@ -5,10 +5,11 @@ namespace CodrPress\Model;
 use Silex\Application;
 
 use Mango\DocumentInterface,
-    Mango\DocumentManager,
     Mango\Document;
 
 use Collection\MutableMap;
+
+use CodrPress\Helper\ContentHelper;
 
 class Post implements DocumentInterface
 {
@@ -127,7 +128,7 @@ class Post implements DocumentInterface
     private function prepare()
     {
         //transform Markdown
-        #$this->body_html = $this->app['markdown']->transform($this->body);
+        $this->body_html = ContentHelper::getMarkdown()->transform($this->body);
 
         // create slugs
         $this->slugs = $this->createSlugs($this->slugs, $this->title);

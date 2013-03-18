@@ -137,11 +137,10 @@ class PostRestViewHelper
 
     public function getConvertMarkdownContent(Application $app)
     {
-        $dm = $app['mango.dm'];
         $content = $this->_getContentSkeleton(200);
-        $posts = Post::where($dm, []);
-        $posts->map(function ($document) use ($dm) {
-            $dm->store($document);
+        $posts = Post::where([]);
+        $posts->map(function ($document) {
+            $document->store();
         });
 
         $content['status'] = 202;
