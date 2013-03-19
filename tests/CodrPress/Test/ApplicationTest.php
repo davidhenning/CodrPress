@@ -2,8 +2,7 @@
 
 use Silex\WebTestCase;
 
-use CodrPress\Model\Post,
-    CodrPress\Model\PostCollection;
+use CodrPress\Model\Post;
 
 class ApplicationTest extends WebTestCase
 {
@@ -20,118 +19,129 @@ class ApplicationTest extends WebTestCase
     public function tearDown()
     {
         parent::tearDown();
-        $app = $this->app;
+        $posts = Post::where(['body' => 'test']);
 
-        $posts = new PostCollection($app);
-        $posts->find(array('body' => 'test'))->remove();
+        foreach ($posts as $post) {
+            $post->remove();
+        }
     }
 
     public function testPosts()
     {
         $app = $this->app;
+        $dm = $app['mango.dm'];
         $client = $this->createClient();
 
         // add test post
-        $post = new Post($app);
-        $post->setProperty('created_at', time());
-        $post->setProperty('updated_at', time());
-        $post->setProperty('published_at', time());
-        $post->setProperty('slugs', array('slug'));
-        $post->setProperty('tags', array('Test'));
-        $post->setProperty('title', 'test');
-        $post->setProperty('body', 'test');
-        $post->setProperty('status', 'published');
-        $post->setProperty('disqus', false);
-        $post->store();
+        $post = new Post();
+        $post->published_at = new \DateTime();
+        $post->slugs = ['slug'];
+        $post->tags = ['Test'];
+        $post->title = 'test';
+        $post->body = 'test';
+        $post->status = 'published';
+        $post->disqus = false;
+        $dm->store($post);
 
         // home
         $client->request('GET', '/');
-        $this->assertTrue($client->getResponse()->isOk());
+        self::assertTrue($client->getResponse()->isOk());
 
         // existing post
         $client->request('GET', date('/Y/m/d') . '/slug/');
-        $this->assertTrue($client->getResponse()->isOk());
+        self::assertTrue($client->getResponse()->isOk());
 
         // feed
         $client->request('GET', '/feed');
-        $this->assertTrue($client->getResponse()->isOk());
+        self::assertTrue($client->getResponse()->isOk());
 
         // post fail
         $client->request('GET', '/20122/09/132/slug/');
-        $this->assertFalse($client->getResponse()->isOk());
+        self::assertFalse($client->getResponse()->isOk());
 
         // post fail
         $client->request('GET', '/dfdf/09/13/slug/');
-        $this->assertFalse($client->getResponse()->isOk());
+        self::assertFalse($client->getResponse()->isOk());
 
-        $post->remove();
+        $dm->remove($post);
     }
 
     public function testTags()
     {
         $app = $this->app;
+        $dm = $app['mango.dm'];
         $client = $this->createClient();
 
         // add test post
-        $post = new Post($app);
-        $post->setProperty('slugs', array('slug'));
-        $post->setProperty('tags', array('Test'));
-        $post->setProperty('title', 'test');
-        $post->setProperty('body', 'test');
-        $post->setProperty('status', 'published');
-        $post->setProperty('disqus', false);
-        $post->store();
+        $post = new Post();
+        $post->published_at = new \DateTime();
+        $post->slugs = ['slug'];
+        $post->tags = ['Test'];
+        $post->title = 'test';
+        $post->body = 'test';
+        $post->status = 'published';
+        $post->disqus = false;
+        $dm->store($post);
+
 
         // existing tag
         $client->request('GET', '/tag/Test/');
-        $this->assertTrue($client->getResponse()->isOk());
+        self::assertTrue($client->getResponse()->isOk());
 
         // tag fail
         $client->request('GET', '/tag/MUHAHA/');
-        $this->assertFalse($client->getResponse()->isOk());
+        self::assertFalse($client->getResponse()->isOk());
 
-        $post->remove();
+        $dm->remove($post);
     }
+
 
     public function testRestInterface()
     {
         $app = $this->app;
+        $dm = $app['mango.dm'];
         $client = $this->createClient();
 
         // add test post
-        $post = new Post($app);
-        $post->setProperty('slugs', array('slug'));
-        $post->setProperty('tags', array('Test'));
-        $post->setProperty('title', 'REST test');
-        $post->setProperty('body', 'test');
-        $post->setProperty('status', 'published');
-        $post->setProperty('disqus', false);
-        $post->store();
-        $id = $post->getId();
+        $post = new Post();
+        $post->published_at = new \DateTime();
+        $post->slugs = ['slug'];
+        $post->tags = ['Test'];
+        $post->title = 'test';
+        $post->body = 'test';
+        $post->status = 'published';
+        $post->disqus = false;
+        $dm->store($post);
 
-        $payload = json_encode(array('payload' => 'test'));
+        $id = (string)$post->_id;
+
+        $payload = json_encode([
+            'payload' => [
+                'title' => 'json'
+            ]
+        ]);
 
         $client->request('GET', "/posts/");
-        $this->assertTrue($client->getResponse()->isOk());
+        self::assertTrue($client->getResponse()->isOk());
 
         $client->request('GET', "/post/{$id}/");
-        $this->assertTrue($client->getResponse()->isOk());
+        self::assertTrue($client->getResponse()->isOk());
 
-        $client->request('PUT', '/post/', array(), array(), array(), $payload);
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('PUT', '/post/', [], [], ['CONTENT_TYPE' => 'application/json'], $payload);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $response = json_decode($client->getResponse()->getContent(), true);
         $newPostId = $response['response']['documentId'];
 
-        $client->request('POST', "/post/{$newPostId}/", array(), array(), array(), $payload);
-        $this->assertEquals(202, $client->getResponse()->getStatusCode());
+        $client->request('POST', "/post/{$newPostId}/", [], [], ['CONTENT_TYPE' => 'application/json'], $payload);
+        self::assertEquals(202, $client->getResponse()->getStatusCode());
 
         $client->request('DELETE', "/post/{$newPostId}/");
-        $this->assertEquals(202, $client->getResponse()->getStatusCode());
+        self::assertEquals(202, $client->getResponse()->getStatusCode());
 
         $client->request('GET', "/post/{$newPostId}/");
-        $this->assertFalse($client->getResponse()->isOk());
+        self::assertFalse($client->getResponse()->isOk());
 
-        $post->remove();
+        $dm->remove($post);
     }
 }
