@@ -1,6 +1,6 @@
 <?php
 
-$config = new MongoAppKit\Config();
+$config = new CodrPress\Config();
 $config->setBaseDir(realpath(__DIR__));
 $configFile = (isset($overrideConfigFile)) ? $config->getConfDir() . "/{$overrideConfigFile}" : $config->getConfDir() . '/codrpress.yml';
 $config->addConfigFile($configFile);

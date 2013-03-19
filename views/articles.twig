@@ -1,7 +1,7 @@
 {% import 'tools.twig' as tools %}
 {% for post in posts %}
     <article>
-        <h1>{% if page == false %}<a href="{{ post.getLink() }}">{% endif %}{{ post.title }}{% if page == false %}</a>{% endif %}</h1>
+        <h1>{% if page == false %}<a href="{{ app.url_generator.generate('post', post.getLinkParams()) }}">{% endif %}{{ post.title }}{% if page == false %}</a>{% endif %}</h1>
         {% if post.subtitle is defined and post.subtitle is not empty %}<h2>{{ post.subtitle }}</h2>{% endif %}
         {% spaceless %}
             <p class="meta">

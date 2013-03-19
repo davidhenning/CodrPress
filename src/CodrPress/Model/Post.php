@@ -4,45 +4,137 @@ namespace CodrPress\Model;
 
 use Silex\Application;
 
-use MongoAppKit\Document\Document;
+use Mango\DocumentInterface,
+    Mango\Document;
 
 use Collection\MutableMap;
 
-class Post extends Document
+use CodrPress\Helper\ContentHelper;
+
+class Post implements DocumentInterface
 {
+    use Document;
 
-    public function __construct(Application $app)
+    public $created_at;
+    public $updated_at;
+    public $published_at;
+    public $title;
+    public $subtitle;
+    public $body;
+    public $body_html;
+    public $slugs;
+    public $status;
+    public $disqus;
+    public $tags;
+
+    private function addFields()
     {
-        parent::__construct($app, 'posts');
+        $this->addField(
+            'created_at',
+            [
+                'type' => 'DateTime',
+                'index' => true,
+                'default' => 'now'
+            ]
+        );
 
-        $this->setFields(array(
-            '_id' => array('mongoType' => 'id', 'index' => true),
-            'created_at' => array('mongoType' => 'date', 'index' => true),
-            'updated_at' => array('mongoType' => 'date', 'index' => true),
-            'published_at' => array('mongoType' => 'date', 'index' => true),
-            'title' => array(),
-            'subtitle' => array(),
-            'body' => array(),
-            'body_html' => array(),
-            'slugs' => array('index' => true),
-            'status' => array('index' => true),
-            'disqus' => array(),
-            'tags' => array('index' => true)
-        ));
+        $this->addField(
+            'updated_at',
+            [
+                'type' => 'DateTime',
+                'index' => true,
+                'default' => 'now'
+            ]
+        );
+
+        $this->addField(
+            'published_at',
+            [
+                'type' => 'DateTime',
+                'index' => true
+            ]
+        );
     }
 
-    protected function _prepareStore(array $properties)
+    public static function posts($published = true)
+    {
+        $conditions = ['published_at' => array('$ne' => null)];
+
+        if ($published === true) {
+            $conditions['status'] = 'published';
+        }
+
+        return self::where($conditions);
+    }
+
+    public static function pages()
+    {
+        return self::where(['published_at' => null, 'status' => 'published']);
+    }
+
+    public static function tags()
+    {
+        $posts = self::posts();
+        $tags = new MutableMap();
+
+        $posts->each(function ($post) use ($tags) {
+            if(isset($post->tags) && !empty($post->tags)) {
+                foreach($post->tags as $tag) {
+                    if(!isset($tags->{$tag})) {
+                        $list = new MutableMap();
+                        $tags->{$tag} = $list->assign(array('name' => $tag, 'count' => 0));
+                    }
+
+                    $tags->{$tag}->count += 1;
+                }
+            }
+        });
+
+        return $tags;
+    }
+
+    public static function bySlug($year, $month, $day, $slug)
+    {
+        $start = mktime(0, 0, 0, $month, $day, $year);
+        $end = $start + 60 * 60 * 24;
+
+        $conditions = [
+            'created_at' => [
+                '$gt' => new \MongoDate($start),
+                '$lt' => new \MongoDate($end)
+            ],
+            'slugs' => $slug,
+            'status' => 'published'
+        ];
+
+        return self::where($conditions)->limit(1);
+    }
+
+    public static function byTag($tag)
+    {
+        return self::where(['tags' => $tag, 'status' => 'published']);
+    }
+
+    public static function byId($id)
+    {
+        return self::where(['_id' => new \MongoId($id)]);
+    }
+
+    public static function getCollectionName()
+    {
+        return 'posts';
+    }
+
+    private function prepare()
     {
         //transform Markdown
-        $properties['body_html'] = $this->_app['markdown']->transform($properties['body']);
+        $this->body_html = ContentHelper::getMarkdown()->transform($this->body);
 
         // create slugs
-        $properties['slugs'] = $this->_createSlugs($properties['slugs'], $properties['title']);
-
-        return parent::_prepareStore($properties);
+        $this->slugs = $this->createSlugs($this->slugs, $this->title);
     }
 
-    protected function _createSlugs($slugs, $title)
+    private function createSlugs($slugs, $title)
     {
         if (!is_array($slugs)) {
             $slugs = array($slugs);
@@ -63,16 +155,15 @@ class Post extends Document
         return $slugs->getArray();
     }
 
-    public function getLink()
+    public function getLinkParams()
     {
-        $timestamp = $this->getProperty('created_at');
-        $params = array(
+        $timestamp = $this->created_at->getTimestamp();
+
+        return [
             'year' => date('Y', $timestamp),
             'month' => date('m', $timestamp),
             'day' => date('d', $timestamp),
-            'slug' => $this->getProperty('slugs')->last()
-        );
-
-        return $this->_app['url_generator']->generate('post', $params, true);
+            'slug' => end($this->slugs)
+        ];
     }
 }

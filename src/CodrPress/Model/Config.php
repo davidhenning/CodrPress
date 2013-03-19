@@ -4,21 +4,13 @@ namespace CodrPress\Model;
 
 use Silex\Application;
 
-use MongoAppKit\Document\Document;
+use Mango\DocumentInterface;
+use Mango\Document;
 
-class Config extends Document
+class Config implements DocumentInterface
 {
-    public function __construct(Application $app)
-    {
-        parent::__construct($app, 'config');
+    use Document;
 
-        $this->setFields(array(
-            '_id' => array('mongoType' => 'id', 'index' => true),
-            'created_at' => array('mongoType' => 'date', 'index' => true),
-            'updated_at' => array('mongoType' => 'date', 'index' => true),
-            'published_at' => array('mongoType' => 'date', 'index' => true),
-            'blog_title' => array(),
-            'author_name' => array()
-        ));
-    }
+    public $blog_title;
+    public $author_name;
 }
