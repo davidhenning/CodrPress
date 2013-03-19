@@ -42,7 +42,7 @@ class Application extends SilexApplication
         $this->register(new TwigServiceProvider(), array(
             'twig.path' => $baseDir . "/views",
             'twig.options' => array(
-                'cache' => $baseDir . '/tmp/twig',
+                'cache' => $baseDir . '/cache/twig',
                 'auto_reload' => $config->getProperty('DebugMode')
             )
         ));
@@ -59,7 +59,7 @@ class Application extends SilexApplication
         if ($this['debug'] === true) {
             $profiler = new WebProfilerServiceProvider();
             $this->register($profiler, array(
-                'profiler.cache_dir' => $baseDir . '/tmp/profiler',
+                'profiler.cache_dir' => $baseDir . '/cache/profiler',
             ));
 
             $this->mount('/_profiler', $profiler);
