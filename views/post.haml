@@ -1,7 +1,7 @@
-- extends 'layout.twig'
+- extends 'layout.haml'
 - set post = posts.head()
 - block title
-  Home #{parent()}
+  #{post.title} #{parent()}
 
 - block body
   %section.articles
