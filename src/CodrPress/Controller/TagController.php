@@ -30,7 +30,7 @@ class TagController implements ControllerProviderInterface
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
             }
 
-            return $app['twig']->render('posts.twig', array(
+            return $app['twig']->render('posts.haml', array(
                 'config' => $app['config'],
                 'tag' => $tag,
                 'posts' => $posts,
