@@ -17,13 +17,13 @@ class HomepageController implements ControllerProviderInterface
         $router = $app['controllers_factory'];
 
         $router->get('/', function () use ($app) {
-            $content = $app['twig']->render('posts.twig', $this->getTemplateData($app));
+            $content = $app['twig']->render('posts.haml', $this->getTemplateData($app));
 
             return HttpCacheHelper::getResponse($app, $content, 200);
         })->bind('home');
 
         $router->get('/{page}/', function ($page) use ($app) {
-            $content = $app['twig']->render('posts.twig', $this->getTemplateData($app, $page));
+            $content = $app['twig']->render('posts.haml', $this->getTemplateData($app, $page));
 
             return HttpCacheHelper::getResponse($app, $content, 200);
         })

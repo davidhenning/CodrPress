@@ -1,0 +1,13 @@
+- extends 'layout.twig'
+- block title
+  Home #{parent()}
+
+- block body
+  %section.articles
+    - include 'articles.twig' with {'page': false}
+  - if pagination is defined
+    %ul.pager
+      %li.previous{:class => (pagination.prevPageUrl == false) ? 'disabled' : false}
+        %a{:href => pagination.prevPageUrl} &larr; Zurück
+      %li.next{:class => (pagination.nextPageUrl == false) ? 'disabled' : false}
+        %a{:href => pagination.nextPageUrl} Vor &rarr;
