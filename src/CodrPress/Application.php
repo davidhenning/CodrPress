@@ -5,14 +5,12 @@ namespace CodrPress;
 use Silex\Application as SilexApplication,
     Silex\Provider\TwigServiceProvider,
     Silex\Provider\UrlGeneratorServiceProvider,
-    Silex\Provider\ServiceControllerServiceProvider,
     Silex\Provider\WebProfilerServiceProvider;
 
 use Symfony\Component\HttpFoundation\Response,
     Symfony\Component\HttpFoundation\Request;
 
-use SilexMarkdown\Parser\AmplifyrParser,
-    SilexMarkdown\Provider\MarkdownServiceProvider;
+use SilexMarkdown\Parser\AmplifyrParser;
 
 use SilexMtHaml\MtHamlServiceProvider;
 
@@ -40,6 +38,7 @@ class Application extends SilexApplication
         $mango = new Mango($config->getProperty('MongoUri'));
         $dm = new DocumentManager($mango);
         $this['mango.dm'] = $dm;
+        ContentHelper::setMarkdown(new AmplifyrParser());
 
         $this->register(new TwigServiceProvider(), array(
             'twig.path' => $baseDir . "/views",
@@ -51,22 +50,7 @@ class Application extends SilexApplication
 
         $this->register(new UrlGeneratorServiceProvider());
         $this->register(new MtHamlServiceProvider());
-        #$this->register(new MarkdownServiceProvider(), array(
-            #'markdown.parser' => new AmplifyrParser()
-        #));
 
-        #ContentHelper::setMarkdown($this['markdown']);
-
-        /*
-        if ($this['debug'] === true) {
-            $profiler = new WebProfilerServiceProvider();
-            $this->register($profiler, array(
-                'profiler.cache_dir' => $baseDir . '/cache/profiler',
-            ));
-
-            $this->mount('/_profiler', $profiler);
-        }
-        */
         $app = $this;
 
         $this->error(function (\Exception $e) use ($app) {
