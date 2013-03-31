@@ -386,12 +386,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/MadCatme/SilexMarkdown.git",
-                "reference": "a23289fb65557ab5c5d02efdbefd6e37280d3e84"
+                "reference": "6c5c153f6a59e2fb62abf2c8cc7027e066765579"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MadCatme/SilexMarkdown/zipball/a23289fb65557ab5c5d02efdbefd6e37280d3e84",
-                "reference": "a23289fb65557ab5c5d02efdbefd6e37280d3e84",
+                "url": "https://api.github.com/repos/MadCatme/SilexMarkdown/zipball/6c5c153f6a59e2fb62abf2c8cc7027e066765579",
+                "reference": "6c5c153f6a59e2fb62abf2c8cc7027e066765579",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +430,7 @@
                 "markdown",
                 "silex"
             ],
-            "time": "2013-02-07 19:15:46"
+            "time": "2013-03-31 22:21:37"
         },
         {
             "name": "symfony/event-dispatcher",
