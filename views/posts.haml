@@ -4,7 +4,7 @@
 
 - block body
   %section.articles
-    - include 'articles.twig' with {'page': false}
+    - include 'articles.haml' with {'page': false}
   - if pagination is defined
     %ul.pager
       %li.previous{:class => (pagination.prevPageUrl == false) ? 'disabled' : false}
