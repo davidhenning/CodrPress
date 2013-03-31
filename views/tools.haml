@@ -1,0 +1,9 @@
+- macro niceDate(date)
+  - spaceless
+    - set timestamp = date(date)
+    - if timestamp >= date('today')
+      heute
+    - elseif timestamp >= date('yesterday')
+      gestern
+    - else
+      = timestamp|date('j. F Y')
