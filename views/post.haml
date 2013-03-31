@@ -1,0 +1,11 @@
+- extends 'layout.twig'
+- set post = posts.head()
+- block title
+  Home #{parent()}
+
+- block body
+  %section.articles
+    - include 'articles.haml' with {'page': true}
+  - if post.disqus
+    %section.comments
+      %h3 Comments

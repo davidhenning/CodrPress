@@ -42,7 +42,7 @@ class PostController implements ControllerProviderInterface
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
             }
 
-            $content = $app['twig']->render('post.twig', array(
+            $content = $app['twig']->render('post.haml', array(
                 'config' => $app['config'],
                 'posts' => $posts,
                 'pages' => $pages->sort(['created_at' => -1]),
