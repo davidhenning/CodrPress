@@ -90,7 +90,7 @@ class Application extends SilexApplication
             }
 
             $code = ($e->getCode() > 100 && $e->getCode() <= 600) ? $e->getCode() : 500;
-            $content = $app['twig']->render('error.twig', array(
+            $content = $app['twig']->render('error.haml', array(
                 'code' => $code,
                 'message' => $e->getMessage()
             ));

@@ -1,0 +1,9 @@
+- extends 'layout.haml'
+- set post = posts.head()
+- block title
+  Error #{parent()}
+
+- block body
+  %h1
+    Error code #{code}
+  %P= message
