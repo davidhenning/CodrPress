@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response,
 use SilexMarkdown\Parser\AmplifyrParser,
     SilexMarkdown\Provider\MarkdownServiceProvider;
 
+use SilexMtHaml\MtHamlServiceProvider;
+
 use Mango\Mango,
     Mango\DocumentManager;
 
@@ -48,12 +50,12 @@ class Application extends SilexApplication
         ));
 
         $this->register(new UrlGeneratorServiceProvider());
-        #$this->register(new ServiceControllerServiceProvider());
-        $this->register(new MarkdownServiceProvider(), array(
-            'markdown.parser' => new AmplifyrParser()
-        ));
+        $this->register(new MtHamlServiceProvider());
+        #$this->register(new MarkdownServiceProvider(), array(
+            #'markdown.parser' => new AmplifyrParser()
+        #));
 
-        ContentHelper::setMarkdown($this['markdown']);
+        #ContentHelper::setMarkdown($this['markdown']);
 
         /*
         if ($this['debug'] === true) {

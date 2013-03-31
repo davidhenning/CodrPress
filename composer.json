@@ -11,7 +11,7 @@
         "twig/twig": "*@dev",
         "webcodr/mango": "*@dev",
         "silexmarkdown/silexmarkdown": "*@dev",
-        "silex/web-profiler": "~1.0@dev"
+        "mthaml/silex-mthaml": "*@dev"
     },
     "require-dev": {
         "symfony/browser-kit": "2.1.*@dev",
