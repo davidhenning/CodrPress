@@ -808,12 +808,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Mango.git",
-                "reference": "0.5.1"
+                "reference": "0.6.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.5.1",
-                "reference": "0.5.1",
+                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.6.3",
+                "reference": "0.6.3",
                 "shasum": ""
             },
             "require": {
@@ -846,7 +846,7 @@
                 "mongodb",
                 "odm"
             ],
-            "time": "2013-04-01 16:44:52"
+            "time": "2013-04-01 21:56:05"
         }
     ],
     "packages-dev": [

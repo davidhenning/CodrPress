@@ -38,7 +38,7 @@ class PostRestViewHelper
 
         if ($found > 0) {
             foreach ($posts as $post) {
-                $content['response']['posts'][] = $post->getAttributes()->getArray();
+                $content['response']['posts'][] = $post->all()->getArray();
             }
         }
 
@@ -58,7 +58,7 @@ class PostRestViewHelper
             }
 
             $content = $this->_getContentSkeleton(200);
-            $content['response']['posts'][] = $post->first()->getAttributes()->getArray();
+            $content['response']['posts'][] = $post->first()->all()->getArray();
             $content['response']['total'] = 1;
             $content['response']['found'] = 1;
         } catch (\Exception $e) {
@@ -92,9 +92,7 @@ class PostRestViewHelper
             $payload = $config->sanitize($request->request->get('payload'));
 
             if (is_array($payload)) {
-                foreach ($payload as $property => $value) {
-                    $post->{$property} = $value;
-                }
+                $post->update($payload);
             }
 
             $post->store();

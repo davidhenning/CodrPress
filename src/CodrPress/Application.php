@@ -84,7 +84,7 @@ class Application extends SilexApplication
             return new Response($content, $code);
         });
 
-        $dbConfig = ConfigModel::where(['_id' => 'codrpress'])->first()->getAttributes();
+        $dbConfig = ConfigModel::where(['_id' => 'codrpress'])->first();
         $config->set('DbConfig', $dbConfig);
     }
 

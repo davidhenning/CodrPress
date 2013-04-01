@@ -52,6 +52,8 @@ class HomepageController implements ControllerProviderInterface
             'tags' => $tags
         );
 
+        #print_r($templateData['posts']->all());
+
         if ($total > $limit) {
             $pagination = new PaginationHelper($app, 'home_page', array(), $page, $limit);
             $templateData['pagination'] = $pagination->getPagination($total);
