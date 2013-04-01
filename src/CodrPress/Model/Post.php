@@ -15,18 +15,6 @@ class Post implements DocumentInterface
 {
     use Document;
 
-    public $created_at;
-    public $updated_at;
-    public $published_at;
-    public $title;
-    public $subtitle;
-    public $body;
-    public $body_html;
-    public $slugs;
-    public $status;
-    public $disqus;
-    public $tags;
-
     private function addFields()
     {
         $this->addField(
@@ -51,6 +39,32 @@ class Post implements DocumentInterface
             'published_at',
             [
                 'type' => 'DateTime',
+                'index' => true
+            ]
+        );
+
+        $this->addField('title', ['default' => '']);
+
+        $this->addField('body', ['default' => '']);
+
+        $this->addField('body_html', ['default' => '']);
+
+        $this->addField('status', ['default' => '']);
+
+        $this->addField('disqus', ['default' => false]);
+
+        $this->addField(
+            'slugs',
+            [
+                'default' => [],
+                'index' => true
+            ]
+        );
+
+        $this->addField(
+            'tags',
+            [
+                'default' => [],
                 'index' => true
             ]
         );
@@ -103,7 +117,7 @@ class Post implements DocumentInterface
                 '$gt' => new \MongoDate($start),
                 '$lt' => new \MongoDate($end)
             ],
-            'slugs' => $slug,
+            'slugs' => ['$in' => [$slug]],
             'status' => 'published'
         ];
 
@@ -159,11 +173,13 @@ class Post implements DocumentInterface
     {
         $timestamp = $this->created_at->getTimestamp();
 
+        $slugs = $this->slugs;
+
         return [
             'year' => date('Y', $timestamp),
             'month' => date('m', $timestamp),
             'day' => date('d', $timestamp),
-            'slug' => end($this->slugs)
+            'slug' => end($slugs)
         ];
     }
 }
