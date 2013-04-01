@@ -41,7 +41,7 @@ class HomepageController implements ControllerProviderInterface
         $tags = Post::tags();
 
         $config = $app['config'];
-        $limit = $config->getProperty('PerPage');
+        $limit = $config->get('PerPage');
         $offset = $limit * ($page - 1);
         $posts = $posts->limit($limit)->skip($offset);
         $total = $posts->count();

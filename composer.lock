@@ -305,12 +305,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "a5cb55ced63ece76550de1599ddcc60719373594"
+                "reference": "803f809cdaa409e5769b24db952655d7e9187677"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/a5cb55ced63ece76550de1599ddcc60719373594",
-                "reference": "a5cb55ced63ece76550de1599ddcc60719373594",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/803f809cdaa409e5769b24db952655d7e9187677",
+                "reference": "803f809cdaa409e5769b24db952655d7e9187677",
                 "shasum": ""
             },
             "require": {
@@ -378,7 +378,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-03-27 09:31:32"
+            "time": "2013-04-01 08:47:32"
         },
         {
             "name": "silexmarkdown/silexmarkdown",
@@ -716,12 +716,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "e8991cc2f9c84b2b5c782203904898717d46e56a"
+                "reference": "399916916533589c95dc04e1afd4aeefa34928ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/e8991cc2f9c84b2b5c782203904898717d46e56a",
-                "reference": "e8991cc2f9c84b2b5c782203904898717d46e56a",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/399916916533589c95dc04e1afd4aeefa34928ad",
+                "reference": "399916916533589c95dc04e1afd4aeefa34928ad",
                 "shasum": ""
             },
             "require": {
@@ -757,24 +757,24 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-03-25 07:43:31"
+            "time": "2013-04-01 08:27:18"
         },
         {
             "name": "webcodr/collection",
-            "version": "1.1.0",
+            "version": "2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Collection.git",
-                "reference": "1.1.0"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Collection/zipball/1.1.0",
-                "reference": "1.1.0",
+                "url": "https://api.github.com/repos/WebCodr/Collection/zipball/2.0.0",
+                "reference": "2.0.0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.4"
+                "php": ">=5.4"
             },
             "type": "library",
             "autoload": {
@@ -800,7 +800,7 @@
                 "array",
                 "collection"
             ],
-            "time": "2013-03-19 23:20:00"
+            "time": "2013-04-01 15:19:14"
         },
         {
             "name": "webcodr/mango",
@@ -808,18 +808,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Mango.git",
-                "reference": "0.4.3"
+                "reference": "0.5.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.4.3",
-                "reference": "0.4.3",
+                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.5.1",
+                "reference": "0.5.1",
                 "shasum": ""
             },
             "require": {
                 "ext-mongo": ">=1.2.0",
                 "php": ">=5.4.0",
-                "webcodr/collection": "1.*"
+                "webcodr/collection": "2.*"
             },
             "type": "library",
             "autoload": {
@@ -846,7 +846,7 @@
                 "mongodb",
                 "odm"
             ],
-            "time": "2013-03-23 19:10:37"
+            "time": "2013-04-01 16:44:52"
         }
     ],
     "packages-dev": [

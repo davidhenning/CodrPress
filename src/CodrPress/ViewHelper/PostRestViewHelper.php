@@ -27,7 +27,7 @@ class PostRestViewHelper
         $config = $app['config'];
         $request = $app['request'];
         $limit = (int)$request->query->get('limit');
-        $limit = ($limit > 0) ? $limit : $config->getProperty('PerPage');
+        $limit = ($limit > 0) ? $limit : $config->get('PerPage');
         $offset = (int)$request->query->get('offset');
         $posts = Post::posts();
         $total = $posts->count();
@@ -38,7 +38,7 @@ class PostRestViewHelper
 
         if ($found > 0) {
             foreach ($posts as $post) {
-                $content['response']['posts'][] = $post->getProperties()->getArray();
+                $content['response']['posts'][] = $post->getAttributes()->getArray();
             }
         }
 
@@ -58,7 +58,7 @@ class PostRestViewHelper
             }
 
             $content = $this->_getContentSkeleton(200);
-            $content['response']['posts'][] = $post->head()->getProperties()->getArray();
+            $content['response']['posts'][] = $post->first()->getAttributes()->getArray();
             $content['response']['total'] = 1;
             $content['response']['found'] = 1;
         } catch (\Exception $e) {
@@ -86,7 +86,7 @@ class PostRestViewHelper
                     throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
                 }
 
-                $post = $posts->head();
+                $post = $posts->first();
             }
 
             $payload = $config->sanitize($request->request->get('payload'));
@@ -118,7 +118,7 @@ class PostRestViewHelper
     public function getPostDeleteContent(Application $app, $id)
     {
         try {
-            $post = Post::byId($id)->head();
+            $post = Post::byId($id)->first();
             $post->remove();
             $content = $this->_getContentSkeleton(202);
             $content['response'] = array(

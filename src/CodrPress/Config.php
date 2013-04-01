@@ -21,17 +21,17 @@ class Config extends MutableMap
             throw new \InvalidArgumentException('YAML resource "' . $resource . '" is not a collection of values.');
         }
 
-        $this->updateProperties($data);
+        $this->update($data);
     }
 
     public function setBaseDir($baseDir)
     {
-        $this->setProperty('BaseDir', $baseDir);
+        $this->set('BaseDir', $baseDir);
     }
 
     public function getBaseDir()
     {
-        return $this->getProperty('BaseDir');
+        return $this->get('BaseDir');
     }
 
     public function getConfDir()

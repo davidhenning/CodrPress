@@ -24,7 +24,7 @@ class HttpCacheHelper
     {
         $config = $app['config'];
 
-        if ($useCache === true && $config->getProperty('UseHttpCache') === true) {
+        if ($useCache === true && $config->get('UseHttpCache') === true) {
             $response = self::_setCacheHeader($response, $config);
         }
 
@@ -34,7 +34,7 @@ class HttpCacheHelper
     protected static function _setCacheHeader(Response $response, $config)
     {
         $expiration = new \DateTime();
-        $ttl = $config->getProperty('HttpCacheTtl');
+        $ttl = $config->get('HttpCacheTtl');
         $expiration->modify("+ {$ttl} seconds");
         $response->setPublic();
         $response->setMaxAge($ttl);

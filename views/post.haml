@@ -1,5 +1,5 @@
 - extends 'layout.haml'
-- set post = posts.head()
+- set post = posts.first()
 - block title
   #{post.title} #{parent()}
 
