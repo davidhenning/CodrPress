@@ -41,14 +41,14 @@ class ApplicationTest extends WebTestCase
         $post->body = 'test';
         $post->status = 'published';
         $post->disqus = false;
-        $dm->store($post);
+        $post->store();
 
         // home
         $client->request('GET', '/');
         self::assertTrue($client->getResponse()->isOk());
 
         // existing post
-        $client->request('GET', date('/Y/m/d') . '/slug/');
+        $client->request('GET', date('/Y/m/d') . '/test/');
         self::assertTrue($client->getResponse()->isOk());
 
         // feed
@@ -56,11 +56,11 @@ class ApplicationTest extends WebTestCase
         self::assertTrue($client->getResponse()->isOk());
 
         // post fail
-        $client->request('GET', '/20122/09/132/slug/');
+        $client->request('GET', '/20122/09/132/test/');
         self::assertFalse($client->getResponse()->isOk());
 
         // post fail
-        $client->request('GET', '/dfdf/09/13/slug/');
+        $client->request('GET', '/dfdf/09/13/test/');
         self::assertFalse($client->getResponse()->isOk());
 
         $dm->remove($post);
