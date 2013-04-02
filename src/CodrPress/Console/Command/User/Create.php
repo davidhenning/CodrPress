@@ -44,8 +44,8 @@ class Create extends Command
     {
         // get arguments and options
         $username = $input->getArgument('username');
-        $email = $input->getOption('email');
-        $realm = 'CodrPress';
+        $email = $input->getArgument('email');
+        $realm = $this->app['config']->get('codrpress.auth.digest.realm');
 
         $dialog = $this->getHelperSet()->get('dialog');
         $password = $dialog->askHiddenResponse(
@@ -53,12 +53,10 @@ class Create extends Command
             'password:'
         );
 
-        $digestHash = md5("{$username}:{$realm}:{$password}");
-
         $user = new User();
         $user->name = $username;
         $user->email = $email;
-        $user->digest_hash = $digestHash;
+        $user->setDigestHash($username, $realm, $password);
         $user->store();
 
         $output->writeln('<info>User created!</info>');
