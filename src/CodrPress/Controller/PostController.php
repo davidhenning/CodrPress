@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Response,
 use CodrPress\HttpAuthDigest,
     CodrPress\Exception\HttpException;
 
-use CodrPress\Model\Post,
+use CodrPress\Model\User,
+    CodrPress\Model\Post,
     CodrPress\Helper\HttpCacheHelper,
     CodrPress\ViewHelper\PostRestViewHelper,
     CodrPress\Exception\PostNotFoundException;
@@ -143,14 +144,23 @@ class PostController implements ControllerProviderInterface
                 return null;
             }
 
-            $auth = new HttpAuthDigest($request, 'CodrPress');
+            $config = $app['config'];
+
+            $auth = new HttpAuthDigest($request, $config->get('codrpress.auth.digest.realm'));
             $response = $auth->sendAuthenticationHeader();
 
             if ($response instanceof Response) {
                 return $response;
             }
 
-            $auth->authenticate('8514c67a500cb6509b7f240d14761364');
+            $username = $config->sanitize($auth->getUserName());
+            $user = User::where(['name' => $username])->first();
+
+            if ($user === false) {
+                throw new HttpException('Unauthorized', 401);
+            }
+
+            $auth->authenticate($user->digest_hash);
 
             return null;
         };
