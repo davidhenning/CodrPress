@@ -37,9 +37,15 @@ $ cp config/codrpress.yml.dist config/codrpress.yml
 
 Now change the MongoDB URI in the `codrpress.yml`
 
-#### Set up a user and administration
+#### Create a user
 
-Shame on me, that isn't finished yet.
+~~~ bash
+$ php console.php user:create <username> <mail address>
+~~~
+
+#### Administration
+
+Shame on me, the rest isn't finished yet.
 
 ### Common problems
 
