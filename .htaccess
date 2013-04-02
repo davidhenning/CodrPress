@@ -8,3 +8,8 @@
     RewriteCond %{SCRIPT_FILENAME} !-f
     RewriteRule ^ index.php [NC]
 </IfModule>
+
+<Files console.php>
+  Order allow,deny
+  Deny from all
+</Files>
