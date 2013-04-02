@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    - set blogName = config.get('codrpress.info').blog_title|default('CodrPress')
+    - set blogName = config.get('codrpress.info.blog_title')|default('CodrPress')
     %title
       - block title
         \- #{blogName}

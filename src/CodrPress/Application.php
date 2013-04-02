@@ -79,13 +79,8 @@ class Application extends SilexApplication
                 'message' => $e->getMessage()
             ));
 
-            #echo "{$e->getMessage()}: {$e->getFile()} on line {$e->getLine()}\n";
-
             return new Response($content, $code);
         });
-
-        $dbConfig = ConfigModel::where(['_id' => 'codrpress'])->first();
-        $config->set('codrpress.info', $dbConfig);
     }
 
 }

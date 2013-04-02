@@ -18,21 +18,21 @@ class FeedController implements ControllerProviderInterface
         $router = $app['controllers_factory'];
 
         $router->get('/feed', function (Request $request) use ($app) {
-            $dbConfig = $app['config']->get('codrpress.info');
+            $config = $app['config'];
             $posts = Post::posts()->sort(['created_at' => -1])->limit(20);
 
             $feed = new \SimpleXMLElement('<feed></feed>');
             $feed->addAttribute('xmlns', 'http://www.w3.org/2005/Atom');
             $feed->addChild('id', $request->getSchemeAndHttpHost().$request->getBaseUrl().'/');
-            $feed->addChild('title', $dbConfig->blog_title);
+            $feed->addChild('title', $config->get('codrpress.info.blog_title'));
             $feed->addChild('updated', $posts->first()->updated_at->format('c'));
-            $feed->addChild('author')->addChild('name', $dbConfig->author_name);
+            $feed->addChild('author')->addChild('name', $config->get('codrpress.info.author_name'));
 
             $link = $feed->addChild('link');
             $link->addAttribute('rel', 'self');
             $link->addAttribute('href', $request->getUri());
 
-            $posts->each(function ($post) use ($app, $feed, $dbConfig) {
+            $posts->each(function ($post) use ($app, $feed, $config) {
                 $link = $app['url_generator']->generate('post', $post->getLinkParams());
                 $entry = $feed->addChild('entry');
                 $entry->addChild('title', $post->title);
@@ -40,7 +40,7 @@ class FeedController implements ControllerProviderInterface
                 $entry->addChild('id', $link);
                 $entry->addChild('updated', $post->updated_at->format('c'));
                 $entry->addChild('published', $post->published_at->format('c'));
-                $entry->addChild('author')->addChild('name', $dbConfig->author_name);
+                $entry->addChild('author')->addChild('name', $config->get('codrpress.info.author_name'));
                 $entry->addChild('content', $post->body_html)->addAttribute('type', 'html');
             });
 
