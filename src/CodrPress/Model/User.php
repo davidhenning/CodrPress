@@ -5,7 +5,7 @@ namespace CodrPress\Model;
 use Mango\DocumentInterface,
     Mango\Document;
 
-class User
+class User implements DocumentInterface
 {
     use Document;
 
@@ -49,5 +49,10 @@ class User
                 'index' => true
             ]
         );
+    }
+
+    public function setDigestHash($username, $realm, $password)
+    {
+        $this->digest_hash = md5("{$username}:{$realm}:{$password}");
     }
 }
