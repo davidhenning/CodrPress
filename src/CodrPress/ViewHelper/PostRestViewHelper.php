@@ -27,7 +27,7 @@ class PostRestViewHelper
         $config = $app['config'];
         $request = $app['request'];
         $limit = (int)$request->query->get('limit');
-        $limit = ($limit > 0) ? $limit : $config->get('PerPage');
+        $limit = ($limit > 0) ? $limit : $config->get('codrpress.layout.posts_per_page');
         $offset = (int)$request->query->get('offset');
         $posts = Post::posts();
         $total = $posts->count();

@@ -18,7 +18,7 @@ class FeedController implements ControllerProviderInterface
         $router = $app['controllers_factory'];
 
         $router->get('/feed', function (Request $request) use ($app) {
-            $dbConfig = $app['config']->get('DbConfig');
+            $dbConfig = $app['config']->get('codrpress.info');
             $posts = Post::posts()->sort(['created_at' => -1])->limit(20);
 
             $feed = new \SimpleXMLElement('<feed></feed>');

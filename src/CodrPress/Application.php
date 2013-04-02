@@ -33,9 +33,9 @@ class Application extends SilexApplication
         $this['config'] = $config;
 
         $baseDir = $config->getBaseDir();
-        $this['debug'] = $config->get('DebugMode');
+        $this['debug'] = $config->get('codrpress.debug');
 
-        $mango = new Mango($config->get('MongoUri'));
+        $mango = new Mango($config->get('codrpress.db.mongo.uri'));
         $dm = new DocumentManager($mango);
         $this['mango.dm'] = $dm;
         ContentHelper::setMarkdown(new AmplifyrParser());
@@ -44,7 +44,7 @@ class Application extends SilexApplication
             'twig.path' => $baseDir . "/views",
             'twig.options' => array(
                 'cache' => $baseDir . '/cache/twig',
-                'auto_reload' => $config->get('DebugMode')
+                'auto_reload' => $config->get('codrpress.debug')
             )
         ));
 
@@ -85,7 +85,7 @@ class Application extends SilexApplication
         });
 
         $dbConfig = ConfigModel::where(['_id' => 'codrpress'])->first();
-        $config->set('DbConfig', $dbConfig);
+        $config->set('codrpress.info', $dbConfig);
     }
 
 }
