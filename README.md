@@ -2,16 +2,46 @@
 
 [![Build Status](https://secure.travis-ci.org/MadCatme/CodrPress.png)](http://travis-ci.org/MadCatme/CodrPress)
 
-CodrPress is a small and lightweight blogging system inspired by [Schnitzelpress](https://github.com/hmans/schnitzelpress).
+### A lightweight blogging system for software developers
 
-## Differences to Schnitzelpress
+#### Inspired by Schnitzelpress
 
-Schnitzelpress is written in Ruby and designed as a Heroku app. CodrPress is a PHP based application.
+### Requirements
 
-## Smiliarities to Schnitzelpress
+- PHP 5.4
+- MongoDB 2.*
+- MongoDB driver for PHP (min. 1.2.0)
+- Composer
 
-Both use MonogDB as database. Instead of using a richtext editor to write blog posts, both use [MarkDown](http://daringfireball.net/projects/markdown/) and feature really beautiful syntax highlighting out of the box.
+### Setup
 
-## Technology
+#### Clone the repository
 
-CodrPress is build on top of [Silex](https://github.com/fabpot/Silex), a simple web framework based on Symfony2 components and the [Twig](https://github.com/fabpot/Twig) template engine.
+~~~ bash
+$ git clone git@github.com:MadCatme/CodrPress.git
+~~~
+
+#### Install the dependencies with Composer
+
+~~~ bash
+$ cd CodrPress
+$ curl -sS https://getcomposer.org/installer | php
+$ php composer.phar install
+~~~
+
+#### Configure CodrPress
+
+~~~ bash
+$ cp config/codrpress.yml.dist config/codrpress.yml
+~~~
+
+Now change the MongoDB URI in the `codrpress.yml`
+
+#### Set up a user and administration
+
+Shame on me, that isn't finished yet.
+
+### Common problems
+
+- Check if the cache directory is writable for the web server user (please never use chmod 777!)
+
