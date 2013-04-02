@@ -41,7 +41,15 @@ class Create extends Command
         [
             'name' => 'codrpress.http.cache_ttl',
             'question' => 'Enter the HTTP cache header lifetime in seconds'
-        ]
+        ],
+        [
+            'name' => 'codrpress.info.blog_title',
+            'question' => 'Enter the name of your blog'
+        ],
+        [
+            'name' => 'codrpress.info.author_name',
+            'question' => 'Enter your name for author information in posts and feeds'
+        ],
     ];
 
     protected function configure()
