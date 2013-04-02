@@ -38,7 +38,7 @@ class PostRestViewHelper
 
         if ($found > 0) {
             foreach ($posts as $post) {
-                $content['response']['posts'][] = $post->all()->getArray();
+                $content['response']['posts'][] = $post->getArray();
             }
         }
 
@@ -58,7 +58,7 @@ class PostRestViewHelper
             }
 
             $content = $this->_getContentSkeleton(200);
-            $content['response']['posts'][] = $post->first()->all()->getArray();
+            $content['response']['posts'][] = $post->first()->getArray();
             $content['response']['total'] = 1;
             $content['response']['found'] = 1;
         } catch (\Exception $e) {
