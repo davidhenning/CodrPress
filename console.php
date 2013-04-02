@@ -9,6 +9,6 @@ $config->addConfigFile($configFile);
 
 $app = new CodrPress\Application($config);
 $console = new Symfony\Component\Console\Application();
-$app->add(new CodrPress\Console\Command\User\Create($app));
+$console->add(new CodrPress\Console\Command\User\Create($app));
 
 $console->run();
