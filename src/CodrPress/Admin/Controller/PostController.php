@@ -6,25 +6,22 @@ use Silex\Application,
     Silex\ControllerProviderInterface,
     Silex\ControllerCollection;
 
-use CodrPress\Model\Post,
-    CodrPress\Model\PostCollection;
+use CodrPress\Model\Post;
 
 class PostController implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
         $router = $app['controllers_factory'];
-        $postCollection = new PostCollection($app);
-        $postCollection->sortBy('created_at', 'desc');
         $validateIdRegex = '[a-z0-9]{24}';
 
         $sanitize = function ($id) use ($app) {
             return $app['config']->sanitize($id);
         };
 
-        $router->get('/admin/posts', function() use ($app, $postCollection) {
+        $router->get('/admin/posts', function() use ($app) {
             return $app['twig']->render('admin/posts.twig', array(
-                'posts' => $postCollection->findPosts()
+                'posts' => Post::where()
             ));
         })
             ->bind('admin_posts');
@@ -35,11 +32,8 @@ class PostController implements ControllerProviderInterface
             ->bind('admin_post_new');
 
         $router->get('/admin/post/{id}', function($id) use ($app) {
-            $post = new Post($app);
-            $post->load($id);
-
             return $app['twig']->render('admin/post.twig', array(
-                'post' => $post
+                'post' => Post::find($id)->first()
             ));
         })
             ->assert('id', $validateIdRegex)

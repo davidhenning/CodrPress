@@ -1,6 +1,6 @@
 <?php
 
-$config = new MongoAppKit\Config();
+$config = new CodrPress\Config();
 $config->setBaseDir(realpath(__DIR__));
 $config->addConfigFile($config->getConfDir() . '/codrpress.yml');
 
