@@ -30,12 +30,12 @@ class Create extends Command
             ->addArgument(
                 'username',
                 InputArgument::REQUIRED,
-                'username'
+                'Enter the username: '
             )
             ->addArgument(
                 'email',
                 InputArgument::REQUIRED,
-                'mail address'
+                'Enter the mail address: '
             )
         ;
     }
@@ -50,7 +50,7 @@ class Create extends Command
         $dialog = $this->getHelperSet()->get('dialog');
         $password = $dialog->askHiddenResponse(
             $output,
-            'password:'
+            'Enter the password: '
         );
 
         $user = new User();
