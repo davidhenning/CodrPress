@@ -32,10 +32,8 @@ $ php composer.phar install
 #### Configure CodrPress
 
 ~~~ bash
-$ cp config/codrpress.yml.dist config/codrpress.yml
+$ php console.php config
 ~~~
-
-Now change the MongoDB URI in the `codrpress.yml`
 
 #### Create a user
 
