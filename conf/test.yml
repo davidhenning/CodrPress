@@ -1,0 +1,8 @@
+codrpress.db.mongo.uri: 'mongodb://localhost:27017/codrpress'
+codrpress.auth.digest.realm: WebCodr
+codrpress.debug: true
+codrpress.layout.posts_per_page: '10'
+codrpress.http.use_cache: true
+codrpress.http.cache_ttl: '300'
+codrpress.info.blog_title: CodrPress
+codrpress.info.author_name: Test

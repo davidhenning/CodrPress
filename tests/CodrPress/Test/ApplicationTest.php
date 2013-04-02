@@ -9,7 +9,7 @@ class ApplicationTest extends WebTestCase
 
     public function createApplication()
     {
-        $overrideConfigFile = 'codrpress.yml.dist';
+        $overrideConfigFile = 'test.yml';
         $app = require realpath(__DIR__ . '/../../../app.php');
         $app['unittest'] = true;
 
