@@ -3,9 +3,8 @@
 namespace CodrPress;
 
 use CodrPress\Exception\HttpException;
-
-use Symfony\Component\HttpFoundation\Request,
-    Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class HttpAuthDigest
 {

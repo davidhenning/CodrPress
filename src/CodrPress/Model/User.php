@@ -2,8 +2,8 @@
 
 namespace CodrPress\Model;
 
-use Mango\DocumentInterface,
-    Mango\Document;
+use Mango\Document;
+use Mango\DocumentInterface;
 
 class User implements DocumentInterface
 {

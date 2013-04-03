@@ -3,7 +3,6 @@
 namespace CodrPress;
 
 use Collection\MutableMap;
-
 use Symfony\Component\Yaml\Yaml;
 
 class Config extends MutableMap

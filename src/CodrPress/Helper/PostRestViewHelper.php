@@ -2,12 +2,10 @@
 
 namespace CodrPress\Helper;
 
-use Silex\Application;
-
-use Symfony\Component\HttpFoundation\Response;
-
 use CodrPress\Exception\PostNotFoundException;
 use CodrPress\Model\Post;
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostRestViewHelper
 {

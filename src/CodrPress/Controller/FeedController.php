@@ -2,13 +2,11 @@
 
 namespace CodrPress\Controller;
 
-use Symfony\Component\HttpFoundation\Request,
-    Symfony\Component\HttpFoundation\Response;
-
-use Silex\Application,
-    Silex\ControllerProviderInterface;
-
 use CodrPress\Model\Post;
+use Silex\Application;
+use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FeedController implements ControllerProviderInterface
 {

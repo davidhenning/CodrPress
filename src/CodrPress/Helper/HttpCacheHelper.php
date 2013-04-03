@@ -3,9 +3,8 @@
 namespace CodrPress\Helper;
 
 use Silex\Application;
-
-use Symfony\Component\HttpFoundation\Response,
-    Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class HttpCacheHelper
 {

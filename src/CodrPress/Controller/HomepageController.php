@@ -2,12 +2,11 @@
 
 namespace CodrPress\Controller;
 
-use Silex\Application,
-    Silex\ControllerProviderInterface;
-
-use CodrPress\Model\Post,
-    CodrPress\Helper\HttpCacheHelper,
-    CodrPress\Helper\PaginationHelper;
+use CodrPress\Helper\HttpCacheHelper;
+use CodrPress\Helper\PaginationHelper;
+use CodrPress\Model\Post;
+use Silex\Application;
+use Silex\ControllerProviderInterface;
 
 class HomepageController implements ControllerProviderInterface
 {

@@ -2,14 +2,11 @@
 
 namespace CodrPress\Model;
 
-use Silex\Application;
-
-use Mango\DocumentInterface,
-    Mango\Document;
-
-use Collection\MutableMap;
-
 use CodrPress\Helper\ContentHelper;
+use Collection\MutableMap;
+use Mango\Document;
+use Mango\DocumentInterface;
+use Silex\Application;
 
 class Post implements DocumentInterface
 {

@@ -2,22 +2,16 @@
 
 namespace CodrPress;
 
-use Silex\Application as SilexApplication,
-    Silex\Provider\TwigServiceProvider,
-    Silex\Provider\UrlGeneratorServiceProvider,
-    Silex\Provider\WebProfilerServiceProvider;
-
-use Symfony\Component\HttpFoundation\Response,
-    Symfony\Component\HttpFoundation\Request;
-
-use SilexMarkdown\Parser\AmplifyrParser;
-
-use SilexMtHaml\MtHamlServiceProvider;
-
-use Mango\Mango,
-    Mango\DocumentManager;
-
 use CodrPress\Helper\ContentHelper;
+use Mango\DocumentManager;
+use Mango\Mango;
+use Silex\Application as SilexApplication;
+use Silex\Provider\TwigServiceProvider;
+use Silex\Provider\UrlGeneratorServiceProvider;
+use SilexMarkdown\Parser\AmplifyrParser;
+use SilexMtHaml\MtHamlServiceProvider;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Application extends SilexApplication
 {

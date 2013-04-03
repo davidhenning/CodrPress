@@ -2,11 +2,9 @@
 
 namespace CodrPress\Admin\Controller;
 
-use Silex\Application,
-    Silex\ControllerProviderInterface,
-    Silex\ControllerCollection;
-
 use CodrPress\Model\Post;
+use Silex\Application;
+use Silex\ControllerProviderInterface;
 
 class PostController implements ControllerProviderInterface
 {

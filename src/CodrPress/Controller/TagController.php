@@ -2,11 +2,10 @@
 
 namespace CodrPress\Controller;
 
-use Silex\Application,
-    Silex\ControllerProviderInterface;
-
-use CodrPress\Model\Post,
-    CodrPress\Exception\PostNotFoundException;
+use CodrPress\Exception\PostNotFoundException;
+use CodrPress\Model\Post;
+use Silex\Application;
+use Silex\ControllerProviderInterface;
 
 class TagController implements ControllerProviderInterface
 {
