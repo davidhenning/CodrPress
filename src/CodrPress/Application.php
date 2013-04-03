@@ -30,16 +30,17 @@ class Application extends SilexApplication
     public function __construct(Config $config)
     {
         parent::__construct();
-        $this['config'] = $config;
 
-        $baseDir = $config->getBaseDir();
+        $this['config'] = $config;
         $this['debug'] = $config->get('codrpress.debug');
 
         $mango = new Mango($config->get('codrpress.db.mongo.uri'));
         $dm = new DocumentManager($mango);
         $this['mango.dm'] = $dm;
+
         ContentHelper::setMarkdown(new AmplifyrParser());
 
+        $baseDir = $config->getBaseDir();
         $this->register(new TwigServiceProvider(), array(
             'twig.path' => $baseDir . "/views",
             'twig.options' => array(
@@ -51,36 +52,54 @@ class Application extends SilexApplication
         $this->register(new UrlGeneratorServiceProvider());
         $this->register(new MtHamlServiceProvider());
 
-        $app = $this;
+        $this->handleErrors();
+    }
 
-        $this->error(function (\Exception $e) use ($app) {
-            $request = $app['request'];
+    private function handleErrors()
+    {
+        $this->error(function (\Exception $e) {
+            $request = $this['request'];
 
             if (strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
-                $error = array(
-                    'status' => 400,
-                    'time' => date('Y-m-d H:i:s'),
-                    'request' => array(
-                        'method' => $request->getMethod(),
-                        'url' => $request->getPathInfo()
-                    ),
-                    'response' => array(
-                        'error' => str_ireplace('exception', '', get_class($e)),
-                        'message' => $e->getMessage()
-                    )
-                );
-
-                return $app->json($error, 400);
+                return $this->getJsonErrorReponse($request, $e);
             }
 
-            $code = ($e->getCode() > 100 && $e->getCode() <= 600) ? $e->getCode() : 500;
-            $content = $app['twig']->render('error.haml', array(
-                'code' => $code,
-                'message' => $e->getMessage()
-            ));
-
-            return new Response($content, $code);
+            return $this->getErrorReponse($request, $e);
         });
     }
 
+    private function getErrorHttpStatus($code)
+    {
+        return ($code > 100 && $code <= 600) ?: 500;
+    }
+
+    private function getErrorReponse(Request $request, \Exception $e)
+    {
+        $code = $this->getErrorHttpStatus($e->getCode());
+        $content = $this['twig']->render('error.haml', array(
+            'code' => $code,
+            'message' => $e->getMessage()
+        ));
+
+        return new Response($content, $code);
+    }
+
+    private function getJsonErrorReponse(Request $request, \Exception $e)
+    {
+        $code = $this->getErrorHttpStatus($e->getCode());
+        $error = array(
+            'status' => $code,
+            'time' => date('Y-m-d H:i:s'),
+            'request' => array(
+                'method' => $request->getMethod(),
+                'url' => $request->getPathInfo()
+            ),
+            'response' => array(
+                'error' => str_ireplace('exception', '', get_class($e)),
+                'message' => $e->getMessage()
+            )
+        );
+
+        return $this->json($error, $code);
+    }
 }
