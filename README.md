@@ -6,6 +6,14 @@
 
 #### Inspired by Schnitzelpress
 
+**CodrPress is still in an early development phase.**
+
+CodrPress is build on top of (http://silex.sensiolabs.org/)[Silex] and (https://github.com/WebCodr/Mango)[Mango].
+
+Write your blog posts in Markdown. Thanks to (http://amplifyr.herokuapp.com/)[Amplifyr] CodrPress features a beautiful syntax highlighting for most languages.
+
+The default design is based on Twitter Bootstrap and fully reponsive. The templates are written HAML and easily customizeable. Don't like HAML? You can also use Twig.
+
 ### Requirements
 
 - PHP 5.4
