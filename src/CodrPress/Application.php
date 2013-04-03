@@ -17,8 +17,7 @@ use SilexMtHaml\MtHamlServiceProvider;
 use Mango\Mango,
     Mango\DocumentManager;
 
-use CodrPress\Model\Config as ConfigModel,
-    CodrPress\Helper\ContentHelper;
+use CodrPress\Helper\ContentHelper;
 
 class Application extends SilexApplication
 {
