@@ -69,7 +69,7 @@ class PostController implements ControllerProviderInterface
     private function connectRestRoutes(Application $app, ControllerCollection $router, $sanitize)
     {
         $viewHelper = new PostRestViewHelper();
-        $login = $this->_setUpRestInterface($app);
+        $login = $this->setUpRestInterface($app);
         $validateIdRegex = '[a-z0-9]{24}';
 
         $router->get('/posts/', function () use ($app, $viewHelper) {
@@ -120,7 +120,7 @@ class PostController implements ControllerProviderInterface
             ->before($login);
     }
 
-    protected function _setUpRestInterface(Application $app)
+    private function setUpRestInterface(Application $app)
     {
         $app->before(function (Request $request) {
             if (strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
