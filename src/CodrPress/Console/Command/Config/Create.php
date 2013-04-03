@@ -62,11 +62,11 @@ class Create extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (file_exists('conf/codrpress.yml')) {
-            $defaultValues = Yaml::parse('conf/codrpress.yml', true);
+        if (file_exists('config/codrpress.yml')) {
+            $defaultValues = Yaml::parse('config/codrpress.yml', true);
         }
 
-        if (!is_writeable('conf/codrpress.yml') && !is_writeable('conf/')) {
+        if (!is_writeable('config/codrpress.yml') && !is_writeable('config/')) {
             $output->writeln('Config directory or config file is not writeable. Please check the file permissions!');
             exit();
         }
@@ -95,8 +95,8 @@ class Create extends Command
         if ($dialog->askConfirmation($output, 'Do you really want to write the new config file? [yes] ')) {
             $dumper = new Dumper();
             $yaml = $dumper->dump($config, 1);
-            file_put_contents('conf/codrpress.yml', $yaml);
-            $output->writeln('<info>New config file was written to "conf/codrpress.yml".</info>');
+            file_put_contents('config/codrpress.yml', $yaml);
+            $output->writeln('<info>New config file was written to "config/codrpress.yml".</info>');
         }
     }
 }

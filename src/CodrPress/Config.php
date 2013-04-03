@@ -36,7 +36,7 @@ class Config extends MutableMap
 
     public function getConfDir()
     {
-        return realpath($this->getBaseDir() . '/conf/');
+        return realpath($this->getBaseDir() . '/config/');
     }
 
     public function sanitize($data)
