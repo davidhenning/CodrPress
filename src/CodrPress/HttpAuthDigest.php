@@ -15,35 +15,35 @@ class HttpAuthDigest
      * @var string
      */
 
-    protected $_digestHash = null;
+    private $digestHash = null;
 
     /**
      * Parsed digest array
      * @var array
      */
 
-    protected $_digest = null;
+    private $digest = null;
 
     /**
      * Realm name
      * @var string
      */
 
-    protected $_realm = null;
+    private $realm = null;
 
     /**
      * Nonce
      * @var string
      */
 
-    protected $_nonce = null;
+    private $nonce = null;
 
     /**
      * Opaque
      * @var string
      */
 
-    protected $_opaque = null;
+    private $opaque = null;
 
     public function __construct(Request $request, $realm)
     {
@@ -54,19 +54,19 @@ class HttpAuthDigest
             $digest = $httpAuth;
         }
 
-        $this->_digestHash = $digest;
-        $this->_realm = $realm;
+        $this->digestHash = $digest;
+        $this->realm = $realm;
 
         $ip = $request->getClientIp();
         $opaque = sha1($realm . $request->server->get('HTTP_USER_AGENT') . $ip);
 
-        $this->_nonce = sha1(uniqid($ip));
-        $this->_opaque = $opaque;
+        $this->nonce = sha1(uniqid($ip));
+        $this->opaque = $opaque;
     }
 
-    protected function _parseDigest()
+    private function parseDigest()
     {
-        if (empty($this->_digestHash)) {
+        if (empty($this->digestHash)) {
             throw new HttpException('Unauthorized', 401);
         }
 
@@ -83,7 +83,7 @@ class HttpAuthDigest
         $necessaryPart = implode("|", array_keys($necessaryParts));
         $digest = array();
 
-        preg_match_all('@(' . $necessaryPart . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $this->_digestHash, $matches, PREG_SET_ORDER);
+        preg_match_all('@(' . $necessaryPart . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $this->digestHash, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match) {
             $digest[$match[1]] = $match[3] ? $match[3] : $match[4];
@@ -94,14 +94,14 @@ class HttpAuthDigest
             throw new HttpException('Bad Request', 400);
         }
 
-        $this->_digest = $digest;
+        $this->digest = $digest;
     }
 
     public function sendAuthenticationHeader($force = false)
     {
-        if (empty($this->_digestHash) || $force === true) {
+        if (empty($this->digestHash) || $force === true) {
             $header = array(
-                'WWW-Authenticate' => 'Digest realm="' . $this->_realm . '",nonce="' . $this->_nonce . '",qop="auth",opaque="' . $this->_opaque . '"'
+                'WWW-Authenticate' => 'Digest realm="' . $this->realm . '",nonce="' . $this->nonce . '",qop="auth",opaque="' . $this->opaque . '"'
             );
 
             return new Response('Please authenticate', 401, $header);
@@ -112,28 +112,28 @@ class HttpAuthDigest
 
     public function getUserName()
     {
-        $this->_parseDigest();
-        return $this->_digest['username'];
+        $this->parseDigest();
+        return $this->digest['username'];
     }
 
     public function authenticate($token)
     {
-        $this->_parseDigest();
+        $this->parseDigest();
         $a1 = $token; // md5("{$username}:{$realm}:{$password}")
-        $a2 = md5("{$_SERVER['REQUEST_METHOD']}:{$this->_digest['uri']}");
+        $a2 = md5("{$_SERVER['REQUEST_METHOD']}:{$this->digest['uri']}");
 
         $aValidRepsonse = array(
             $a1,
-            $this->_digest["nonce"],
-            $this->_digest["nc"],
-            $this->_digest["cnonce"],
-            $this->_digest["qop"],
+            $this->digest["nonce"],
+            $this->digest["nc"],
+            $this->digest["cnonce"],
+            $this->digest["qop"],
             $a2
         );
 
         $validRepsonse = md5(implode(':', $aValidRepsonse));
 
-        if (($validRepsonse === $this->_digest["response"]) === false) {
+        if (($validRepsonse === $this->digest["response"]) === false) {
             $e = new HttpException('Unauthorized', 401);
             $e->setCallingObject($this);
             throw $e;

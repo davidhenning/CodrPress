@@ -7,29 +7,29 @@ use Silex\Application;
 class PaginationHelper
 {
 
-    protected $_app;
-    protected $_route;
-    protected $_parameters;
-    protected $_limit;
-    protected $_currentPage;
-    protected $_pagination;
+    private $app;
+    private $route;
+    private $parameters;
+    private $limit;
+    private $currentPage;
+    private $pagination;
 
     public function __construct(Application $app, $route = '', $parameters = array(), $currentPage = 1, $limit = 10)
     {
-        $this->_app = $app;
-        $this->_route = $route;
-        $this->_parameters = $parameters;
-        $this->_limit = $limit;
-        $this->_currentPage = $currentPage;
+        $this->app = $app;
+        $this->route = $route;
+        $this->parameters = $parameters;
+        $this->limit = $limit;
+        $this->currentPage = $currentPage;
     }
 
     public function getPagination($total, $route = null, $parameters = array())
     {
-        if ($this->_pagination === null) {
+        if ($this->pagination === null) {
             // compute total pages
-            $route = (!is_null($route)) ? $route : $this->_route;
-            $limit = $this->_limit;
-            $currentPage = $this->_currentPage;
+            $route = (!is_null($route)) ? $route : $this->route;
+            $limit = $this->limit;
+            $currentPage = $this->currentPage;
             $pageCount = (int)ceil($total / $limit);
 
             if ($pageCount > 1) {
@@ -64,11 +64,11 @@ class PaginationHelper
                 }
 
 
-                $this->_pagination = $pages;
+                $this->pagination = $pages;
             }
         }
 
-        return $this->_pagination;
+        return $this->pagination;
     }
 
     public function getPages($route, $parameters = array(), $pageCount)
@@ -83,7 +83,7 @@ class PaginationHelper
                 'active' => false
             );
 
-            if ($i === $this->_currentPage) {
+            if ($i === $this->currentPage) {
                 $page['active'] = true;
             }
 
@@ -96,7 +96,7 @@ class PaginationHelper
     public function createPageUrl($route, $parameters = array(), $page = 1, $getParameters = array())
     {
         $parameters = array_merge($parameters, array('page' => $page));
-        $url = $this->_app['url_generator']->generate($route, $parameters);
+        $url = $this->app['url_generator']->generate($route, $parameters);
 
         if (!empty($getParameters)) {
             $url .= '?' . http_build_query($getParameters);

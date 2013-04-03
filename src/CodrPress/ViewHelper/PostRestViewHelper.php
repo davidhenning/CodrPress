@@ -12,7 +12,7 @@ use CodrPress\Model\Post;
 class PostRestViewHelper
 {
 
-    protected function _getContentSkeleton($httpStatusCode)
+    private function getContentSkeleton($httpStatusCode)
     {
         return array(
             'meta' => array(
@@ -33,7 +33,7 @@ class PostRestViewHelper
         $total = $posts->count();
 
         $posts = $posts->limit($limit)->skip($offset)->sort(['created_at' => -1]);
-        $content = $this->_getContentSkeleton(200);
+        $content = $this->getContentSkeleton(200);
         $found = $posts->count();
 
         if ($found > 0) {
@@ -57,12 +57,12 @@ class PostRestViewHelper
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
             }
 
-            $content = $this->_getContentSkeleton(200);
+            $content = $this->getContentSkeleton(200);
             $content['response']['posts'][] = $post->first()->getArray();
             $content['response']['total'] = 1;
             $content['response']['found'] = 1;
         } catch (\Exception $e) {
-            $content = $this->_getContentSkeleton(404);
+            $content = $this->getContentSkeleton(404);
             $content['response']['posts'] = array();
             $content['response']['total'] = 0;
             $content['response']['found'] = 0;
@@ -97,14 +97,14 @@ class PostRestViewHelper
 
             $post->store();
             $status = (!is_null($id)) ? 202 : 201;
-            $content = $this->_getContentSkeleton($status);
+            $content = $this->getContentSkeleton($status);
             $content['response'] = array(
                 'action' => (!is_null($id)) ? 'update' : 'create',
                 'documentId' => (string)$post->_id,
                 'documentUri' => "/post/{$post->_id}/"
             );
         } catch (\Exception $e) {
-            $content = $this->_getContentSkeleton(404);
+            $content = $this->getContentSkeleton(404);
             $content['response']['posts'] = array();
             $content['response']['total'] = 0;
             $content['response']['found'] = 0;
@@ -118,13 +118,13 @@ class PostRestViewHelper
         try {
             $post = Post::byId($id)->first();
             $post->remove();
-            $content = $this->_getContentSkeleton(202);
+            $content = $this->getContentSkeleton(202);
             $content['response'] = array(
                 'action' => 'delete',
                 'documentId' => $id
             );
         } catch (\Exception $e) {
-            $content = $this->_getContentSkeleton(404);
+            $content = $this->getContentSkeleton(404);
             $content['response']['posts'] = array();
             $content['response']['total'] = 0;
             $content['response']['found'] = 0;
@@ -135,7 +135,7 @@ class PostRestViewHelper
 
     public function getConvertMarkdownContent(Application $app)
     {
-        $content = $this->_getContentSkeleton(200);
+        $content = $this->getContentSkeleton(200);
         $posts = Post::where([]);
         $posts->map(function ($document) {
             $document->store();

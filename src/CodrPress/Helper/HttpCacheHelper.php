@@ -12,26 +12,26 @@ class HttpCacheHelper
 
     public static function getResponse(Application $app, $content, $status = 200, $useCache = true)
     {
-        return self::_prepareResponse($app, new Response($content, $status), $useCache);
+        return self::prepareResponse($app, new Response($content, $status), $useCache);
     }
 
     public static function getJsonResponse(Application $app, $content, $status = 200, $useCache = true)
     {
-        return self::_prepareResponse($app, new JsonResponse($content, $status), $useCache);
+        return self::prepareResponse($app, new JsonResponse($content, $status), $useCache);
     }
 
-    protected static function _prepareResponse(Application $app, Response $response, $useCache = true)
+    private static function prepareResponse(Application $app, Response $response, $useCache = true)
     {
         $config = $app['config'];
 
         if ($useCache === true && $config->get('codrpress.http.use_cache') === true) {
-            $response = self::_setCacheHeader($response, $config);
+            $response = self::setCacheHeader($response, $config);
         }
 
         return $response;
     }
 
-    protected static function _setCacheHeader(Response $response, $config)
+    private static function setCacheHeader(Response $response, $config)
     {
         $expiration = new \DateTime();
         $ttl = $config->get('codrpress.http.cache_ttl');

@@ -61,12 +61,12 @@ class PostController implements ControllerProviderInterface
             ->convert('slug', $sanitize)
             ->bind('post');
 
-        $this->_connectRestRoutes($app, $router, $sanitize);
+        $this->connectRestRoutes($app, $router, $sanitize);
 
         return $router;
     }
 
-    protected function _connectRestRoutes(Application $app, ControllerCollection $router, $sanitize)
+    private function connectRestRoutes(Application $app, ControllerCollection $router, $sanitize)
     {
         $viewHelper = new PostRestViewHelper();
         $login = $this->_setUpRestInterface($app);
