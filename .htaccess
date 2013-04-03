@@ -10,6 +10,6 @@
 </IfModule>
 
 <Files console.php>
-  Order allow,deny
-  Deny from all
+    Order allow,deny
+    Deny from all
 </Files>
