@@ -1,6 +1,6 @@
 <?php
 
-namespace CodrPress\ViewHelper;
+namespace CodrPress\Helper;
 
 use Silex\Application;
 

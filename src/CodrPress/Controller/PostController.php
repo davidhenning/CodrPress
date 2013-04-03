@@ -16,7 +16,7 @@ use CodrPress\HttpAuthDigest,
 use CodrPress\Model\User,
     CodrPress\Model\Post,
     CodrPress\Helper\HttpCacheHelper,
-    CodrPress\ViewHelper\PostRestViewHelper,
+    CodrPress\Helper\PostRestViewHelper,
     CodrPress\Exception\PostNotFoundException;
 
 class PostController implements ControllerProviderInterface
