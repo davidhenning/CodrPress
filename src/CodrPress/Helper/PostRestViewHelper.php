@@ -12,12 +12,12 @@ class PostRestViewHelper
 
     private function getContentSkeleton($httpStatusCode)
     {
-        return array(
-            'meta' => array(
+        return [
+            'meta' => [
                 'status' => $httpStatusCode,
                 'msg' => Response::$statusTexts[$httpStatusCode]
-            )
-        );
+            ]
+        ];
     }
 
     public function getPostsContent(Application $app)
@@ -61,7 +61,7 @@ class PostRestViewHelper
             $content['response']['found'] = 1;
         } catch (\Exception $e) {
             $content = $this->getContentSkeleton(404);
-            $content['response']['posts'] = array();
+            $content['response']['posts'] = [];
             $content['response']['total'] = 0;
             $content['response']['found'] = 0;
         }
@@ -96,14 +96,14 @@ class PostRestViewHelper
             $post->store();
             $status = (!is_null($id)) ? 202 : 201;
             $content = $this->getContentSkeleton($status);
-            $content['response'] = array(
+            $content['response'] = [
                 'action' => (!is_null($id)) ? 'update' : 'create',
                 'documentId' => (string)$post->_id,
                 'documentUri' => "/post/{$post->_id}/"
-            );
+            ];
         } catch (\Exception $e) {
             $content = $this->getContentSkeleton(404);
-            $content['response']['posts'] = array();
+            $content['response']['posts'] = [];
             $content['response']['total'] = 0;
             $content['response']['found'] = 0;
         }
@@ -117,13 +117,13 @@ class PostRestViewHelper
             $post = Post::byId($id)->first();
             $post->remove();
             $content = $this->getContentSkeleton(202);
-            $content['response'] = array(
+            $content['response'] = [
                 'action' => 'delete',
                 'documentId' => $id
-            );
+            ];
         } catch (\Exception $e) {
             $content = $this->getContentSkeleton(404);
-            $content['response']['posts'] = array();
+            $content['response']['posts'] = [];
             $content['response']['total'] = 0;
             $content['response']['found'] = 0;
         }
@@ -140,9 +140,9 @@ class PostRestViewHelper
         });
 
         $content['status'] = 202;
-        $content['response'] = array(
+        $content['response'] = [
             'action' => 'convertMarkdown',
-        );
+        ];
 
         return $content;
     }

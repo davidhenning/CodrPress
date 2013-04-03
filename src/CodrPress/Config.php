@@ -45,7 +45,8 @@ class Config extends MutableMap
         }
 
         if (is_array($data)) {
-            $sanitizedData = array();
+            $sanitizedData = [];
+
             foreach ($data as $key => $value) {
                 $sanitizedData[$key] = $this->sanitize($value);
             }

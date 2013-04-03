@@ -18,9 +18,9 @@ class PostController implements ControllerProviderInterface
         };
 
         $router->get('/admin/posts', function() use ($app) {
-            return $app['twig']->render('admin/posts.twig', array(
+            return $app['twig']->render('admin/posts.twig', [
                 'posts' => Post::where()
-            ));
+            ]);
         })
             ->bind('admin_posts');
 
@@ -30,9 +30,9 @@ class PostController implements ControllerProviderInterface
             ->bind('admin_post_new');
 
         $router->get('/admin/post/{id}', function($id) use ($app) {
-            return $app['twig']->render('admin/post.twig', array(
+            return $app['twig']->render('admin/post.twig', [
                 'post' => Post::find($id)->first()
-            ));
+            ]);
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)

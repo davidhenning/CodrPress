@@ -34,13 +34,13 @@ class Application extends SilexApplication
         ContentHelper::setMarkdown(new AmplifyrParser());
 
         $baseDir = $config->getBaseDir();
-        $this->register(new TwigServiceProvider(), array(
+        $this->register(new TwigServiceProvider(), [
             'twig.path' => $baseDir . "/views",
-            'twig.options' => array(
+            'twig.options' => [
                 'cache' => $baseDir . '/cache/twig',
                 'auto_reload' => $config->get('codrpress.debug')
-            )
-        ));
+            ]
+        ]);
 
         $this->register(new UrlGeneratorServiceProvider());
         $this->register(new MtHamlServiceProvider());
@@ -69,10 +69,10 @@ class Application extends SilexApplication
     private function getErrorReponse(Request $request, \Exception $e)
     {
         $code = $this->getErrorHttpStatus($e->getCode());
-        $content = $this['twig']->render('error.haml', array(
+        $content = $this['twig']->render('error.haml', [
             'code' => $code,
             'message' => $e->getMessage()
-        ));
+        ]);
 
         return new Response($content, $code);
     }
@@ -80,18 +80,18 @@ class Application extends SilexApplication
     private function getJsonErrorReponse(Request $request, \Exception $e)
     {
         $code = $this->getErrorHttpStatus($e->getCode());
-        $error = array(
+        $error = [
             'status' => $code,
             'time' => date('Y-m-d H:i:s'),
-            'request' => array(
+            'request' => [
                 'method' => $request->getMethod(),
                 'url' => $request->getPathInfo()
-            ),
-            'response' => array(
+            ],
+            'response' => [
                 'error' => str_ireplace('exception', '', get_class($e)),
                 'message' => $e->getMessage()
-            )
-        );
+            ]
+        ];
 
         return $this->json($error, $code);
     }

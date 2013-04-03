@@ -42,7 +42,7 @@ class FeedController implements ControllerProviderInterface
                 $entry->addChild('content', $post->body_html)->addAttribute('type', 'html');
             });
 
-            return new Response($feed->asXML(), 200, array('Content-type' => 'text/xml'));
+            return new Response($feed->asXML(), 200, ['Content-type' => 'text/xml']);
         })
             ->bind('feed');
 

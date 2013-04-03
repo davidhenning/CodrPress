@@ -69,7 +69,7 @@ class Post implements DocumentInterface
 
     public static function posts($published = true)
     {
-        $conditions = ['published_at' => array('$ne' => null)];
+        $conditions = ['published_at' => ['$ne' => null]];
 
         if ($published === true) {
             $conditions['status'] = 'published';
@@ -93,7 +93,7 @@ class Post implements DocumentInterface
                 foreach($post->tags as $tag) {
                     if(!isset($tags->{$tag})) {
                         $list = new MutableMap();
-                        $tags->{$tag} = $list->assign(array('name' => $tag, 'count' => 0));
+                        $tags->{$tag} = $list->assign(['name' => $tag, 'count' => 0]);
                     }
 
                     $tags->{$tag}->count += 1;
@@ -148,10 +148,10 @@ class Post implements DocumentInterface
     private function createSlugs($slugs, $title)
     {
         if (!is_array($slugs)) {
-            $slugs = array($slugs);
+            $slugs = [$slugs];
         }
 
-        $slugs = array_merge($slugs, array($title));
+        $slugs = array_merge($slugs, [$title]);
 
         $slugs = new MutableMap($slugs);
         $slugs->map(function($value) {

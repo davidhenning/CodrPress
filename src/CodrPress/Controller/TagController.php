@@ -29,13 +29,13 @@ class TagController implements ControllerProviderInterface
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
             }
 
-            return $app['twig']->render('posts.haml', array(
+            return $app['twig']->render('posts.haml', [
                 'config' => $app['config'],
                 'tag' => $tag,
                 'posts' => $posts,
                 'pages' => $pages->sort(['created_at' => -1]),
                 'tags' => $tags
-            ));
+            ]);
         })
             ->convert('tag', $sanitize)
             ->bind('tag');

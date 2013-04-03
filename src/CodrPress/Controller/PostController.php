@@ -40,12 +40,12 @@ class PostController implements ControllerProviderInterface
                 throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
             }
 
-            $content = $app['twig']->render('post.haml', array(
+            $content = $app['twig']->render('post.haml', [
                 'config' => $app['config'],
                 'posts' => $posts,
                 'pages' => $pages->sort(['created_at' => -1]),
                 'tags' => $tags
-            ));
+            ]);
 
             return HttpCacheHelper::getResponse($app, $content, 200);
         })
@@ -122,7 +122,7 @@ class PostController implements ControllerProviderInterface
         $app->before(function (Request $request) {
             if (strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
                 $data = json_decode($request->getContent(), true);
-                $request->request->replace(is_array($data) ? $data : array());
+                $request->request->replace(is_array($data) ? $data : []);
             }
         });
 

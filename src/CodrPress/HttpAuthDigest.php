@@ -69,7 +69,7 @@ class HttpAuthDigest
             throw new HttpException('Unauthorized', 401);
         }
 
-        $necessaryParts = array(
+        $necessaryParts = [
             "nonce" => 1,
             "nc" => 1,
             "cnonce" => 1,
@@ -77,10 +77,10 @@ class HttpAuthDigest
             "username" => 1,
             "uri" => 1,
             "response" => 1
-        );
+        ];
 
         $necessaryPart = implode("|", array_keys($necessaryParts));
-        $digest = array();
+        $digest = [];
 
         preg_match_all('@(' . $necessaryPart . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $this->digestHash, $matches, PREG_SET_ORDER);
 
@@ -99,9 +99,9 @@ class HttpAuthDigest
     public function sendAuthenticationHeader($force = false)
     {
         if (empty($this->digestHash) || $force === true) {
-            $header = array(
+            $header = [
                 'WWW-Authenticate' => 'Digest realm="' . $this->realm . '",nonce="' . $this->nonce . '",qop="auth",opaque="' . $this->opaque . '"'
-            );
+            ];
 
             return new Response('Please authenticate', 401, $header);
         }
@@ -121,14 +121,14 @@ class HttpAuthDigest
         $a1 = $token; // md5("{$username}:{$realm}:{$password}")
         $a2 = md5("{$_SERVER['REQUEST_METHOD']}:{$this->digest['uri']}");
 
-        $aValidRepsonse = array(
+        $aValidRepsonse = [
             $a1,
             $this->digest["nonce"],
             $this->digest["nc"],
             $this->digest["cnonce"],
             $this->digest["qop"],
             $a2
-        );
+        ];
 
         $validRepsonse = md5(implode(':', $aValidRepsonse));
 

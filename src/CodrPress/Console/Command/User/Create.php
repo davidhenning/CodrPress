@@ -13,8 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Create extends Command
 {
-    private $app = array();
-
+    private $app;
 
     public function __construct(Application $app, $name = null)
     {

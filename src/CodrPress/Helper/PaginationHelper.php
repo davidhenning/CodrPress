@@ -14,7 +14,7 @@ class PaginationHelper
     private $currentPage;
     private $pagination;
 
-    public function __construct(Application $app, $route = '', $parameters = array(), $currentPage = 1, $limit = 10)
+    public function __construct(Application $app, $route = '', $parameters = [], $currentPage = 1, $limit = 10)
     {
         $this->app = $app;
         $this->route = $route;
@@ -23,7 +23,7 @@ class PaginationHelper
         $this->currentPage = $currentPage;
     }
 
-    public function getPagination($total, $route = null, $parameters = array())
+    public function getPagination($total, $route = null, $parameters = [])
     {
         if ($this->pagination === null) {
             // compute total pages
@@ -34,12 +34,12 @@ class PaginationHelper
 
             if ($pageCount > 1) {
                 // init array of the pagination
-                $pages = array(
-                    'pages' => array(),
+                $pages = [
+                    'pages' => [],
                     'currentPage' => $currentPage,
                     'documentsPerPage' => $limit,
                     'totalPages' => $pageCount
-                );
+                ];
 
                 // set URL to previous page and first page
                 if ($currentPage > 1) {
@@ -71,17 +71,17 @@ class PaginationHelper
         return $this->pagination;
     }
 
-    public function getPages($route, $parameters = array(), $pageCount)
+    public function getPages($route, $parameters = [], $pageCount)
     {
-        $pages = array();
+        $pages = [];
 
         // set pages with number, url and active state
         for ($i = 1; $i <= $pageCount; $i++) {
-            $page = array(
+            $page = [
                 'nr' => $i,
                 'url' => $this->createPageUrl($route, $parameters, $i),
                 'active' => false
-            );
+            ];
 
             if ($i === $this->currentPage) {
                 $page['active'] = true;
@@ -93,9 +93,9 @@ class PaginationHelper
         return $pages;
     }
 
-    public function createPageUrl($route, $parameters = array(), $page = 1, $getParameters = array())
+    public function createPageUrl($route, $parameters = [], $page = 1, $getParameters = [])
     {
-        $parameters = array_merge($parameters, array('page' => $page));
+        $parameters = array_merge($parameters, ['page' => $page]);
         $url = $this->app['url_generator']->generate($route, $parameters);
 
         if (!empty($getParameters)) {

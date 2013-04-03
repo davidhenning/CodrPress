@@ -44,17 +44,15 @@ class HomepageController implements ControllerProviderInterface
         $offset = $limit * ($page - 1);
         $posts = $posts->limit($limit)->skip($offset);
         $total = $posts->count();
-        $templateData = array(
+        $templateData = [
             'config' => $config,
             'posts' => $posts->limit($limit)->skip($offset)->sort(['created_at' => -1]),
             'pages' => $pages->sort(['created_at' => -1]),
             'tags' => $tags
-        );
-
-        #print_r($templateData['posts']->all());
+        ];
 
         if ($total > $limit) {
-            $pagination = new PaginationHelper($app, 'home_page', array(), $page, $limit);
+            $pagination = new PaginationHelper($app, 'home_page', [], $page, $limit);
             $templateData['pagination'] = $pagination->getPagination($total);
         }
 
