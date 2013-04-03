@@ -70,7 +70,7 @@ class Application extends SilexApplication
 
     private function getErrorHttpStatus($code)
     {
-        return ($code > 100 && $code <= 600) ?: 500;
+        return ($code > 100 && $code <= 600) ? $code : 500;
     }
 
     private function getErrorReponse(Request $request, \Exception $e)
