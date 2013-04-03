@@ -29,6 +29,12 @@ $ curl -sS https://getcomposer.org/installer | php
 $ php composer.phar install
 ~~~
 
+If you want to run the unit tests, please install the developer dependencies:
+
+~~~ bash
+$ php composer.phar install --dev
+~~~
+
 #### Configure CodrPress
 
 ~~~ bash
@@ -44,6 +50,14 @@ $ php console.php user:create <username> <mail address>
 #### Administration
 
 Shame on me, the rest isn't finished yet.
+
+#### Local testing without a web server
+
+~~~ bash
+php -S localhost:1337 -t .
+~~~
+
+Open `http://localhost:1337` in your browser.
 
 ### Common problems
 
