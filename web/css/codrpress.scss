@@ -1,0 +1,142 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Droid+Sans+Mono|Roboto+Condensed);
+
+/* Fonts */
+
+body, textarea {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 1.6em;
+  color: #263034;
+}
+
+pre, code {
+  font-family: 'Droid Sans Mono', monospace;
+  font-size: 14px;
+  color: #000000;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+h1 {
+  font-size: 32px;
+  color: #263034;
+
+  a {
+    color: inherit;
+
+    &:hover {
+      color: #FF4E00;
+      text-decoration: none;
+    }
+  }
+}
+
+time + h1 {
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3, h4, h5, h6 {
+  font-size: 16px;
+}
+
+header {
+  margin: 10px 0;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+h1 + h2 {
+  font-family: inherit;
+  font-weight: normal;
+  font-size: 16px;
+  margin-top: -10px;
+  color: #657B83;
+}
+
+p {
+  margin: 1em 0;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  margin-top: 2px;
+}
+
+.label, .badge {
+  font-weight: normal;
+  background: #657B83;
+}
+
+.label a, .badge a {
+  color: inherit;
+}
+
+section article {
+  margin-bottom: 4em;
+}
+
+article {
+  .meta {
+    margin: 0;
+    padding: .2em 0 .3em 0;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    line-height: 1em;
+    overflow: hidden;
+
+    time {
+      font-size: 14px;
+      padding-top: 2px;
+      display: block;
+    }
+
+    .label {
+      background: #FF4E00;
+
+      &:hover {
+        background: #dc322f;
+      }
+    }
+
+    a {
+      display: inline-block;
+      text-decoration: none;
+      margin-right: 5px;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .content {
+    color: #555;
+
+    h1, h2, h3, h4, h5, h6 {
+      line-height: inherit;
+    }
+
+    a {
+      color: #FF4E00;
+      text-decoration: none;
+
+      &:hover {
+        color: #dc322f;
+      }
+    }
+  }
+
+  ul {
+    list-style-type: square;
+  }
+
+  li {
+    margin: 0 0 .5em 0;
+    line-height: 2em;
+  }
+}
