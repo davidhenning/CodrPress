@@ -12,6 +12,7 @@ if (is_readable($configFile)) {
     $config->addConfigFile($configFile);
     $app = new CodrPress\Application($config);
     $console->add(new CodrPress\Console\Command\User\Create($app));
+    $console->add(new CodrPress\Console\Command\Post\Render($app));
 }
 
 $console->add(new \CodrPress\Console\Command\Config\Create());
