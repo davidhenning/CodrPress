@@ -2,11 +2,10 @@
 
 namespace CodrPress\Model;
 
-use CodrPress\Helper\ContentHelper;
 use Collection\MutableMap;
+use Guzzle\Http\Client;
 use Mango\Document;
 use Mango\DocumentInterface;
-use Silex\Application;
 
 class Post implements DocumentInterface
 {
@@ -139,10 +138,23 @@ class Post implements DocumentInterface
     private function prepare()
     {
         //transform Markdown
-        $this->body_html = ContentHelper::getMarkdown()->transform($this->body);
+        $this->body_html = $this->render($this->body);
 
         // create slugs
         $this->slugs = $this->createSlugs($this->slugs, $this->title);
+    }
+
+    private function render($src)
+    {
+        $client = new Client();
+        $request = $client->post(
+            'http://amplify.webcodr.de/',
+            null,
+            ['source' => $src]
+        );
+        $response = $request->send();
+
+        return (string)$response->getBody();
     }
 
     private function createSlugs($slugs, $title)

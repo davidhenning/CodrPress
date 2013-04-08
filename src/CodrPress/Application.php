@@ -31,8 +31,6 @@ class Application extends SilexApplication
         $dm = new DocumentManager($mango);
         $this['mango.dm'] = $dm;
 
-        ContentHelper::setMarkdown(new AmplifyrParser());
-
         $baseDir = $config->getBaseDir();
         $this->register(new TwigServiceProvider(), [
             'twig.path' => $baseDir . "/views",

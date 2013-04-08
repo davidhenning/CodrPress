@@ -1,75 +1,70 @@
 {
-    "hash": "6737585cac9cf43581ec89e67ef0965e",
+    "hash": "b54b0a1da1e780afe38157d25c9519d3",
     "packages": [
         {
-            "name": "fg/essence",
+            "name": "guzzle/guzzle",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/felixgirault/essence.git",
-                "reference": "19d06d60482daa8177cb4e53549fd8325a5a9da8"
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "6290b06491fcf871ebb7c03dfe10f6d2edfff84e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/felixgirault/essence/zipball/19d06d60482daa8177cb4e53549fd8325a5a9da8",
-                "reference": "19d06d60482daa8177cb4e53549fd8325a5a9da8",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/6290b06491fcf871ebb7c03dfe10f6d2edfff84e",
+                "reference": "6290b06491fcf871ebb7c03dfe10f6d2edfff84e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "ext-curl": "*",
+                "php": ">=5.3.2",
+                "symfony/event-dispatcher": ">=2.1"
             },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fg": "lib/"
-                }
-            },
-            "notification-url": "http://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Félix Girault",
-                    "email": "felix.girault@gmail.com",
-                    "homepage": "http://www.felix-girault.fr",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Extracts informations about medias on the web, like youtube videos, twitter statuses or blog articles.",
-            "homepage": "http://github.com/felixgirault/essence",
-            "keywords": [
-                "embed",
-                "media",
-                "oembed",
-                "opengraph"
-            ],
-            "time": "2013-03-28 13:39:06"
-        },
-        {
-            "name": "kriswallsmith/buzz",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kriswallsmith/Buzz.git",
-                "reference": "309e674e87bca0850bd0ec17226ff9beb86d7651"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/309e674e87bca0850bd0ec17226ff9beb86d7651",
-                "reference": "309e674e87bca0850bd0ec17226ff9beb86d7651",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "ext-curl": "*"
+                "doctrine/cache": "*",
+                "monolog/monolog": "1.*",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "1.0.*",
+                "symfony/class-loader": "*",
+                "zend/zend-cache1": "1.12",
+                "zend/zend-log1": "1.12",
+                "zendframework/zend-cache": "2.0.*",
+                "zendframework/zend-log": "2.0.*"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
-                    "Buzz": "lib/"
+                    "Guzzle\\Tests": "tests/",
+                    "Guzzle": "src/"
                 }
             },
             "notification-url": "http://packagist.org/downloads/",
@@ -78,18 +73,27 @@
             ],
             "authors": [
                 {
-                    "name": "Kris Wallsmith",
-                    "email": "kris.wallsmith@gmail.com",
-                    "homepage": "http://kriswallsmith.net/"
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
                 }
             ],
-            "description": "Lightweight HTTP client",
-            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
             "keywords": [
+                "client",
                 "curl",
-                "http client"
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
             ],
-            "time": "2013-03-29 13:04:03"
+            "time": "2013-04-08 00:02:00"
         },
         {
             "name": "mthaml/mthaml",
@@ -258,59 +262,17 @@
             "time": "2012-12-21 11:40:51"
         },
         {
-            "name": "radiant/radiant",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/MadCatme/Radiant.git",
-                "reference": "6beb46701447254f386b00568dbf723617039668"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/MadCatme/Radiant/zipball/6beb46701447254f386b00568dbf723617039668",
-                "reference": "6beb46701447254f386b00568dbf723617039668",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Radiant": "src"
-                }
-            },
-            "notification-url": "http://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David Henning",
-                    "email": "madcat.me@gmail.com",
-                    "homepage": "http://webcodr.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple PHP-based syntax highlighter",
-            "homepage": "https://github.com/MadCatme/SilexMarkdown",
-            "keywords": [
-                "syntax highlighting"
-            ],
-            "time": "2012-10-22 18:49:24"
-        },
-        {
             "name": "silex/silex",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "803f809cdaa409e5769b24db952655d7e9187677"
+                "reference": "31139babedb2a4f504737d1d8c5255fca102dae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/803f809cdaa409e5769b24db952655d7e9187677",
-                "reference": "803f809cdaa409e5769b24db952655d7e9187677",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/31139babedb2a4f504737d1d8c5255fca102dae2",
+                "reference": "31139babedb2a4f504737d1d8c5255fca102dae2",
                 "shasum": ""
             },
             "require": {
@@ -378,59 +340,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-04-01 08:47:32"
-        },
-        {
-            "name": "silexmarkdown/silexmarkdown",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/MadCatme/SilexMarkdown.git",
-                "reference": "6c5c153f6a59e2fb62abf2c8cc7027e066765579"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/MadCatme/SilexMarkdown/zipball/6c5c153f6a59e2fb62abf2c8cc7027e066765579",
-                "reference": "6c5c153f6a59e2fb62abf2c8cc7027e066765579",
-                "shasum": ""
-            },
-            "require": {
-                "fg/essence": "*",
-                "kriswallsmith/buzz": "*",
-                "php": ">=5.3.0",
-                "radiant/radiant": "*",
-                "silex/silex": "1.*",
-                "twig/twig": "1.12.*@dev"
-            },
-            "require-dev": {
-                "symfony/browser-kit": "2.1.*",
-                "symfony/css-selector": "2.1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "SilexMarkdown": "src"
-                }
-            },
-            "notification-url": "http://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David Henning",
-                    "email": "madcat.me@gmail.com",
-                    "homepage": "http://webcodr.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple markdown implementation for Silex and Twig",
-            "homepage": "https://github.com/MadCatme/SilexMarkdown",
-            "keywords": [
-                "markdown",
-                "silex"
-            ],
-            "time": "2013-03-31 22:21:37"
+            "time": "2013-04-03 19:59:11"
         },
         {
             "name": "symfony/console",
@@ -439,12 +349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "adbc260c08000aaa75c5f0db8347a29c21d16692"
+                "reference": "d789216529d541b55cf39141724ca71733265f60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/adbc260c08000aaa75c5f0db8347a29c21d16692",
-                "reference": "adbc260c08000aaa75c5f0db8347a29c21d16692",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/d789216529d541b55cf39141724ca71733265f60",
+                "reference": "d789216529d541b55cf39141724ca71733265f60",
                 "shasum": ""
             },
             "require": {
@@ -480,7 +390,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-25 20:03:44"
+            "time": "2013-04-07 20:25:23"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -489,12 +399,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "v2.2.0-RC3"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.2.0-RC3",
-                "reference": "v2.2.0-RC3",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -543,12 +453,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "6af424d4fee81987e76bc76aa4e811859ca70bac"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/6af424d4fee81987e76bc76aa4e811859ca70bac",
-                "reference": "6af424d4fee81987e76bc76aa4e811859ca70bac",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -584,7 +494,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-23 07:49:54"
+            "time": "2013-04-06 10:15:43"
         },
         {
             "name": "symfony/http-kernel",
@@ -593,12 +503,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "3bfc8fda577fb671b2d9395a59fbc87f449fa61f"
+                "reference": "a1e8288f89ec71e448e19df4200ecbc20be930c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/3bfc8fda577fb671b2d9395a59fbc87f449fa61f",
-                "reference": "3bfc8fda577fb671b2d9395a59fbc87f449fa61f",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/a1e8288f89ec71e448e19df4200ecbc20be930c0",
+                "reference": "a1e8288f89ec71e448e19df4200ecbc20be930c0",
                 "shasum": ""
             },
             "require": {
@@ -653,7 +563,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-23 10:43:44"
+            "time": "2013-04-07 20:19:55"
         },
         {
             "name": "symfony/routing",
@@ -662,12 +572,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "a8599d5735c5f1f994cfbf91f59851add9c9f627"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/a8599d5735c5f1f994cfbf91f59851add9c9f627",
-                "reference": "a8599d5735c5f1f994cfbf91f59851add9c9f627",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -711,7 +621,7 @@
             ],
             "description": "Symfony Routing Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-14 09:39:13"
+            "time": "2013-03-23 12:03:22"
         },
         {
             "name": "symfony/yaml",
@@ -720,12 +630,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "3f6d4ab3fd8226ab4ba0be9fc8a238f4338b79ab"
+                "reference": "v2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/3f6d4ab3fd8226ab4ba0be9fc8a238f4338b79ab",
-                "reference": "3f6d4ab3fd8226ab4ba0be9fc8a238f4338b79ab",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.2.1",
+                "reference": "v2.2.1",
                 "shasum": ""
             },
             "require": {
@@ -766,12 +676,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "399916916533589c95dc04e1afd4aeefa34928ad"
+                "reference": "ceadaa68afd5600b96e0dbfd76e063720edf409e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/399916916533589c95dc04e1afd4aeefa34928ad",
-                "reference": "399916916533589c95dc04e1afd4aeefa34928ad",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/ceadaa68afd5600b96e0dbfd76e063720edf409e",
+                "reference": "ceadaa68afd5600b96e0dbfd76e063720edf409e",
                 "shasum": ""
             },
             "require": {
@@ -807,7 +717,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-04-01 08:27:18"
+            "time": "2013-04-08 13:07:19"
         },
         {
             "name": "webcodr/collection",
@@ -858,12 +768,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Mango.git",
-                "reference": "0.6.5"
+                "reference": "88d1160c4d480d6f7d96ec8eb65e82b3eb33c55d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.6.5",
-                "reference": "0.6.5",
+                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/88d1160c4d480d6f7d96ec8eb65e82b3eb33c55d",
+                "reference": "88d1160c4d480d6f7d96ec8eb65e82b3eb33c55d",
                 "shasum": ""
             },
             "require": {
@@ -896,7 +806,7 @@
                 "mongodb",
                 "odm"
             ],
-            "time": "2013-04-02 14:26:43"
+            "time": "2013-04-03 22:01:16"
         }
     ],
     "packages-dev": [
@@ -1050,7 +960,6 @@
         "symfony/yaml": 20,
         "twig/twig": 20,
         "webcodr/mango": 20,
-        "silexmarkdown/silexmarkdown": 20,
         "mthaml/silex-mthaml": 20,
         "symfony/browser-kit": 20,
         "symfony/css-selector": 20
