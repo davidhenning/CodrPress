@@ -130,20 +130,4 @@ class PostRestViewHelper
 
         return $content;
     }
-
-    public function getConvertMarkdownContent(Application $app)
-    {
-        $content = $this->getContentSkeleton(200);
-        $posts = Post::where([]);
-        $posts->map(function ($document) {
-            $document->store();
-        });
-
-        $content['status'] = 202;
-        $content['response'] = [
-            'action' => 'convertMarkdown',
-        ];
-
-        return $content;
-    }
 }

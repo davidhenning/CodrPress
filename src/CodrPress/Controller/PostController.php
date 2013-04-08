@@ -108,13 +108,6 @@ class PostController implements ControllerProviderInterface
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
             ->before($login);
-
-        $router->get('/posts/convertMarkdown/', function () use ($app, $viewHelper) {
-            $content = $viewHelper->getConvertMarkdownContent($app);
-
-            return HttpCacheHelper::getJsonResponse($app, $content, $content['meta']['status'], false);
-        })
-            ->before($login);
     }
 
     private function setUpRestInterface(Application $app)
