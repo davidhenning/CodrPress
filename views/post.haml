@@ -1,7 +1,6 @@
-- extends 'layout.haml'
 - set post = posts.first()
-- block title
-  #{post.title} #{parent()}
+- set title = post.title
+- extends 'layout.haml'
 
 - block body
   %section.articles

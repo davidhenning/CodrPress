@@ -2,27 +2,28 @@
 %html
   %head
     - set blogName = config.get('codrpress.info.blog_title')|default('CodrPress')
-    %title
-      - block title
-        \- #{blogName}
+    %title= "#{title|default('')} - #{blogName}"
     %meta{:name => 'Viewport', :content => 'width=device-width, initial-scale=1.0, maximum-scale=1.0'}
     %link{:rel => 'alternate', :type => 'application/atom+xml', :href => app.url_generator.generate('feed')}
     %link{:rel => 'stylesheet', :type => 'text/css', :href => "#{app.request.basepath}/web/css/screen.css"}
   %body
     .container
-      %header
-        %a{:href => app.url_generator.generate('home')}= blogName
       .row
-        .span7
+        .span3
+        .span6
+          %header
+            %a{:href => app.url_generator.generate('home')}= blogName
           - block body
             &nbsp;
-        .span3.offset2
-          -# if tags is defined
+          %footer
+            %a{:href => 'https://github.com/MadCatme/CodrPress'} powered by CodrPress
+        .span3
+        -#.span3.offset2
+          - if tags is defined
             %section.tags
               - for tag in tags
                 %span
                   %a{:href => app.url_generator.generate('tag', {'tag': tag.name})}= tag.name
-      %footer
-        %a{:href => 'https://github.com/MadCatme/CodrPress'} powered by CodrPress
+
     %script{:type => 'application/javascript', :src => "#{app.request.basepath}/web/js/jquery-1.8.2.min.js"}
     %script{:type => 'application/javascript', :src => "#{app.request.basepath}/web/js/bootstrap.min.js"}
