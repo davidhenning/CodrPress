@@ -119,9 +119,12 @@ class PostController implements ControllerProviderInterface
             }
         });
 
-        $app->error(function (HttpException $e) use ($app) {
+        $app->error(function (Request $request, HttpException $e) use ($app) {
             if ($e->getCode() === 401) {
-                return $e->getCallingObject()->sendAuthenticationHeader(true);
+                $config = $app['config'];
+                $auth = new HttpAuthDigest($request, $config->get('codrpress.auth.digest.realm'));
+
+                return $auth->sendAuthenticationHeader(true);
             }
 
             $exceptionHandler = new ExceptionHandler($app['config']);

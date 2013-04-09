@@ -133,9 +133,7 @@ class HttpAuthDigest
         $validRepsonse = md5(implode(':', $aValidRepsonse));
 
         if (($validRepsonse === $this->digest["response"]) === false) {
-            $e = new HttpException('Unauthorized', 401);
-            $e->setCallingObject($this);
-            throw $e;
+            throw new HttpException('Unauthorized', 401);
         }
     }
 }
