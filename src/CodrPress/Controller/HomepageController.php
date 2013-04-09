@@ -35,15 +35,17 @@ class HomepageController implements ControllerProviderInterface
 
     private function getTemplateData(Application $app, $page = 1)
     {
+        $config = $app['config'];
+
         $posts = Post::posts();
         $pages = Post::pages();
         $tags = Post::tags();
 
-        $config = $app['config'];
+        # pagination values
         $limit = $config->get('codrpress.layout.posts_per_page');
         $offset = $limit * ($page - 1);
-        $posts = $posts->limit($limit)->skip($offset);
         $total = $posts->count();
+
         $templateData = [
             'config' => $config,
             'posts' => $posts->limit($limit)->skip($offset)->sort(['created_at' => -1]),
