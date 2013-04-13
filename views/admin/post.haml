@@ -1,0 +1,22 @@
+- set title = post.title|default('New Post')
+- extends 'admin/layout.haml'
+
+- block body
+  - if post is defined
+    - set action = app.url_generator.generate('admin_post_edit', {'id': post._id})
+  - else
+    - set action = app.url_generator.generate('admin_post_add')
+  %form{:action => action, :method => 'post'}
+    %fieldset
+      %legend Edit Post
+      %label{:for => 'title'} Title
+      %input#title.input-xxlarge{:type => 'text', :name => 'post[title]', :value => post.title|default('')}
+      %label{:for => 'body'} Post
+      %textarea#body.input-xxlarge{:name => 'post[body]', :rows => 30}= post.body|default('')
+      %div
+        %label{:for => 'status'} Status
+        %select#status{:name => 'post[status]'}
+          %option{:selected => (post.status == 'published')} published
+          %option{:selected => (post.status == 'draft')} draft
+      %div
+        %button.btn.btn-success Save

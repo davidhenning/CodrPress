@@ -1,0 +1,15 @@
+- set title = 'Posts'
+- extends 'admin/layout.haml'
+
+- block body
+  %table.table.table-striped
+    %thead
+      %th Date
+      %th Title
+    %tbody
+      - for post in posts
+        - set postUrl = app.url_generator.generate('admin_post', {'id': post.getId()})
+        %tr
+          %td= post.created_at|date('c')
+          %td
+            %a{:href => postUrl}= post.title

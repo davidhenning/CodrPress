@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    - set blogName = config.get('codrpress.info.blog_title')|default('CodrPress')
+    %title= "#{title|default('')} - #{blogName}"
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => "#{app.request.basepath}/web/css/screen.css"}
+  %body
+    .container
+      .row
+        .span3
+        .span8.offset1
+          %header= blogName
+          - block body
+            &nbsp;
+          %footer
+            %a{:href => 'https://github.com/MadCatme/CodrPress'} powered by CodrPress
+        .span3
+    %script{:type => 'application/javascript', :src => "#{app.request.basepath}/web/js/jquery-1.8.2.min.js"}
+    %script{:type => 'application/javascript', :src => "#{app.request.basepath}/web/js/bootstrap.min.js"}
