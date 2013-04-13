@@ -5,6 +5,7 @@ namespace CodrPress\Admin\Controller;
 use CodrPress\Model\Post;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class PostController implements ControllerProviderInterface
 {
@@ -19,7 +20,7 @@ class PostController implements ControllerProviderInterface
 
         $router->get('/admin/posts', function() use ($app) {
             return $app['twig']->render('admin/posts.haml', [
-                'posts' => Post::where()
+                'posts' => Post::where()->sort(['created_at' => -1])
             ]);
         })
             ->bind('admin_posts');
@@ -38,13 +39,23 @@ class PostController implements ControllerProviderInterface
             ->convert('id', $sanitize)
             ->bind('admin_post');
 
-        $router->post('/admin/post', function() use($app) {
-            return $app['twig']->render('admin/post.haml');
+        $router->post('/admin/post', function(Request $request) use($app) {
+            $data = $request->request->get('post');
+            $post = new Post($data);
+            $post->store();
+
+            return $app->redirect($app['url_generator']->generate('admin_posts'));
         })
             ->bind('admin_post_add');
 
-        $router->post('/admin/post/{id}', function($id) use($app) {
-            return $app['twig']->render('admin/post.haml');
+        $router->post('/admin/post/{id}', function(Request $request, $id) use($app) {
+            $data = $request->request->get('post');
+            $post = Post::find($id)->first();
+
+            $post->update($data);
+            $post->store();
+
+            return $app->redirect($app['url_generator']->generate('admin_posts'));
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
