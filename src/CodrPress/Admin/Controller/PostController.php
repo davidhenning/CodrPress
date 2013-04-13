@@ -18,19 +18,19 @@ class PostController implements ControllerProviderInterface
         };
 
         $router->get('/admin/posts', function() use ($app) {
-            return $app['twig']->render('admin/posts.twig', [
+            return $app['twig']->render('admin/posts.haml', [
                 'posts' => Post::where()
             ]);
         })
             ->bind('admin_posts');
 
         $router->get('/admin/post/new', function() use ($app) {
-            return $app['twig']->render('admin/post.twig');
+            return $app['twig']->render('admin/post.haml');
         })
             ->bind('admin_post_new');
 
         $router->get('/admin/post/{id}', function($id) use ($app) {
-            return $app['twig']->render('admin/post.twig', [
+            return $app['twig']->render('admin/post.haml', [
                 'post' => Post::find($id)->first()
             ]);
         })
@@ -39,12 +39,12 @@ class PostController implements ControllerProviderInterface
             ->bind('admin_post');
 
         $router->post('/admin/post', function() use($app) {
-            return $app['twig']->render('admin/post.twig');
+            return $app['twig']->render('admin/post.haml');
         })
             ->bind('admin_post_add');
 
         $router->post('/admin/post/{id}', function($id) use($app) {
-            return $app['twig']->render('admin/post.twig');
+            return $app['twig']->render('admin/post.haml');
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
