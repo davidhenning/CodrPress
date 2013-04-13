@@ -8,7 +8,7 @@
       %th Title
     %tbody
       - for post in posts
-        - set postUrl = app.url_generator.generate('admin_post', {'id': post.getId()})
+        - set postUrl = path('admin_post', {'id': post.getId()})
         %tr
           %td= post.created_at|date('c')
           %td

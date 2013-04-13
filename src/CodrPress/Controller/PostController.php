@@ -2,19 +2,16 @@
 
 namespace CodrPress\Controller;
 
-use CodrPress\Exception\HttpException;
 use CodrPress\Exception\PostNotFoundException;
+use CodrPress\Helper\AuthHelper;
 use CodrPress\Helper\HttpCacheHelper;
 use CodrPress\Helper\PostRestViewHelper;
-use CodrPress\HttpAuthDigest;
 use CodrPress\Model\Post;
-use CodrPress\Model\User;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 
 class PostController implements ControllerProviderInterface
 {
@@ -119,43 +116,9 @@ class PostController implements ControllerProviderInterface
             }
         });
 
-        $app->error(function (Request $request, HttpException $e) use ($app) {
-            if ($e->getCode() === 401) {
-                $config = $app['config'];
-                $auth = new HttpAuthDigest($request, $config->get('codrpress.auth.digest.realm'));
+        $authHelper = new AuthHelper();
+        $authHelper->registerAuthErrorHandler($app);
 
-                return $auth->sendAuthenticationHeader(true);
-            }
-
-            $exceptionHandler = new ExceptionHandler($app['config']);
-
-            return $exceptionHandler->createResponse($e);
-        });
-
-        return function (Request $request) use ($app) {
-            if (isset($app['unittest']) && $app['unittest'] === true) {
-                return null;
-            }
-
-            $config = $app['config'];
-
-            $auth = new HttpAuthDigest($request, $config->get('codrpress.auth.digest.realm'));
-            $response = $auth->sendAuthenticationHeader();
-
-            if ($response instanceof Response) {
-                return $response;
-            }
-
-            $username = $config->sanitize($auth->getUserName());
-            $user = User::where(['name' => $username])->first();
-
-            if ($user === false) {
-                throw new HttpException('Unauthorized', 401);
-            }
-
-            $auth->authenticate($user->digest_hash);
-
-            return null;
-        };
+        return $authHelper->getAuthCallable($app);
     }
 }

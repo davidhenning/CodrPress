@@ -9,6 +9,17 @@
       .row
         .span12
           %header= blogName
+          .navbar.navbar-inverse
+            .navbar-inner
+              .container
+                %ul.nav
+                  %li.dropdown{:class => (app.config.get('codrpress.views.activeNavItem') == 'posts' ? 'active' : false)}
+                    %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => '#'} Posts <b class="caret"></b>
+                    %ul.dropdown-menu
+                      %li
+                        %a{:href => path('admin_posts')} List
+                      %li
+                        %a{:href => path('admin_post_new')} New
           - block body
             &nbsp;
           %footer

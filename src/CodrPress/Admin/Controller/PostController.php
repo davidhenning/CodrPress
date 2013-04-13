@@ -2,6 +2,7 @@
 
 namespace CodrPress\Admin\Controller;
 
+use CodrPress\Helper\AuthHelper;
 use CodrPress\Model\Post;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -13,6 +14,10 @@ class PostController implements ControllerProviderInterface
     {
         $router = $app['controllers_factory'];
         $validateIdRegex = '[a-z0-9]{24}';
+        $app['config']->set('codrpress.views.activeNavItem', 'posts');
+        $authHelper = new AuthHelper();
+        $authHelper->registerAuthErrorHandler($app);
+        $login = $authHelper->getAuthCallable($app);
 
         $sanitize = function ($id) use ($app) {
             return $app['config']->sanitize($id);
@@ -23,12 +28,16 @@ class PostController implements ControllerProviderInterface
                 'posts' => Post::where()->sort(['created_at' => -1])
             ]);
         })
-            ->bind('admin_posts');
+            ->bind('admin_posts')
+            ->before($login);
 
         $router->get('/admin/post/new', function() use ($app) {
-            return $app['twig']->render('admin/post.haml');
+            return $app['twig']->render('admin/post.haml', [
+                'post' => new Post()
+            ]);
         })
-            ->bind('admin_post_new');
+            ->bind('admin_post_new')
+            ->before($login);
 
         $router->get('/admin/post/{id}', function($id) use ($app) {
             return $app['twig']->render('admin/post.haml', [
@@ -37,7 +46,8 @@ class PostController implements ControllerProviderInterface
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
-            ->bind('admin_post');
+            ->bind('admin_post')
+            ->before($login);
 
         $router->post('/admin/post', function(Request $request) use($app) {
             $data = $request->request->get('post');
@@ -46,7 +56,8 @@ class PostController implements ControllerProviderInterface
 
             return $app->redirect($app['url_generator']->generate('admin_posts'));
         })
-            ->bind('admin_post_add');
+            ->bind('admin_post_add')
+            ->before($login);
 
         $router->post('/admin/post/{id}', function(Request $request, $id) use($app) {
             $data = $request->request->get('post');
@@ -59,7 +70,8 @@ class PostController implements ControllerProviderInterface
         })
             ->assert('id', $validateIdRegex)
             ->convert('id', $sanitize)
-            ->bind('admin_post_edit');
+            ->bind('admin_post_edit')
+            ->before($login);
 
         return $router;
     }

@@ -1,24 +1,26 @@
-- set title = post.title|default('New Post')
+- set title = post.title|default('New post')
 - extends 'admin/layout.haml'
 
 - block body
-  - if post is defined
-    - set action = app.url_generator.generate('admin_post_edit', {'id': post._id})
+  - if post.title
+    - set action = path('admin_post_edit', {'id': post._id})
+    - set legend = 'Edit post'
   - else
-    - set action = app.url_generator.generate('admin_post_add')
+    - set action = path('admin_post_add')
+    - set legend = 'New post'
   %form{:action => action, :method => 'post'}
     %fieldset
-      %legend Edit Post
+      %legend= legend
       .container
         .row
           .span8
             %label{:for => 'title'} Title
             %input#title.span8{:type => 'text', :name => 'post[title]', :value => post.title|default('')}
             %label{:for => 'body'} Post
-            %textarea#body.span8{:name => 'post[body]', :rows => 30}= post.body|default('')
+            %textarea#body.span8{:name => 'post[body]', :rows => 20}= post.body|default('')
           .span3.offset1
             %label{:for => 'publishdate'} Publish date
-            %input#publishdate.span3{:type => 'text', :name => 'post[published_at]', :value => post.published_at|date('Y-m-d H:i:s')|default('')}
+            %input#publishdate.span3{:type => 'text', :name => 'post[published_at]', :value => post.published_at|date('Y-m-d H:i:s')}
             %label{:for => 'status'} Status
             %select#status.span3{:name => 'post[status]'}
               %option{:selected => (post.status == 'published')} published
