@@ -31,6 +31,8 @@ class Application extends SilexApplication
         $dm = new DocumentManager($mango);
         $this['mango.dm'] = $dm;
 
+        $this->register(new UrlGeneratorServiceProvider());
+
         $baseDir = $config->getBaseDir();
         $this->register(new TwigServiceProvider(), [
             'twig.path' => $baseDir . "/views",
@@ -40,7 +42,6 @@ class Application extends SilexApplication
             ]
         ]);
 
-        $this->register(new UrlGeneratorServiceProvider());
         $this->register(new MtHamlServiceProvider());
 
         $this->handleErrors();

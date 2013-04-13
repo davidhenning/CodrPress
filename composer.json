@@ -12,7 +12,8 @@
         "webcodr/mango": "*@dev",
         "mthaml/silex-mthaml": "*@dev",
         "symfony/console": "2.2.*@dev",
-        "guzzle/guzzle": "3.3.*"
+        "guzzle/guzzle": "3.3.*",
+        "symfony/twig-bridge": "2.2.*@dev"
     },
     "require-dev": {
         "symfony/browser-kit": "2.1.*@dev",
