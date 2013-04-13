@@ -9,14 +9,18 @@
   %form{:action => action, :method => 'post'}
     %fieldset
       %legend Edit Post
-      %label{:for => 'title'} Title
-      %input#title.input-xxlarge{:type => 'text', :name => 'post[title]', :value => post.title|default('')}
-      %label{:for => 'body'} Post
-      %textarea#body.input-xxlarge{:name => 'post[body]', :rows => 30}= post.body|default('')
-      %div
-        %label{:for => 'status'} Status
-        %select#status{:name => 'post[status]'}
-          %option{:selected => (post.status == 'published')} published
-          %option{:selected => (post.status == 'draft')} draft
-      %div
-        %button.btn.btn-success Save
+      .container
+        .row
+          .span8
+            %label{:for => 'title'} Title
+            %input#title.span8{:type => 'text', :name => 'post[title]', :value => post.title|default('')}
+            %label{:for => 'body'} Post
+            %textarea#body.span8{:name => 'post[body]', :rows => 30}= post.body|default('')
+          .span3.offset1
+            %label{:for => 'publishdate'} Publish date
+            %input#publishdate.span3{:type => 'text', :name => 'post[published_at]', :value => post.published_at|date('Y-m-d H:i:s')|default('')}
+            %label{:for => 'status'} Status
+            %select#status.span3{:name => 'post[status]'}
+              %option{:selected => (post.status == 'published')} published
+              %option{:selected => (post.status == 'draft')} draft
+            %button.btn.btn-success Save
