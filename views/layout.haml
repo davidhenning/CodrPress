@@ -7,23 +7,19 @@
     %link{:rel => 'alternate', :type => 'application/atom+xml', :href => app.url_generator.generate('feed')}
     %link{:rel => 'stylesheet', :type => 'text/css', :href => "#{app.request.basepath}/web/css/screen.css"}
   %body
-    .container
-      .row
-        .span3
-        .span6
-          %header
-            %a{:href => app.url_generator.generate('home')}= blogName
-          - block body
-            &nbsp;
-          %footer
-            %a{:href => 'https://github.com/MadCatme/CodrPress'} powered by CodrPress
-        .span3
-        -#.span3.offset2
-          - if tags is defined
-            %section.tags
-              - for tag in tags
-                %span
-                  %a{:href => app.url_generator.generate('tag', {'tag': tag.name})}= tag.name
+    .container.blog
+      %header
+        %a{:href => app.url_generator.generate('home')}= blogName
+      - block body
+        &nbsp;
+      %footer
+        %a{:href => 'https://github.com/MadCatme/CodrPress'} powered by CodrPress
+    -#.span3.offset2
+      - if tags is defined
+        %section.tags
+          - for tag in tags
+            %span
+              %a{:href => app.url_generator.generate('tag', {'tag': tag.name})}= tag.name
 
     %script{:type => 'application/javascript', :src => "#{app.request.basepath}/web/js/jquery-1.8.2.min.js"}
     %script{:type => 'application/javascript', :src => "#{app.request.basepath}/web/js/bootstrap.min.js"}

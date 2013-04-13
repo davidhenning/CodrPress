@@ -1,7 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Droid+Sans+Mono|Roboto+Condensed);
 
-/* Fonts */
-
 body, textarea {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 18px;
@@ -65,6 +63,10 @@ p {
 
 [class^="icon-"], [class*=" icon-"] {
   margin-top: 2px;
+}
+
+.container.blog {
+  max-width: 573px;
 }
 
 .label, .badge {
