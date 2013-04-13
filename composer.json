@@ -11,7 +11,7 @@
         "twig/twig": "*@dev",
         "webcodr/mango": "*@dev",
         "mthaml/silex-mthaml": "*@dev",
-        "symfony/console": "*",
+        "symfony/console": "2.2.*@dev",
         "guzzle/guzzle": "3.3.*"
     },
     "require-dev": {
