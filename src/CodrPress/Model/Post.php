@@ -68,7 +68,7 @@ class Post implements DocumentInterface
 
     public static function posts($published = true)
     {
-        $conditions = ['published_at' => ['$ne' => null]];
+        $conditions = ['published_at' => ['$lt' => new \MongoDate()]];
 
         if ($published === true) {
             $conditions['status'] = 'published';
