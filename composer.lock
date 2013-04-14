@@ -785,16 +785,16 @@
         },
         {
             "name": "webcodr/collection",
-            "version": "2.x-dev",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Collection.git",
-                "reference": "2.0.0"
+                "reference": "2.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Collection/zipball/2.0.0",
-                "reference": "2.0.0",
+                "url": "https://api.github.com/repos/WebCodr/Collection/zipball/2.1.1",
+                "reference": "2.1.1",
                 "shasum": ""
             },
             "require": {
@@ -824,7 +824,7 @@
                 "array",
                 "collection"
             ],
-            "time": "2013-04-01 15:19:14"
+            "time": "2013-04-14 19:10:39"
         },
         {
             "name": "webcodr/mango",
@@ -873,148 +873,7 @@
             "time": "2013-04-14 18:32:44"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "symfony/browser-kit",
-            "version": "2.1.x-dev",
-            "target-dir": "Symfony/Component/BrowserKit",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/BrowserKit.git",
-                "reference": "v2.1.9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/v2.1.9",
-                "reference": "v2.1.9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/dom-crawler": "2.1.*"
-            },
-            "require-dev": {
-                "symfony/css-selector": "2.1.*",
-                "symfony/process": "2.1.*"
-            },
-            "suggest": {
-                "symfony/process": "2.1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\BrowserKit": ""
-                }
-            },
-            "notification-url": "http://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony BrowserKit Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-03-12 15:50:09"
-        },
-        {
-            "name": "symfony/css-selector",
-            "version": "2.1.x-dev",
-            "target-dir": "Symfony/Component/CssSelector",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "v2.1.9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/v2.1.9",
-                "reference": "v2.1.9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\CssSelector": ""
-                }
-            },
-            "notification-url": "http://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony CssSelector Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-01-09 08:51:07"
-        },
-        {
-            "name": "symfony/dom-crawler",
-            "version": "2.1.x-dev",
-            "target-dir": "Symfony/Component/DomCrawler",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "83d753c3629222a822b19ee4ee494aa3000099f6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/83d753c3629222a822b19ee4ee494aa3000099f6",
-                "reference": "83d753c3629222a822b19ee4ee494aa3000099f6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "symfony/css-selector": "2.1.*"
-            },
-            "suggest": {
-                "symfony/css-selector": "2.1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\DomCrawler": ""
-                }
-            },
-            "notification-url": "http://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony DomCrawler Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-03-27 17:13:16"
-        }
-    ],
+    "packages-dev": null,
     "aliases": [
 
     ],
