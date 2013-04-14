@@ -133,3 +133,17 @@ article {
     line-height: 2em;
   }
 }
+
+/* ADMIN */
+
+td.date {
+  width: 90px;
+}
+
+td.status {
+  width: 60px;
+  span.label {
+    display: block;
+    text-align: center;
+  }
+}

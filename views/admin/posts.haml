@@ -11,7 +11,8 @@
       - for post in posts
         - set postUrl = path('admin_post', {'id': post.getId()})
         %tr
-          %td= post.created_at|date('Y-m-d')
-          %td= post.status
-          %td
+          %td.date= post.created_at|date('Y-m-d')
+          %td.status
+            %span.label{:class => (post.status == 'published' ? 'label-success' : false)}= post.status
+          %td.title
             %a{:href => postUrl}= post.title
