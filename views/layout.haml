@@ -4,7 +4,7 @@
     - set blogName = config.get('codrpress.info.blog_title')|default('CodrPress')
     %title= "#{title|default('')} - #{blogName}"
     %meta{:name => 'Viewport', :content => 'width=device-width, initial-scale=1.0, maximum-scale=1.0'}
-    %link{:rel => 'alternate', :type => 'application/atom+xml', :href => app.url_generator.generate('feed')}
+    %link{:rel => 'alternate', :type => 'application/atom+xml', :href => url('feed')}
     %link{:rel => 'stylesheet', :type => 'text/css', :href => "#{app.request.basepath}/web/css/screen.css"}
   %body
     .container.blog

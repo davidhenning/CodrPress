@@ -16,6 +16,11 @@
           .span8
             %label{:for => 'title'} Title
             %input#title.span8{:type => 'text', :name => 'post[title]', :value => post.title|default('')}
+            - if post.slugs
+              - set url = post.isPost() ? url('post', post.getLinkParams()) : url('page', {'slug': post.slugs|last})
+              %p.permalink
+                Permalink:
+                %a{:href => url}= url
             %label{:for => 'body'} Post
             %textarea#body.span8{:name => 'post[body]', :rows => 20}= post.body|default('')
           .span3.offset1

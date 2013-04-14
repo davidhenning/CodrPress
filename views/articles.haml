@@ -4,7 +4,7 @@
     %article
       %h1
         - if page == false
-          %a{:href => app.url_generator.generate('post', post.getLinkParams())}= post.title
+          %a{:href => url('post', post.getLinkParams())}= post.title
         - else
           = post.title
       - spaceless

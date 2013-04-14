@@ -199,4 +199,9 @@ class Post implements DocumentInterface
             'slug' => end($slugs)
         ];
     }
+
+    public function isPost()
+    {
+        return (bool)$this->published_at;
+    }
 }
