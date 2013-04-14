@@ -49,6 +49,8 @@ class ApplicationTest extends WebTestCase
 
         // existing post
         $client->request('GET', date('/Y/m/d') . '/test/');
+        self::assertFalse($client->getResponse()->isOk());
+        $client->request('GET', date('/Y/m/d') . '/slug/');
         self::assertTrue($client->getResponse()->isOk());
 
         // feed
