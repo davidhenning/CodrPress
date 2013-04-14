@@ -141,7 +141,7 @@ class Post implements DocumentInterface
         $this->body_html = $this->render($this->body);
 
         // create slugs
-        $this->slugs = $this->createSlugs($this->slugs, $this->title);
+        $this->setSlugs();
     }
 
     private function render($src)
@@ -157,15 +157,23 @@ class Post implements DocumentInterface
         return (string)$response->getBody();
     }
 
-    private function createSlugs($slugs, $title)
+    private function setSlugs()
     {
-        if (!is_array($slugs)) {
-            $slugs = [$slugs];
+        $slugs = new MutableMap($this->slugs);
+
+        if (isset($this->slug)) {
+            if (!empty($this->slug)) {
+                $slugs->delete($this->slug);
+                $slugs->push($this->slug);
+            }
+
+            unset($this->slug);
         }
 
-        $slugs = array_merge($slugs, [$title]);
+        if ($slugs->count() === 0) {
+            $slugs->push($this->title);
+        }
 
-        $slugs = new MutableMap($slugs);
         $slugs->map(function($value) {
             $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $value);
             $slug = preg_replace("/[^a-zA-Z0-9\/_| -]/", '', $slug);
@@ -175,7 +183,7 @@ class Post implements DocumentInterface
             return $slug;
         })->unique();
 
-        return $slugs->getArray();
+        $this->slugs = $slugs->getArray(false);
     }
 
     public function getLinkParams()

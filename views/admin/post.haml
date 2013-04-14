@@ -19,6 +19,8 @@
             %label{:for => 'body'} Post
             %textarea#body.span8{:name => 'post[body]', :rows => 20}= post.body|default('')
           .span3.offset1
+            %label{:for => 'slug'} Slug
+            %input#slug.span3{:type => 'text', :name => 'post[slug]', :value => post.slugs|last}
             %label{:for => 'publishdate'} Publish date
             %input#publishdate.span3{:type => 'text', :name => 'post[published_at]', :value => (post.published_at != null ? post.published_at|date('Y-m-d H:i:s') : '')}
             %label{:for => 'status'} Status
