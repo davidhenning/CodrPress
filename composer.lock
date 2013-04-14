@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "24af41160cd291b3f222263c5f8006a500570622"
+                "reference": "e64ff8e8bcad6e016ff03cf04f84870fe80030ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/24af41160cd291b3f222263c5f8006a500570622",
-                "reference": "24af41160cd291b3f222263c5f8006a500570622",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/e64ff8e8bcad6e016ff03cf04f84870fe80030ea",
+                "reference": "e64ff8e8bcad6e016ff03cf04f84870fe80030ea",
                 "shasum": ""
             },
             "require": {
@@ -93,7 +93,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-04-12 22:44:37"
+            "time": "2013-04-14 02:52:36"
         },
         {
             "name": "mthaml/mthaml",
@@ -832,12 +832,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebCodr/Mango.git",
-                "reference": "0.6.9"
+                "reference": "0.6.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.6.9",
-                "reference": "0.6.9",
+                "url": "https://api.github.com/repos/WebCodr/Mango/zipball/0.6.10",
+                "reference": "0.6.10",
                 "shasum": ""
             },
             "require": {
@@ -870,7 +870,7 @@
                 "mongodb",
                 "odm"
             ],
-            "time": "2013-04-13 22:53:41"
+            "time": "2013-04-14 16:48:46"
         }
     ],
     "packages-dev": [
