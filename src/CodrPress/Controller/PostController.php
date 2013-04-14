@@ -55,6 +55,27 @@ class PostController implements ControllerProviderInterface
             ->convert('slug', $sanitize)
             ->bind('post');
 
+        $router->get('/{slug}/', function ($slug) use ($app) {
+            $posts = Post::where(['slugs' => $slug, 'published_at' => null, 'status' => 'published']);
+            $pages = Post::pages();
+            $tags = Post::tags();
+
+            if ($posts->count() === 0) {
+                throw new PostNotFoundException("The url '{$app['request']->getUri()}' does not exist!");
+            }
+
+            $content = $app['twig']->render('post.haml', [
+                'config' => $app['config'],
+                'posts' => $posts,
+                'pages' => $pages->sort(['created_at' => -1]),
+                'tags' => $tags
+            ]);
+
+            return HttpCacheHelper::getResponse($app, $content, 200);
+        })
+            ->convert('slug', $sanitize)
+            ->bind('page');
+
         $this->connectRestRoutes($app, $router, $sanitize);
 
         return $router;
