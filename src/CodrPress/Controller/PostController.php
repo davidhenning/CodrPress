@@ -28,6 +28,8 @@ class PostController implements ControllerProviderInterface
             return (int)$value;
         };
 
+        $this->connectRestRoutes($app, $router, $sanitize);
+
         $router->get('/{year}/{month}/{day}/{slug}/', function ($year, $month, $day, $slug) use ($app) {
             $posts = Post::bySlug($year, $month, $day, $slug);
             $pages = Post::pages();
@@ -75,8 +77,6 @@ class PostController implements ControllerProviderInterface
         })
             ->convert('slug', $sanitize)
             ->bind('page');
-
-        $this->connectRestRoutes($app, $router, $sanitize);
 
         return $router;
     }
