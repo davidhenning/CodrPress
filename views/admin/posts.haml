@@ -5,11 +5,13 @@
   %table.table.table-striped
     %thead
       %th Date
+      %th Status
       %th Title
     %tbody
       - for post in posts
         - set postUrl = path('admin_post', {'id': post.getId()})
         %tr
-          %td= post.created_at|date('c')
+          %td= post.created_at|date('Y-m-d')
+          %td= post.status
           %td
             %a{:href => postUrl}= post.title

@@ -20,7 +20,7 @@
             %textarea#body.span8{:name => 'post[body]', :rows => 20}= post.body|default('')
           .span3.offset1
             %label{:for => 'publishdate'} Publish date
-            %input#publishdate.span3{:type => 'text', :name => 'post[published_at]', :value => post.published_at|date('Y-m-d H:i:s')}
+            %input#publishdate.span3{:type => 'text', :name => 'post[published_at]', :value => (post.published_at != null ? post.published_at|date('Y-m-d H:i:s') : 'now')}
             %label{:for => 'status'} Status
             %select#status.span3{:name => 'post[status]'}
               %option{:selected => (post.status == 'published')} published
