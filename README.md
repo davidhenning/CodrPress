@@ -57,7 +57,13 @@ $ php console.php user:create <username> <mail address>
 
 #### Administration
 
-Shame on me, the rest isn't finished yet.
+Goto `http://yourdomain.com/admin/posts` in your browser and login with the user you just created.
+
+To create a post, enter a publish date. Leave it blank if you want to create a page.
+
+The publish date can parse any [date format supported by PHP](http://www.php.net/manual/en/datetime.formats.php), f.e. `now`, `yesterday`, `+1 day`, `Monday next week` and many more.
+
+At the moment you can not delete a post. For now just set the status to `draft` to hide a post.
 
 #### Local testing without a web server
 
