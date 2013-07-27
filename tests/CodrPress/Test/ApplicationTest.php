@@ -119,7 +119,8 @@ class ApplicationTest extends WebTestCase
 
         $payload = json_encode([
             'payload' => [
-                'title' => 'json'
+                'title' => 'json',
+                'body' => 'test'
             ]
         ]);
 
