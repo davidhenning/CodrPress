@@ -147,14 +147,11 @@ class Post implements DocumentInterface
     private function render($src)
     {
         $client = new Client();
-        $request = $client->post(
-            'http://amplify.webcodr.de/',
-            null,
-            ['source' => $src]
-        );
-        $response = $request->send();
+        $request = $client->post('http://amplify.webcodr.de/api/2.0/transform');
+        $request->setBody(json_encode(['source' => $src]), 'application/json');
+        $response = $request->send()->json();
 
-        return (string)$response->getBody();
+        return (string)$response['html'];
     }
 
     private function setSlugs()
