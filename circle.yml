@@ -1,0 +1,12 @@
+machine:
+  php:
+    version: 5.4.15
+
+dependencies:
+  pre:
+    - pecl install mongo
+    - sh travis/initmongodb.sh
+
+test:
+  override:
+    - phpunit
