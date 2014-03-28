@@ -2,6 +2,7 @@
 
 namespace CodrPress\Controller;
 
+use CodrPress\Action\Home;
 use CodrPress\Helper\HttpCacheHelper;
 use CodrPress\Helper\PaginationHelper;
 use CodrPress\Model\Post;
@@ -15,17 +16,17 @@ class HomepageController implements ControllerProviderInterface
     {
         $router = $app['controllers_factory'];
 
-        $router->get('/', function () use ($app) {
-            $content = $app['twig']->render('posts.haml', $this->getTemplateData($app));
+        $home = function () use ($app) {
+            $action = new Home($app);
+            $response = $app['twig']->render('posts.haml', $action->getResponse());
 
-            return HttpCacheHelper::getResponse($app, $content, 200);
-        })->bind('home');
+            return HttpCacheHelper::getResponse($app, $response, 200);
+        };
 
-        $router->get('/{page}/', function ($page) use ($app) {
-            $content = $app['twig']->render('posts.haml', $this->getTemplateData($app, $page));
+        $router->get('/', $home)->bind('home');
 
-            return HttpCacheHelper::getResponse($app, $content, 200);
-        })
+        $router
+            ->get('/{page}/', $home)
             ->bind('home_page')
             ->assert('page', '\d+')
             ->convert('page', function ($page) { return (int)$page; });
@@ -33,31 +34,4 @@ class HomepageController implements ControllerProviderInterface
         return $router;
     }
 
-    private function getTemplateData(Application $app, $page = 1)
-    {
-        $config = $app['config'];
-
-        $posts = Post::posts();
-        $pages = Post::pages();
-        $tags = Post::tags();
-
-        # pagination values
-        $limit = $config->get('codrpress.layout.posts_per_page');
-        $offset = $limit * ($page - 1);
-        $total = $posts->count();
-
-        $templateData = [
-            'config' => $config,
-            'posts' => $posts->limit($limit)->skip($offset)->sort(['created_at' => -1]),
-            'pages' => $pages->sort(['created_at' => -1]),
-            'tags' => $tags
-        ];
-
-        if ($total > $limit) {
-            $pagination = new PaginationHelper($app, 'home_page', [], $page, $limit);
-            $templateData['pagination'] = $pagination->getPagination($total);
-        }
-
-        return $templateData;
-    }
 }
