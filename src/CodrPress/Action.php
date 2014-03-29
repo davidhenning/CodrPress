@@ -2,8 +2,6 @@
 
 namespace CodrPress;
 
-use Silex\Application;
-
 abstract class Action {
 
     private $app;

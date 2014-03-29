@@ -4,8 +4,6 @@ namespace CodrPress\Controller;
 
 use CodrPress\Action\Home;
 use CodrPress\Helper\HttpCacheHelper;
-use CodrPress\Helper\PaginationHelper;
-use CodrPress\Model\Post;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 
