@@ -1,6 +1,7 @@
 /.idea/*
 /*.sublime-workspace
 /*.sublime-project
+/.vagrant/*
 
 /.DS_Store
 
