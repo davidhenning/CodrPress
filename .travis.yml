@@ -1,12 +1,13 @@
 language: php
 php:
   - 5.4
+  - 5.5
 services: mongodb
 before_script:
   # Install MongoDB driver
-  - wget http://pecl.php.net/get/mongo-1.2.9.tgz
-  - tar xfz mongo-1.2.9.tgz
-  - sh -c "cd mongo-1.2.9 && phpize && ./configure && make && sudo make install"
+  - wget http://pecl.php.net/get/mongo-1.4.5.tgz
+  - tar xfz mongo-1.4.5.tgz
+  - sh -c "cd mongo-1.4.5 && phpize && ./configure && make && sudo make install"
   - echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - sh travis/initmongodb.sh
   - curl -s http://getcomposer.org/installer | php
